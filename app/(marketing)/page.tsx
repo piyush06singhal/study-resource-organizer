@@ -10,8 +10,24 @@ import {
   FileText, Clock, BarChart3,
   Sparkles, Zap, Shield
 } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { getUser } from '@/lib/actions/auth'
 
 export default function HomePage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    async function checkAuth() {
+      const user = await getUser()
+      setIsAuthenticated(!!user)
+      setIsLoading(false)
+    }
+    checkAuth()
+  }, [])
+
+  const ctaLink = isAuthenticated ? '/dashboard' : '/signup'
+  const ctaText = isAuthenticated ? 'Go to Dashboard' : 'Get Started Free'
   const features = [
     {
       icon: BookOpen,
@@ -95,9 +111,9 @@ export default function HomePage() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <Button asChild size="lg" className="text-lg h-14 px-8 group">
-              <Link href="/signup">
-                Get Started Free
+            <Button asChild size="lg" className="text-lg h-14 px-8 group" disabled={isLoading}>
+              <Link href={ctaLink}>
+                {ctaText}
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
@@ -213,9 +229,9 @@ export default function HomePage() {
                 Join StudyFlow today and experience a better way to organize your academic life
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button asChild size="lg" variant="secondary" className="text-lg h-14 px-8">
-                  <Link href="/signup">
-                    Start Free Now
+                <Button asChild size="lg" variant="secondary" className="text-lg h-14 px-8" disabled={isLoading}>
+                  <Link href={ctaLink}>
+                    {isAuthenticated ? 'Go to Dashboard' : 'Start Free Now'}
                     <Zap className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
