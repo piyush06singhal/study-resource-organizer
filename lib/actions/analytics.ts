@@ -128,10 +128,10 @@ export async function getAnalyticsData() {
   const completionData = Array.from(topicStatusMap.values())
 
   const totalDeadlines = deadlines?.length || 0
-  const completedOnTime = deadlines?.filter(d => 
+  const completedOnTime = deadlines?.filter((d: any) => 
     d.status === 'completed' && new Date(d.due_date) >= new Date()
   ).length || 0
-  const overdue = deadlines?.filter(d => 
+  const overdue = deadlines?.filter((d: any) => 
     d.status === 'pending' && new Date(d.due_date) < new Date()
   ).length || 0
 

@@ -23,9 +23,9 @@ export async function getDashboardStats() {
     .select('status')
     .eq('user_id', user.id)
 
-  const completedTopics = topics?.filter(t => t.status === 'completed').length || 0
+  const completedTopics = topics?.filter((t: any) => t.status === 'completed').length || 0
   const totalTopics = topics?.length || 0
-  const inProgressTopics = topics?.filter(t => t.status === 'in_progress').length || 0
+  const inProgressTopics = topics?.filter((t: any) => t.status === 'in_progress').length || 0
 
   // Get upcoming deadlines count
   const { count: upcomingDeadlines } = await supabase
@@ -45,7 +45,7 @@ export async function getDashboardStats() {
     .eq('user_id', user.id)
     .gte('start_time', weekAgo.toISOString())
 
-  const totalStudyTime = sessions?.reduce((acc, s) => acc + (s.duration_minutes || 0), 0) || 0
+  const totalStudyTime = sessions?.reduce((acc, s: any) => acc + (s.duration_minutes || 0), 0) || 0
 
   return {
     subjectsCount: subjectsCount || 0,
@@ -155,7 +155,7 @@ export async function getStudyStreak() {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
   
-  const sessionDates = sessions.map(s => {
+  const sessionDates = sessions.map((s: any) => {
     const date = new Date(s.start_time)
     date.setHours(0, 0, 0, 0)
     return date.getTime()
@@ -215,7 +215,7 @@ export async function getSubjectProgress() {
     .eq('user_id', user.id)
     .limit(5)
 
-  const subjectsWithProgress = subjects?.map(subject => {
+  const subjectsWithProgress = subjects?.map((subject: any) => {
     const topics = subject.topics || []
     const completed = topics.filter((t: any) => t.status === 'completed').length
     const total = topics.length
