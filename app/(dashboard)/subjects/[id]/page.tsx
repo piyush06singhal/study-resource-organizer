@@ -96,7 +96,7 @@ export default async function SubjectDetailPage({ params }: { params: { id: stri
       {/* Topics Section */}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">Topics</h2>
-        <Link href={`/topics/new?subject=${subject.id}`}>
+        <Link href={`/topics/new?subject=${typedSubject.id}`}>
           <Button>
             <Plus className="h-4 w-4 mr-2" />
             Add Topic
@@ -106,7 +106,7 @@ export default async function SubjectDetailPage({ params }: { params: { id: stri
 
       {topics.length > 0 ? (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {topics.map((topic, index) => (
+          {topics.map((topic: any, index: number) => (
             <TopicCard key={topic.id} topic={topic} delay={index * 0.1} />
           ))}
         </div>
@@ -117,7 +117,7 @@ export default async function SubjectDetailPage({ params }: { params: { id: stri
           <p className="text-muted-foreground mb-6">
             Add your first topic to start organizing this subject
           </p>
-          <Link href={`/topics/new?subject=${subject.id}`}>
+          <Link href={`/topics/new?subject=${typedSubject.id}`}>
             <Button>
               <Plus className="h-4 w-4 mr-2" />
               Add First Topic
