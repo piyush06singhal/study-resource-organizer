@@ -96,7 +96,7 @@ export async function createDeadline(formData: {
     return { error: 'Not authenticated' }
   }
 
-  const { data, error } = await (supabase
+  const { data, error } = await supabase
     .from('deadlines')
     .insert({
       user_id: user.id,
@@ -107,9 +107,9 @@ export async function createDeadline(formData: {
       priority: formData.priority || 'medium',
       subject_id: formData.subject_id,
       status: 'pending'
-    })
+    } as any)
     .select()
-    .single() as any)
+    .single()
 
   if (error) {
     console.error('Error creating deadline:', error)
