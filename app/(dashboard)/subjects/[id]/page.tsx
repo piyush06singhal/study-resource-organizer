@@ -15,6 +15,9 @@ export default async function SubjectDetailPage({ params }: { params: { id: stri
     notFound()
   }
 
+  // Type assertion for subject
+  const typedSubject = subject as any
+
   const topics = await getTopics(params.id)
 
   const completedTopics = topics.filter((t: any) => t.status === 'completed').length
@@ -38,23 +41,23 @@ export default async function SubjectDetailPage({ params }: { params: { id: stri
           <div className="flex items-start gap-4">
             <div
               className="w-16 h-16 rounded-xl flex items-center justify-center"
-              style={{ backgroundColor: subject.color + '20' }}
+              style={{ backgroundColor: typedSubject.color + '20' }}
             >
-              <BookOpen className="h-8 w-8" style={{ color: subject.color }} />
+              <BookOpen className="h-8 w-8" style={{ color: typedSubject.color }} />
             </div>
             <div>
-              <h1 className="text-3xl font-bold">{subject.name}</h1>
-              {subject.code && (
-                <p className="text-lg text-muted-foreground">{subject.code}</p>
+              <h1 className="text-3xl font-bold">{typedSubject.name}</h1>
+              {typedSubject.code && (
+                <p className="text-lg text-muted-foreground">{typedSubject.code}</p>
               )}
-              {subject.semesters && (
+              {typedSubject.semesters && (
                 <p className="text-sm text-muted-foreground mt-1">
-                  {subject.semesters.name}
+                  {typedSubject.semesters.name}
                 </p>
               )}
             </div>
           </div>
-          <Link href={`/subjects/${subject.id}/edit`}>
+          <Link href={`/subjects/${typedSubject.id}/edit`}>
             <Button variant="outline">
               <Edit className="h-4 w-4 mr-2" />
               Edit
@@ -62,8 +65,8 @@ export default async function SubjectDetailPage({ params }: { params: { id: stri
           </Link>
         </div>
 
-        {subject.description && (
-          <p className="text-muted-foreground mb-6">{subject.description}</p>
+        {typedSubject.description && (
+          <p className="text-muted-foreground mb-6">{typedSubject.description}</p>
         )}
 
         {/* Progress */}
