@@ -7,9 +7,9 @@ import Link from 'next/link'
 export default async function TopicsPage() {
   const topics = await getTopics()
 
-  const completedCount = topics.filter(t => t.status === 'completed').length
-  const inProgressCount = topics.filter(t => t.status === 'in_progress').length
-  const notStartedCount = topics.filter(t => t.status === 'not_started').length
+  const completedCount = topics.filter((t: any) => t.status === 'completed').length
+  const inProgressCount = topics.filter((t: any) => t.status === 'in_progress').length
+  const notStartedCount = topics.filter((t: any) => t.status === 'not_started').length
 
   return (
     <div className="space-y-6">
