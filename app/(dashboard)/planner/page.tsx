@@ -6,7 +6,6 @@ import { Card } from '@/components/ui/card'
 import { Plus, Calendar as CalendarIcon, List } from 'lucide-react'
 import Link from 'next/link'
 import { startOfWeek, format } from 'date-fns'
-import { useState } from 'react'
 
 export default async function PlannerPage({
   searchParams
