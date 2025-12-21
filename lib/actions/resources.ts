@@ -52,7 +52,7 @@ export async function getResources(filters?: {
     return []
   }
 
-  return resources
+  return resources || []
 }
 
 export async function getResourceById(id: string) {

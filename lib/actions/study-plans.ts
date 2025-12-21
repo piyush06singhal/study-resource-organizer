@@ -69,7 +69,7 @@ export async function getStudyPlans(filters?: {
     return []
   }
 
-  return plans
+  return plans || []
 }
 
 export async function getStudyPlanById(id: string) {

@@ -39,7 +39,7 @@ export async function getTopics(subjectId?: string) {
     return []
   }
 
-  return topics
+  return topics || []
 }
 
 export async function getTopicById(id: string) {

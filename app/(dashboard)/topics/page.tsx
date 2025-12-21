@@ -48,7 +48,7 @@ export default async function TopicsPage() {
 
       {topics.length > 0 ? (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {topics.map((topic, index) => (
+          {topics.map((topic: any, index: number) => (
             <TopicCard key={topic.id} topic={topic} delay={index * 0.05} />
           ))}
         </div>

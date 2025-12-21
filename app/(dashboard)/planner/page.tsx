@@ -21,7 +21,7 @@ export default async function PlannerPage({
     getWeeklyStats(format(weekStart, 'yyyy-MM-dd'))
   ])
 
-  const todayPlans = plans.filter(p => p.planned_date === format(today, 'yyyy-MM-dd'))
+  const todayPlans = plans.filter((p: any) => p.planned_date === format(today, 'yyyy-MM-dd'))
 
   return (
     <div className="space-y-6">
@@ -97,7 +97,7 @@ export default async function PlannerPage({
         <Card className="p-6">
           <h2 className="text-xl font-bold mb-4">Today's Plans</h2>
           <div className="grid md:grid-cols-2 gap-4">
-            {todayPlans.map((plan, index) => (
+            {todayPlans.map((plan: any, index: number) => (
               <div key={plan.id}>
                 {/* Plan card would go here */}
                 <p>{plan.title}</p>

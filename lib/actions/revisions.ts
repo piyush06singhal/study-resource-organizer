@@ -43,7 +43,7 @@ export async function getRevisions(topicId?: string) {
     return []
   }
 
-  return revisions
+  return revisions || []
 }
 
 export async function createRevision(formData: {

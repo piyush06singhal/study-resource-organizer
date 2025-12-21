@@ -53,7 +53,7 @@ export default async function SubjectsPage() {
       {/* Subjects Grid */}
       {subjects.length > 0 ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {subjects.map((subject, index) => (
+          {subjects.map((subject: any, index: number) => (
             <SubjectCard key={subject.id} subject={subject} delay={index * 0.1} />
           ))}
         </div>

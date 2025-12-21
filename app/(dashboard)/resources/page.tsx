@@ -23,11 +23,11 @@ export default async function ResourcesPage({
 
   const typeCount = {
     all: resources.length,
-    note: resources.filter(r => r.type === 'note').length,
-    pdf: resources.filter(r => r.type === 'pdf').length,
-    image: resources.filter(r => r.type === 'image').length,
-    link: resources.filter(r => r.type === 'link').length,
-    video: resources.filter(r => r.type === 'video').length
+    note: resources.filter((r: any) => r.type === 'note').length,
+    pdf: resources.filter((r: any) => r.type === 'pdf').length,
+    image: resources.filter((r: any) => r.type === 'image').length,
+    link: resources.filter((r: any) => r.type === 'link').length,
+    video: resources.filter((r: any) => r.type === 'video').length
   }
 
   return (
@@ -85,7 +85,7 @@ export default async function ResourcesPage({
       {/* Resources Grid */}
       {resources.length > 0 ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {resources.map((resource, index) => (
+          {resources.map((resource: any, index: number) => (
             <ResourceCard key={resource.id} resource={resource} delay={index * 0.05} />
           ))}
         </div>

@@ -60,7 +60,7 @@ export async function getStudySessions(filters?: {
     return []
   }
 
-  return sessions
+  return sessions || []
 }
 
 export async function startStudySession(data: {
