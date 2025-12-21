@@ -38,7 +38,7 @@ export async function getAnalyticsData() {
       .lte('start_time', weekEnd.toISOString())
       .not('duration_minutes', 'is', null)
 
-    const totalMinutes = weekSessions?.reduce((acc, s) => acc + (s.duration_minutes || 0), 0) || 0
+    const totalMinutes = weekSessions?.reduce((acc, s: any) => acc + (s.duration_minutes || 0), 0) || 0
     
     weeklyData.push({
       week: format(weekStart, 'MMM dd'),
@@ -70,7 +70,7 @@ export async function getAnalyticsData() {
         .lte('start_time', dayEnd.toISOString())
         .not('duration_minutes', 'is', null)
 
-      const totalMinutes = daySessions?.reduce((acc, s) => acc + (s.duration_minutes || 0), 0) || 0
+      const totalMinutes = daySessions?.reduce((acc, s: any) => acc + (s.duration_minutes || 0), 0) || 0
       
       return {
         date: format(day, 'MMM dd'),
