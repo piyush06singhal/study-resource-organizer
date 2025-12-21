@@ -52,7 +52,7 @@ export async function getDeadlines(filters?: {
     return []
   }
 
-  return deadlines
+  return deadlines || []
 }
 
 export async function getDeadlineById(id: string) {

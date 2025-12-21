@@ -20,6 +20,9 @@ export default async function DeadlinesPage({
     getDeadlineStats()
   ])
 
+  // Type assertion to help TypeScript understand the structure
+  type DeadlineWithSubject = Awaited<ReturnType<typeof getDeadlines>>[number]
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -61,7 +64,7 @@ export default async function DeadlinesPage({
 
       {deadlines.length > 0 ? (
         <div className="grid gap-4 md:grid-cols-2">
-          {deadlines.map((deadline, index) => (
+          {deadlines.map((deadline: any, index: number) => (
             <DeadlineCard key={deadline.id} deadline={deadline} delay={index * 0.05} />
           ))}
         </div>
