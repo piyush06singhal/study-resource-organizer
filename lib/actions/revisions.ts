@@ -74,7 +74,7 @@ export async function createRevision(formData: {
   const nextInterval = intervals[Math.min(nextRevisionNumber - 1, intervals.length - 1)]
   const nextRevisionDate = addDays(new Date(), nextInterval)
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase
     .from('revisions')
     .insert({
       user_id: user.id,
@@ -86,7 +86,7 @@ export async function createRevision(formData: {
       next_revision_date: nextRevisionDate.toISOString().split('T')[0]
     })
     .select()
-    .single()
+    .single() as any)
 
   if (error) {
     console.error('Error creating revision:', error)

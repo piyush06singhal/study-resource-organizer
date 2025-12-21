@@ -74,7 +74,7 @@ export async function startStudySession(data: {
     return { error: 'Not authenticated' }
   }
 
-  const { data: session, error } = await supabase
+  const { data: session, error } = await (supabase
     .from('study_sessions')
     .insert({
       user_id: user.id,
@@ -83,7 +83,7 @@ export async function startStudySession(data: {
       start_time: new Date().toISOString()
     })
     .select()
-    .single()
+    .single() as any)
 
   if (error) {
     console.error('Error starting session:', error)
@@ -118,7 +118,7 @@ export async function endStudySession(sessionId: string, notes?: string) {
   const startTime = new Date(session.start_time)
   const durationMinutes = Math.round((endTime.getTime() - startTime.getTime()) / (1000 * 60))
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase
     .from('study_sessions')
     .update({
       end_time: endTime.toISOString(),
@@ -128,6 +128,7 @@ export async function endStudySession(sessionId: string, notes?: string) {
     .eq('id', sessionId)
     .eq('user_id', user.id)
     .select()
+    .single() as any)
     .single()
 
   if (error) {

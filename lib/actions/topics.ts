@@ -100,7 +100,7 @@ export async function createTopic(formData: {
 
   const nextOrder = (maxOrder?.order_index || 0) + 1
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase
     .from('topics')
     .insert({
       user_id: user.id,
@@ -112,7 +112,7 @@ export async function createTopic(formData: {
       order_index: nextOrder
     })
     .select()
-    .single()
+    .single() as any)
 
   if (error) {
     console.error('Error creating topic:', error)
@@ -139,7 +139,7 @@ export async function updateTopic(id: string, formData: {
     return { error: 'Not authenticated' }
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase
     .from('topics')
     .update({
       name: formData.name,
@@ -151,7 +151,7 @@ export async function updateTopic(id: string, formData: {
     .eq('id', id)
     .eq('user_id', user.id)
     .select()
-    .single()
+    .single() as any)
 
   if (error) {
     console.error('Error updating topic:', error)

@@ -104,7 +104,7 @@ export async function createResource(formData: {
     return { error: 'Not authenticated' }
   }
 
-  const { data: resource, error } = await supabase
+  const { data: resource, error } = await (supabase
     .from('resources')
     .insert({
       user_id: user.id,
@@ -117,7 +117,7 @@ export async function createResource(formData: {
       tags: formData.tags || []
     })
     .select()
-    .single()
+    .single() as any)
 
   if (error) {
     console.error('Error creating resource:', error)
@@ -154,7 +154,7 @@ export async function updateResource(id: string, formData: {
     return { error: 'Not authenticated' }
   }
 
-  const { data: resource, error } = await supabase
+  const { data: resource, error } = await (supabase
     .from('resources')
     .update({
       title: formData.title,
@@ -166,7 +166,7 @@ export async function updateResource(id: string, formData: {
     .eq('id', id)
     .eq('user_id', user.id)
     .select()
-    .single()
+    .single() as any)
 
   if (error) {
     console.error('Error updating resource:', error)

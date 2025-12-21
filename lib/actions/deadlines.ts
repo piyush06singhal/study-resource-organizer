@@ -96,7 +96,7 @@ export async function createDeadline(formData: {
     return { error: 'Not authenticated' }
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase
     .from('deadlines')
     .insert({
       user_id: user.id,
@@ -109,7 +109,7 @@ export async function createDeadline(formData: {
       status: 'pending'
     })
     .select()
-    .single()
+    .single() as any)
 
   if (error) {
     console.error('Error creating deadline:', error)
@@ -137,7 +137,7 @@ export async function updateDeadline(id: string, formData: {
     return { error: 'Not authenticated' }
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase
     .from('deadlines')
     .update({
       title: formData.title,
@@ -151,7 +151,7 @@ export async function updateDeadline(id: string, formData: {
     .eq('id', id)
     .eq('user_id', user.id)
     .select()
-    .single()
+    .single() as any)
 
   if (error) {
     console.error('Error updating deadline:', error)

@@ -117,7 +117,7 @@ export async function createStudyPlan(formData: {
     return { error: 'Not authenticated' }
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase
     .from('study_plans')
     .insert({
       user_id: user.id,
@@ -132,7 +132,7 @@ export async function createStudyPlan(formData: {
       status: formData.status || 'planned'
     })
     .select()
-    .single()
+    .single() as any)
 
   if (error) {
     console.error('Error creating study plan:', error)
@@ -162,7 +162,7 @@ export async function updateStudyPlan(id: string, formData: {
     return { error: 'Not authenticated' }
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase
     .from('study_plans')
     .update({
       title: formData.title,
@@ -178,7 +178,7 @@ export async function updateStudyPlan(id: string, formData: {
     .eq('id', id)
     .eq('user_id', user.id)
     .select()
-    .single()
+    .single() as any)
 
   if (error) {
     console.error('Error updating study plan:', error)
