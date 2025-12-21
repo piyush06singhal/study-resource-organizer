@@ -17,9 +17,9 @@ export default async function SubjectDetailPage({ params }: { params: { id: stri
 
   const topics = await getTopics(params.id)
 
-  const completedTopics = topics.filter(t => t.status === 'completed').length
-  const inProgressTopics = topics.filter(t => t.status === 'in_progress').length
-  const notStartedTopics = topics.filter(t => t.status === 'not_started').length
+  const completedTopics = topics.filter((t: any) => t.status === 'completed').length
+  const inProgressTopics = topics.filter((t: any) => t.status === 'in_progress').length
+  const notStartedTopics = topics.filter((t: any) => t.status === 'not_started').length
   const progress = topics.length > 0 ? Math.round((completedTopics / topics.length) * 100) : 0
 
   return (

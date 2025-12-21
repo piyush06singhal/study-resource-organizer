@@ -14,8 +14,11 @@ export default async function TopicDetailPage({ params }: { params: { id: string
     notFound()
   }
 
+  // Type assertion for topic
+  const typedTopic = topic as any
+
   const getStatusIcon = () => {
-    switch (topic.status) {
+    switch (typedTopic.status) {
       case 'completed':
         return <CheckCircle2 className="h-8 w-8 text-green-600" />
       case 'in_progress':
@@ -26,7 +29,7 @@ export default async function TopicDetailPage({ params }: { params: { id: string
   }
 
   const getStatusColor = () => {
-    switch (topic.status) {
+    switch (typedTopic.status) {
       case 'completed':
         return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400 border-green-200 dark:border-green-800'
       case 'in_progress':
@@ -37,7 +40,7 @@ export default async function TopicDetailPage({ params }: { params: { id: string
   }
 
   const getPriorityColor = () => {
-    switch (topic.priority) {
+    switch (typedTopic.priority) {
       case 'high':
         return 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400 border-red-200 dark:border-red-800'
       case 'medium':
@@ -47,7 +50,7 @@ export default async function TopicDetailPage({ params }: { params: { id: string
     }
   }
 
-  const revisions = topic.revisions || []
+  const revisions = typedTopic.revisions || []
   const revisionCount = revisions.length
 
   return (
@@ -68,18 +71,18 @@ export default async function TopicDetailPage({ params }: { params: { id: string
               {getStatusIcon()}
             </div>
             <div className="flex-1">
-              <h1 className="text-3xl font-bold mb-2">{topic.name}</h1>
-              {topic.subjects && (
+              <h1 className="text-3xl font-bold mb-2">{typedTopic.name}</h1>
+              {typedTopic.subjects && (
                 <div className="flex items-center gap-2 mb-4">
                   <div
                     className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: topic.subjects.color }}
+                    style={{ backgroundColor: typedTopic.subjects.color }}
                   />
                   <Link 
-                    href={`/subjects/${topic.subjects.id}`}
+                    href={`/subjects/${typedTopic.subjects.id}`}
                     className="text-lg text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    {topic.subjects.name}
+                    {typedTopic.subjects.name}
                   </Link>
                 </div>
               )}
@@ -88,18 +91,18 @@ export default async function TopicDetailPage({ params }: { params: { id: string
                   'px-3 py-1 rounded-full text-sm font-medium border-2',
                   getStatusColor()
                 )}>
-                  {topic.status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                  {typedTopic.status.replace('_', ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())}
                 </span>
                 <span className={cn(
                   'px-3 py-1 rounded-full text-sm font-medium border-2',
                   getPriorityColor()
                 )}>
-                  {topic.priority.charAt(0).toUpperCase() + topic.priority.slice(1)} Priority
+                  {typedTopic.priority.charAt(0).toUpperCase() + typedTopic.priority.slice(1)} Priority
                 </span>
               </div>
             </div>
           </div>
-          <Link href={`/topics/${topic.id}/edit`}>
+          <Link href={`/topics/${typedTopic.id}/edit`}>
             <Button>
               <Edit className="h-4 w-4 mr-2" />
               Edit
@@ -107,10 +110,10 @@ export default async function TopicDetailPage({ params }: { params: { id: string
           </Link>
         </div>
 
-        {topic.description && (
+        {typedTopic.description && (
           <div className="mb-6">
             <h3 className="font-semibold mb-2">Description</h3>
-            <p className="text-muted-foreground leading-relaxed">{topic.description}</p>
+            <p className="text-muted-foreground leading-relaxed">{typedTopic.description}</p>
           </div>
         )}
 
@@ -119,19 +122,19 @@ export default async function TopicDetailPage({ params }: { params: { id: string
           <div>
             <p className="text-sm text-muted-foreground">Created</p>
             <p className="font-medium">
-              {format(new Date(topic.created_at), 'MMM dd, yyyy')}
+              {format(new Date(typedTopic.created_at), 'MMM dd, yyyy')}
             </p>
             <p className="text-xs text-muted-foreground">
-              {formatDistanceToNow(new Date(topic.created_at), { addSuffix: true })}
+              {formatDistanceToNow(new Date(typedTopic.created_at), { addSuffix: true })}
             </p>
           </div>
           <div>
             <p className="text-sm text-muted-foreground">Last Updated</p>
             <p className="font-medium">
-              {format(new Date(topic.updated_at), 'MMM dd, yyyy')}
+              {format(new Date(typedTopic.updated_at), 'MMM dd, yyyy')}
             </p>
             <p className="text-xs text-muted-foreground">
-              {formatDistanceToNow(new Date(topic.updated_at), { addSuffix: true })}
+              {formatDistanceToNow(new Date(typedTopic.updated_at), { addSuffix: true })}
             </p>
           </div>
         </div>
@@ -141,7 +144,7 @@ export default async function TopicDetailPage({ params }: { params: { id: string
       <Card className="p-6 border-2">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold">Revision History</h2>
-          <Link href={`/revisions/new?topic=${topic.id}`}>
+          <Link href={`/revisions/new?topic=${typedTopic.id}`}>
             <Button size="sm">
               Add Revision
             </Button>
@@ -218,19 +221,19 @@ export default async function TopicDetailPage({ params }: { params: { id: string
       <Card className="p-6 border-2">
         <h2 className="text-xl font-bold mb-4">Quick Actions</h2>
         <div className="grid md:grid-cols-3 gap-4">
-          <Link href={`/resources/new?topic=${topic.id}`}>
+          <Link href={`/resources/new?topic=${typedTopic.id}`}>
             <Button variant="outline" className="w-full h-16 flex-col gap-2">
               <span className="text-2xl">📚</span>
               <span>Add Resource</span>
             </Button>
           </Link>
-          <Link href={`/revisions/new?topic=${topic.id}`}>
+          <Link href={`/revisions/new?topic=${typedTopic.id}`}>
             <Button variant="outline" className="w-full h-16 flex-col gap-2">
               <span className="text-2xl">🔄</span>
               <span>Add Revision</span>
             </Button>
           </Link>
-          <Link href={`/planner/new?topic=${topic.id}`}>
+          <Link href={`/planner/new?topic=${typedTopic.id}`}>
             <Button variant="outline" className="w-full h-16 flex-col gap-2">
               <span className="text-2xl">📅</span>
               <span>Schedule Study</span>
