@@ -104,8 +104,9 @@ export async function createResource(formData: {
     return { error: 'Not authenticated' }
   }
 
-  const { data: resource, error } = await (supabase
+  const { data: resource, error } = await supabase
     .from('resources')
+    // @ts-expect-error - Supabase type inference issue
     .insert({
       user_id: user.id,
       title: formData.title,
@@ -117,7 +118,7 @@ export async function createResource(formData: {
       tags: formData.tags || []
     })
     .select()
-    .single() as any)
+    .single()
 
   if (error) {
     console.error('Error creating resource:', error)
@@ -127,10 +128,11 @@ export async function createResource(formData: {
   // Link to topics if provided
   if (formData.topic_ids && formData.topic_ids.length > 0) {
     const topicLinks = formData.topic_ids.map(topic_id => ({
-      resource_id: resource.id,
+      resource_id: (resource as { id: string }).id,
       topic_id
     }))
 
+    // @ts-expect-error - Supabase type inference issue
     await supabase.from('resource_topics').insert(topicLinks)
   }
 
@@ -154,8 +156,9 @@ export async function updateResource(id: string, formData: {
     return { error: 'Not authenticated' }
   }
 
-  const { data: resource, error } = await (supabase
+  const { data: resource, error } = await supabase
     .from('resources')
+    // @ts-expect-error - Supabase type inference issue
     .update({
       title: formData.title,
       type: formData.type,
@@ -166,7 +169,7 @@ export async function updateResource(id: string, formData: {
     .eq('id', id)
     .eq('user_id', user.id)
     .select()
-    .single() as any)
+    .single()
 
   if (error) {
     console.error('Error updating resource:', error)
@@ -188,6 +191,7 @@ export async function updateResource(id: string, formData: {
         topic_id
       }))
 
+      // @ts-expect-error - Supabase type inference issue
       await supabase.from('resource_topics').insert(topicLinks)
     }
   }
@@ -214,11 +218,12 @@ export async function deleteResource(id: string) {
     .eq('user_id', user.id)
     .single()
 
+  type ResourceWithFile = { file_path: string | null } | null
   // Delete file from storage if exists
-  if (resource?.file_path) {
+  if ((resource as ResourceWithFile)?.file_path) {
     await supabase.storage
       .from('study-resources')
-      .remove([resource.file_path])
+      .remove([(resource as unknown as { file_path: string }).file_path])
   }
 
   const { error } = await supabase
@@ -249,7 +254,7 @@ export async function uploadFile(file: File) {
   const fileExt = file.name.split('.').pop()
   const fileName = `${user.id}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`
 
-  const { data, error } = await supabase.storage
+  const { error } = await supabase.storage
     .from('study-resources')
     .upload(fileName, file, {
       cacheControl: '3600',
@@ -289,9 +294,10 @@ export async function getAllTags() {
 
   if (!resources) return []
 
+  type ResourceWithTags = { tags: string[] | null }
   // Extract all unique tags
-  const allTags = new Set<string>()
-  resources.forEach(resource => {
+  const allTags = new Set<string>();
+  (resources as ResourceWithTags[]).forEach((resource: ResourceWithTags) => {
     if (resource.tags) {
       resource.tags.forEach((tag: string) => allTags.add(tag))
     }

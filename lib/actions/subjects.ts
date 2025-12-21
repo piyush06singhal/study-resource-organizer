@@ -99,8 +99,9 @@ export async function createSubject(formData: {
     return { error: 'Not authenticated' }
   }
 
-  const { data, error } = await (supabase
+  const { data, error } = await supabase
     .from('subjects')
+    // @ts-expect-error - Supabase type inference issue
     .insert({
       user_id: user.id,
       name: formData.name,
@@ -110,7 +111,7 @@ export async function createSubject(formData: {
       semester_id: formData.semester_id
     })
     .select()
-    .single() as any)
+    .single()
 
   if (error) {
     console.error('Error creating subject:', error)
@@ -136,8 +137,9 @@ export async function updateSubject(id: string, formData: {
     return { error: 'Not authenticated' }
   }
 
-  const { data, error } = await (supabase
+  const { data, error } = await supabase
     .from('subjects')
+    // @ts-expect-error - Supabase type inference issue
     .update({
       name: formData.name,
       code: formData.code,
@@ -148,7 +150,7 @@ export async function updateSubject(id: string, formData: {
     .eq('id', id)
     .eq('user_id', user.id)
     .select()
-    .single() as any)
+    .single()
 
   if (error) {
     console.error('Error updating subject:', error)

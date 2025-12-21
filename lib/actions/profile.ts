@@ -18,13 +18,13 @@ export async function getProfile() {
     .eq('id', user.id)
     .single()
 
-  if (error) {
+  if (error || !profile) {
     console.error('Error fetching profile:', error)
     return null
   }
 
   return {
-    ...profile,
+    ...(profile as Record<string, any>),
     email: user.email
   }
 }
@@ -45,6 +45,7 @@ export async function updateProfile(data: {
 
   const { error } = await supabase
     .from('profiles')
+    // @ts-expect-error - Supabase type inference issue
     .update({
       full_name: data.full_name,
       avatar_url: data.avatar_url,
@@ -110,6 +111,7 @@ export async function uploadAvatar(formData: FormData) {
 
   const { error: updateError } = await supabase
     .from('profiles')
+    // @ts-expect-error - Supabase type inference issue
     .update({ avatar_url: publicUrl })
     .eq('id', user.id)
 

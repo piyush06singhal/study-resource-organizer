@@ -98,10 +98,11 @@ export async function createTopic(formData: {
     .limit(1)
     .single()
 
-  const nextOrder = (maxOrder?.order_index || 0) + 1
+  const nextOrder = ((maxOrder as { order_index: number } | null)?.order_index || 0) + 1
 
-  const { data, error } = await (supabase
+  const { data, error } = await supabase
     .from('topics')
+    // @ts-expect-error - Supabase type inference issue
     .insert({
       user_id: user.id,
       name: formData.name,
@@ -112,7 +113,7 @@ export async function createTopic(formData: {
       order_index: nextOrder
     })
     .select()
-    .single() as any)
+    .single()
 
   if (error) {
     console.error('Error creating topic:', error)
@@ -139,8 +140,9 @@ export async function updateTopic(id: string, formData: {
     return { error: 'Not authenticated' }
   }
 
-  const { data, error } = await (supabase
+  const { data, error } = await supabase
     .from('topics')
+    // @ts-expect-error - Supabase type inference issue
     .update({
       name: formData.name,
       description: formData.description,
@@ -151,7 +153,7 @@ export async function updateTopic(id: string, formData: {
     .eq('id', id)
     .eq('user_id', user.id)
     .select()
-    .single() as any)
+    .single()
 
   if (error) {
     console.error('Error updating topic:', error)
@@ -175,6 +177,7 @@ export async function updateTopicStatus(id: string, status: string) {
 
   const { data, error } = await supabase
     .from('topics')
+    // @ts-expect-error - Supabase type inference issue
     .update({ status })
     .eq('id', id)
     .eq('user_id', user.id)
@@ -228,6 +231,7 @@ export async function reorderTopics(topicIds: string[]) {
   const updates = topicIds.map((id, index) =>
     supabase
       .from('topics')
+      // @ts-expect-error - Supabase type inference issue
       .update({ order_index: index })
       .eq('id', id)
       .eq('user_id', user.id)

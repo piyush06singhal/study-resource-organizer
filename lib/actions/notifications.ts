@@ -59,6 +59,7 @@ export async function markAsRead(notificationId: string) {
 
   const { error } = await supabase
     .from('notifications')
+    // @ts-expect-error - Supabase type inference issue
     .update({ read: true })
     .eq('id', notificationId)
     .eq('user_id', user.id)
@@ -82,6 +83,7 @@ export async function markAllAsRead() {
 
   const { error } = await supabase
     .from('notifications')
+    // @ts-expect-error - Supabase type inference issue
     .update({ read: true })
     .eq('user_id', user.id)
     .eq('read', false)
@@ -133,6 +135,7 @@ export async function createNotification(data: {
 
   const { error } = await supabase
     .from('notifications')
+    // @ts-expect-error - Supabase type inference issue
     .insert({
       user_id: user.id,
       type: data.type,

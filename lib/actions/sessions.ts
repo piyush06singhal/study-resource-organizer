@@ -74,8 +74,9 @@ export async function startStudySession(data: {
     return { error: 'Not authenticated' }
   }
 
-  const { data: session, error } = await (supabase
+  const { data: session, error } = await supabase
     .from('study_sessions')
+    // @ts-expect-error - Supabase type inference issue
     .insert({
       user_id: user.id,
       subject_id: data.subject_id,
@@ -83,7 +84,7 @@ export async function startStudySession(data: {
       start_time: new Date().toISOString()
     })
     .select()
-    .single() as any)
+    .single()
 
   if (error) {
     console.error('Error starting session:', error)
@@ -115,11 +116,12 @@ export async function endStudySession(sessionId: string, notes?: string) {
   }
 
   const endTime = new Date()
-  const startTime = new Date(session.start_time)
+  const startTime = new Date((session as { start_time: string }).start_time)
   const durationMinutes = Math.round((endTime.getTime() - startTime.getTime()) / (1000 * 60))
 
-  const { data, error } = await (supabase
+  const { data, error } = await supabase
     .from('study_sessions')
+    // @ts-expect-error - Supabase type inference issue
     .update({
       end_time: endTime.toISOString(),
       duration_minutes: durationMinutes,
@@ -128,7 +130,6 @@ export async function endStudySession(sessionId: string, notes?: string) {
     .eq('id', sessionId)
     .eq('user_id', user.id)
     .select()
-    .single() as any)
     .single()
 
   if (error) {
@@ -200,9 +201,10 @@ export async function getSessionStats() {
     .select('duration_minutes')
     .eq('user_id', user.id)
 
-  const todayMinutes = todaySessions?.reduce((acc, s) => acc + (s.duration_minutes || 0), 0) || 0
-  const weekMinutes = weekSessions?.reduce((acc, s) => acc + (s.duration_minutes || 0), 0) || 0
-  const totalMinutes = allSessions?.reduce((acc, s) => acc + (s.duration_minutes || 0), 0) || 0
+  type SessionStats = { duration_minutes: number | null }[]
+  const todayMinutes = (todaySessions as SessionStats)?.reduce((acc, s) => acc + (s.duration_minutes || 0), 0) || 0
+  const weekMinutes = (weekSessions as SessionStats)?.reduce((acc, s) => acc + (s.duration_minutes || 0), 0) || 0
+  const totalMinutes = (allSessions as SessionStats)?.reduce((acc, s) => acc + (s.duration_minutes || 0), 0) || 0
 
   return {
     today: todayMinutes,

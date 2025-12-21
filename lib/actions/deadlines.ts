@@ -96,9 +96,9 @@ export async function createDeadline(formData: {
     return { error: 'Not authenticated' }
   }
 
-  // @ts-ignore - Supabase type inference issue
   const { data, error } = await supabase
     .from('deadlines')
+    // @ts-expect-error - Supabase type inference issue
     .insert({
       user_id: user.id,
       title: formData.title,
@@ -138,9 +138,9 @@ export async function updateDeadline(id: string, formData: {
     return { error: 'Not authenticated' }
   }
 
-  // @ts-ignore - Supabase type inference issue
   const { data, error } = await supabase
     .from('deadlines')
+    // @ts-expect-error - Supabase type inference issue
     .update({
       title: formData.title,
       description: formData.description,
@@ -176,6 +176,7 @@ export async function updateDeadlineStatus(id: string, status: string) {
 
   const { data, error } = await supabase
     .from('deadlines')
+    // @ts-expect-error - Supabase type inference issue
     .update({ status })
     .eq('id', id)
     .eq('user_id', user.id)
@@ -229,11 +230,12 @@ export async function getDeadlineStats() {
     .select('status, due_date')
     .eq('user_id', user.id)
 
+  type DeadlineStats = { status: string; due_date: string }[]
   const now = new Date()
   const total = deadlines?.length || 0
-  const pending = deadlines?.filter(d => d.status === 'pending').length || 0
-  const completed = deadlines?.filter(d => d.status === 'completed').length || 0
-  const overdue = deadlines?.filter(d => 
+  const pending = (deadlines as DeadlineStats)?.filter(d => d.status === 'pending').length || 0
+  const completed = (deadlines as DeadlineStats)?.filter(d => d.status === 'completed').length || 0
+  const overdue = (deadlines as DeadlineStats)?.filter(d => 
     d.status === 'pending' && new Date(d.due_date) < now
   ).length || 0
 

@@ -67,15 +67,16 @@ export async function createRevision(formData: {
     .limit(1)
     .single()
 
-  const nextRevisionNumber = (lastRevision?.revision_number || 0) + 1
+  const nextRevisionNumber = ((lastRevision as { revision_number: number } | null)?.revision_number || 0) + 1
 
   // Calculate next revision date based on spaced repetition
   const intervals = [1, 3, 7, 14, 30] // days
   const nextInterval = intervals[Math.min(nextRevisionNumber - 1, intervals.length - 1)]
   const nextRevisionDate = addDays(new Date(), nextInterval)
 
-  const { data, error } = await (supabase
+  const { data, error } = await supabase
     .from('revisions')
+    // @ts-expect-error - Supabase type inference issue
     .insert({
       user_id: user.id,
       topic_id: formData.topic_id,
@@ -86,7 +87,7 @@ export async function createRevision(formData: {
       next_revision_date: nextRevisionDate.toISOString().split('T')[0]
     })
     .select()
-    .single() as any)
+    .single()
 
   if (error) {
     console.error('Error creating revision:', error)

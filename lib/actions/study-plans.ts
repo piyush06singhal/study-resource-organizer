@@ -117,8 +117,9 @@ export async function createStudyPlan(formData: {
     return { error: 'Not authenticated' }
   }
 
-  const { data, error } = await (supabase
+  const { data, error } = await supabase
     .from('study_plans')
+    // @ts-expect-error - Supabase type inference issue
     .insert({
       user_id: user.id,
       title: formData.title,
@@ -132,7 +133,7 @@ export async function createStudyPlan(formData: {
       status: formData.status || 'planned'
     })
     .select()
-    .single() as any)
+    .single()
 
   if (error) {
     console.error('Error creating study plan:', error)
@@ -162,8 +163,9 @@ export async function updateStudyPlan(id: string, formData: {
     return { error: 'Not authenticated' }
   }
 
-  const { data, error } = await (supabase
+  const { data, error } = await supabase
     .from('study_plans')
+    // @ts-expect-error - Supabase type inference issue
     .update({
       title: formData.title,
       description: formData.description,
@@ -178,7 +180,7 @@ export async function updateStudyPlan(id: string, formData: {
     .eq('id', id)
     .eq('user_id', user.id)
     .select()
-    .single() as any)
+    .single()
 
   if (error) {
     console.error('Error updating study plan:', error)
@@ -201,6 +203,7 @@ export async function updateStudyPlanStatus(id: string, status: string) {
 
   const { data, error } = await supabase
     .from('study_plans')
+    // @ts-expect-error - Supabase type inference issue
     .update({ status })
     .eq('id', id)
     .eq('user_id', user.id)
@@ -258,9 +261,10 @@ export async function getWeeklyStats(weekStart: string) {
     .gte('planned_date', weekStart)
     .lte('planned_date', weekEnd)
 
+  type PlanStats = { status: string; estimated_minutes: number | null }[]
   const totalPlans = plans?.length || 0
-  const completedPlans = plans?.filter(p => p.status === 'completed').length || 0
-  const totalMinutes = plans?.reduce((acc, p) => acc + (p.estimated_minutes || 0), 0) || 0
+  const completedPlans = (plans as PlanStats)?.filter(p => p.status === 'completed').length || 0
+  const totalMinutes = (plans as PlanStats)?.reduce((acc, p) => acc + (p.estimated_minutes || 0), 0) || 0
 
   return { totalPlans, completedPlans, totalMinutes }
 }
