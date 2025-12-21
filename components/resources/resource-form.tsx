@@ -29,7 +29,7 @@ export function ResourceForm({ resource, topics = [] }: ResourceFormProps) {
     content: resource?.content || '',
     url: resource?.url || '',
     tags: resource?.tags || [],
-    topic_ids: []
+    topic_ids: [] as string[]
   })
   const [tagInput, setTagInput] = useState('')
   const [file, setFile] = useState<File | null>(null)
@@ -265,7 +265,7 @@ export function ResourceForm({ resource, topics = [] }: ResourceFormProps) {
                           ...formData,
                           topic_ids: e.target.checked
                             ? [...formData.topic_ids, topicId]
-                            : formData.topic_ids.filter(id => id !== topicId)
+                            : formData.topic_ids.filter((id: string) => id !== topicId)
                         })
                       }}
                       className="rounded"
