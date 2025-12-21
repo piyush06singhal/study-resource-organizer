@@ -137,7 +137,7 @@ export async function updateDeadline(id: string, formData: {
     return { error: 'Not authenticated' }
   }
 
-  const { data, error } = await (supabase
+  const { data, error } = await supabase
     .from('deadlines')
     .update({
       title: formData.title,
@@ -147,11 +147,11 @@ export async function updateDeadline(id: string, formData: {
       priority: formData.priority,
       status: formData.status,
       subject_id: formData.subject_id
-    })
+    } as any)
     .eq('id', id)
     .eq('user_id', user.id)
     .select()
-    .single() as any)
+    .single()
 
   if (error) {
     console.error('Error updating deadline:', error)
