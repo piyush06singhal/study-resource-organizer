@@ -13,8 +13,11 @@ export default async function ResourceDetailPage({ params }: { params: { id: str
     notFound()
   }
 
+  // Type assertion for resource
+  const typedResource = resource as any
+
   const getTypeIcon = () => {
-    switch (resource.type) {
+    switch (typedResource.type) {
       case 'pdf':
         return <FileText className="h-12 w-12 text-red-600" />
       case 'image':
@@ -36,7 +39,7 @@ export default async function ResourceDetailPage({ params }: { params: { id: str
     return `${kb.toFixed(2)} KB`
   }
 
-  const linkedTopics = resource.resource_topics?.map((rt: any) => rt.topics).filter(Boolean) || []
+  const linkedTopics = typedResource.resource_topics?.map((rt: any) => rt.topics).filter(Boolean) || []
 
   return (
     <div className="space-y-6">
@@ -56,20 +59,20 @@ export default async function ResourceDetailPage({ params }: { params: { id: str
               {getTypeIcon()}
             </div>
             <div className="flex-1">
-              <h1 className="text-3xl font-bold mb-2">{resource.title}</h1>
+              <h1 className="text-3xl font-bold mb-2">{typedResource.title}</h1>
               <div className="flex flex-wrap gap-2 mb-4">
                 <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">
-                  {resource.type.toUpperCase()}
+                  {typedResource.type.toUpperCase()}
                 </span>
-                {resource.file_size && (
+                {typedResource.file_size && (
                   <span className="px-3 py-1 bg-muted rounded-full text-sm">
-                    {formatFileSize(resource.file_size)}
+                    {formatFileSize(typedResource.file_size)}
                   </span>
                 )}
               </div>
-              {resource.tags && resource.tags.length > 0 && (
+              {typedResource.tags && typedResource.tags.length > 0 && (
                 <div className="flex flex-wrap gap-2">
-                  {resource.tags.map((tag: string, index: number) => (
+                  {typedResource.tags.map((tag: string, index: number) => (
                     <span
                       key={index}
                       className="px-2 py-1 bg-accent text-sm rounded"
@@ -82,15 +85,15 @@ export default async function ResourceDetailPage({ params }: { params: { id: str
             </div>
           </div>
           <div className="flex gap-2">
-            {resource.url && (
-              <a href={resource.url} target="_blank" rel="noopener noreferrer">
+            {typedResource.url && (
+              <a href={typedResource.url} target="_blank" rel="noopener noreferrer">
                 <Button variant="outline">
                   <ExternalLink className="h-4 w-4 mr-2" />
                   Open
                 </Button>
               </a>
             )}
-            <Link href={`/resources/${resource.id}/edit`}>
+            <Link href={`/resources/${typedResource.id}/edit`}>
               <Button>
                 <Edit className="h-4 w-4 mr-2" />
                 Edit
@@ -100,26 +103,26 @@ export default async function ResourceDetailPage({ params }: { params: { id: str
         </div>
 
         {/* Content */}
-        {resource.content && (
+        {typedResource.content && (
           <div className="mb-6">
             <h3 className="font-semibold mb-3">Content</h3>
             <div className="p-4 bg-accent/50 rounded-lg">
-              <p className="whitespace-pre-wrap leading-relaxed">{resource.content}</p>
+              <p className="whitespace-pre-wrap leading-relaxed">{typedResource.content}</p>
             </div>
           </div>
         )}
 
         {/* URL Display */}
-        {resource.url && (
+        {typedResource.url && (
           <div className="mb-6">
             <h3 className="font-semibold mb-2">URL</h3>
             <a
-              href={resource.url}
+              href={typedResource.url}
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary hover:underline break-all"
             >
-              {resource.url}
+              {typedResource.url}
             </a>
           </div>
         )}
@@ -129,19 +132,19 @@ export default async function ResourceDetailPage({ params }: { params: { id: str
           <div>
             <p className="text-sm text-muted-foreground">Created</p>
             <p className="font-medium">
-              {format(new Date(resource.created_at), 'MMM dd, yyyy')}
+              {format(new Date(typedResource.created_at), 'MMM dd, yyyy')}
             </p>
             <p className="text-xs text-muted-foreground">
-              {formatDistanceToNow(new Date(resource.created_at), { addSuffix: true })}
+              {formatDistanceToNow(new Date(typedResource.created_at), { addSuffix: true })}
             </p>
           </div>
           <div>
             <p className="text-sm text-muted-foreground">Last Updated</p>
             <p className="font-medium">
-              {format(new Date(resource.updated_at), 'MMM dd, yyyy')}
+              {format(new Date(typedResource.updated_at), 'MMM dd, yyyy')}
             </p>
             <p className="text-xs text-muted-foreground">
-              {formatDistanceToNow(new Date(resource.updated_at), { addSuffix: true })}
+              {formatDistanceToNow(new Date(typedResource.updated_at), { addSuffix: true })}
             </p>
           </div>
         </div>
@@ -177,27 +180,27 @@ export default async function ResourceDetailPage({ params }: { params: { id: str
       )}
 
       {/* File Preview */}
-      {resource.type === 'image' && resource.file_path && (
+      {typedResource.type === 'image' && typedResource.file_path && (
         <Card className="p-6 border-2">
           <h2 className="text-xl font-bold mb-4">Preview</h2>
           <div className="rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-900">
             <img
-              src={resource.file_path}
-              alt={resource.title}
+              src={typedResource.file_path}
+              alt={typedResource.title}
               className="w-full h-auto"
             />
           </div>
         </Card>
       )}
 
-      {resource.type === 'pdf' && resource.file_path && (
+      {typedResource.type === 'pdf' && typedResource.file_path && (
         <Card className="p-6 border-2">
           <h2 className="text-xl font-bold mb-4">PDF Preview</h2>
           <div className="aspect-[4/3] bg-slate-100 dark:bg-slate-900 rounded-lg flex items-center justify-center">
             <div className="text-center">
               <FileText className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
               <p className="text-muted-foreground mb-4">PDF preview not available</p>
-              <a href={resource.file_path} target="_blank" rel="noopener noreferrer">
+              <a href={typedResource.file_path} target="_blank" rel="noopener noreferrer">
                 <Button>
                   <Download className="h-4 w-4 mr-2" />
                   Download PDF
