@@ -96,6 +96,7 @@ export async function createDeadline(formData: {
     return { error: 'Not authenticated' }
   }
 
+  // @ts-ignore - Supabase type inference issue
   const { data, error } = await supabase
     .from('deadlines')
     .insert({
@@ -107,7 +108,7 @@ export async function createDeadline(formData: {
       priority: formData.priority || 'medium',
       subject_id: formData.subject_id,
       status: 'pending'
-    } as any)
+    })
     .select()
     .single()
 
@@ -137,6 +138,7 @@ export async function updateDeadline(id: string, formData: {
     return { error: 'Not authenticated' }
   }
 
+  // @ts-ignore - Supabase type inference issue
   const { data, error } = await supabase
     .from('deadlines')
     .update({
@@ -147,7 +149,7 @@ export async function updateDeadline(id: string, formData: {
       priority: formData.priority,
       status: formData.status,
       subject_id: formData.subject_id
-    } as any)
+    })
     .eq('id', id)
     .eq('user_id', user.id)
     .select()
