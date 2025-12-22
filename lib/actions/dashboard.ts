@@ -12,50 +12,70 @@ export async function getDashboardStats() {
       redirect('/login')
     }
 
-    // Get subjects count
-    const { count: subjectsCount } = await supabase
-      .from('subjects')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user.id)
-
-    // Get topics count and completion stats
-    const { data: topics } = await supabase
-      .from('topics')
-      .select('status')
-      .eq('user_id', user.id)
-
-    const completedTopics = topics?.filter((t: any) => t.status === 'completed').length || 0
-    const totalTopics = topics?.length || 0
-    const inProgressTopics = topics?.filter((t: any) => t.status === 'in_progress').length || 0
-
-    // Get upcoming deadlines count
-    const { count: upcomingDeadlines } = await supabase
-      .from('deadlines')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user.id)
-      .eq('status', 'pending')
-      .gte('due_date', new Date().toISOString())
-
-    // Get study sessions this week
     const weekAgo = new Date()
     weekAgo.setDate(weekAgo.getDate() - 7)
 
-    const { data: sessions } = await supabase
-      .from('study_sessions')
-      .select('duration_minutes')
-      .eq('user_id', user.id)
-      .gte('start_time', weekAgo.toISOString())
+    // Run all queries in parallel for better performance
+    const [
+      { count: subjectsCount },
+      { count: totalTopics },
+      { count: completedTopics },
+      { count: inProgressTopics },
+      { count: upcomingDeadlines },
+      { data: sessions }
+    ] = await Promise.all([
+      // Get subjects count
+      supabase
+        .from('subjects')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user.id),
+      
+      // Get total topics count
+      supabase
+        .from('topics')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user.id),
+      
+      // Get completed topics count
+      supabase
+        .from('topics')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user.id)
+        .eq('status', 'completed'),
+      
+      // Get in-progress topics count
+      supabase
+        .from('topics')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user.id)
+        .eq('status', 'in_progress'),
+      
+      // Get upcoming deadlines count
+      supabase
+        .from('deadlines')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user.id)
+        .eq('status', 'pending')
+        .gte('due_date', new Date().toISOString()),
+      
+      // Get study sessions this week
+      supabase
+        .from('study_sessions')
+        .select('duration_minutes')
+        .eq('user_id', user.id)
+        .gte('start_time', weekAgo.toISOString())
+    ])
 
     const totalStudyTime = sessions?.reduce((acc, s: any) => acc + (s.duration_minutes || 0), 0) || 0
 
     return {
       subjectsCount: subjectsCount || 0,
-      totalTopics,
-      completedTopics,
-      inProgressTopics,
+      totalTopics: totalTopics || 0,
+      completedTopics: completedTopics || 0,
+      inProgressTopics: inProgressTopics || 0,
       upcomingDeadlines: upcomingDeadlines || 0,
       totalStudyTime,
-      completionRate: totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0
+      completionRate: (totalTopics || 0) > 0 ? Math.round(((completedTopics || 0) / (totalTopics || 0)) * 100) : 0
     }
   } catch (error) {
     console.error('Error in getDashboardStats:', error)
@@ -163,11 +183,15 @@ export async function getStudyStreak() {
       redirect('/login')
     }
 
-    // Get all study sessions ordered by date
+    // Limit to last 90 days for performance
+    const ninetyDaysAgo = new Date()
+    ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90)
+
     const { data: sessions } = await supabase
       .from('study_sessions')
       .select('start_time')
       .eq('user_id', user.id)
+      .gte('start_time', ninetyDaysAgo.toISOString())
       .order('start_time', { ascending: false })
 
     if (!sessions || sessions.length === 0) {

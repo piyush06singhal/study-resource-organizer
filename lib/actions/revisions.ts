@@ -48,8 +48,10 @@ export async function getRevisions(topicId?: string) {
 
 export async function createRevision(formData: {
   topic_id: string
+  revision_date?: string
   notes?: string
   confidence_level?: number
+  next_revision_date?: string
 }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -69,22 +71,30 @@ export async function createRevision(formData: {
 
   const nextRevisionNumber = ((lastRevision as { revision_number: number } | null)?.revision_number || 0) + 1
 
-  // Calculate next revision date based on spaced repetition
-  const intervals = [1, 3, 7, 14, 30] // days
-  const nextInterval = intervals[Math.min(nextRevisionNumber - 1, intervals.length - 1)]
-  const nextRevisionDate = addDays(new Date(), nextInterval)
+  // Calculate next revision date based on spaced repetition if not provided
+  let nextRevisionDate: string
+  if (formData.next_revision_date) {
+    nextRevisionDate = formData.next_revision_date
+  } else {
+    const intervals = [1, 3, 7, 14, 30] // days
+    const nextInterval = intervals[Math.min(nextRevisionNumber - 1, intervals.length - 1)]
+    const revisionDate = formData.revision_date ? new Date(formData.revision_date) : new Date()
+    nextRevisionDate = addDays(revisionDate, nextInterval).toISOString().split('T')[0]
+  }
+
+  const revisionDate = formData.revision_date || new Date().toISOString()
 
   const { data, error } = await supabase
     .from('revisions')
-    // @ts-expect-error - Supabase type inference issue
+    // @ts-ignore - Supabase type inference issue
     .insert({
       user_id: user.id,
       topic_id: formData.topic_id,
       revision_number: nextRevisionNumber,
-      revision_date: new Date().toISOString(),
+      revision_date: revisionDate,
       notes: formData.notes,
       confidence_level: formData.confidence_level,
-      next_revision_date: nextRevisionDate.toISOString().split('T')[0]
+      next_revision_date: nextRevisionDate
     })
     .select()
     .single()
