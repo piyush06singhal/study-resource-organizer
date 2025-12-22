@@ -6,15 +6,21 @@ import { ArrowLeft, AlertCircle, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import { Card } from '@/components/ui/card'
 
-export default async function NoteEditPage({ params }: { params: { id: string } }) {
+export default async function NoteEditPage({ 
+  params 
+}: { 
+  params: Promise<{ id: string }> 
+}) {
+  const { id } = await params
+  
   try {
     const [note, subjects] = await Promise.all([
-      params.id === 'new' ? null : getNote(params.id),
+      id === 'new' ? null : getNote(id),
       getSubjects()
     ])
 
     // If trying to edit a note that doesn't exist
-    if (params.id !== 'new' && !note) {
+    if (id !== 'new' && !note) {
       return (
         <div className="space-y-6">
           <Button asChild variant="ghost" size="sm">
@@ -50,7 +56,7 @@ export default async function NoteEditPage({ params }: { params: { id: string } 
               Back to Notes
             </Link>
           </Button>
-          {params.id === 'new' && (
+          {id === 'new' && (
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <Sparkles className="h-4 w-4 text-yellow-500" />
               <span>Creating new note</span>
@@ -61,7 +67,7 @@ export default async function NoteEditPage({ params }: { params: { id: string } 
         <NoteEditor 
           note={note as any} 
           subjects={subjects as any[]}
-          isNew={params.id === 'new'}
+          isNew={id === 'new'}
         />
       </div>
     )

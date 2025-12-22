@@ -5,9 +5,15 @@ import { ArrowLeft, Brain, Sparkles, Edit, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import { Card } from '@/components/ui/card'
 
-export default async function FlashcardDeckPage({ params }: { params: { id: string } }) {
+export default async function FlashcardDeckPage({ 
+  params 
+}: { 
+  params: Promise<{ id: string }> 
+}) {
+  const { id } = await params
+  
   try {
-    const deck = await getDeck(params.id) as any
+    const deck = await getDeck(id) as any
 
     if (!deck) {
       return (
@@ -50,13 +56,13 @@ export default async function FlashcardDeckPage({ params }: { params: { id: stri
           </div>
           <div className="flex gap-2">
             <Button asChild variant="outline" className="border-2">
-              <Link href={`/flashcards/${params.id}/edit`}>
+              <Link href={`/flashcards/${id}/edit`}>
                 <Edit className="w-4 h-4 mr-2" />
                 Edit Deck
               </Link>
             </Button>
             <Button asChild className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg">
-              <Link href={`/flashcards/${params.id}/quiz`}>
+              <Link href={`/flashcards/${id}/quiz`}>
                 <Brain className="w-4 h-4 mr-2" />
                 Quiz Mode
               </Link>

@@ -5,9 +5,15 @@ import { ArrowLeft, Sparkles, BookOpen, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import { Card } from '@/components/ui/card'
 
-export default async function EditDeckPage({ params }: { params: { id: string } }) {
+export default async function EditDeckPage({ 
+  params 
+}: { 
+  params: Promise<{ id: string }> 
+}) {
+  const { id } = await params
+  
   try {
-    const deck = await getDeck(params.id) as any
+    const deck = await getDeck(id) as any
 
     if (!deck) {
       return (
@@ -35,7 +41,7 @@ export default async function EditDeckPage({ params }: { params: { id: string } 
         {/* Header */}
         <div>
           <Button asChild variant="ghost" className="mb-4">
-            <Link href={`/flashcards/${params.id}`}>
+            <Link href={`/flashcards/${id}`}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Study
             </Link>
@@ -51,7 +57,7 @@ export default async function EditDeckPage({ params }: { params: { id: string } 
               </p>
             </div>
             <Button asChild className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg">
-              <Link href={`/flashcards/${params.id}`}>
+              <Link href={`/flashcards/${id}`}>
                 <BookOpen className="w-4 h-4 mr-2" />
                 Study Mode
               </Link>
