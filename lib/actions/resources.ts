@@ -258,11 +258,25 @@ export async function uploadFile(fileData: {
   try {
     // Convert base64 to buffer
     const base64Data = fileData.fileData.split(',')[1]
+    if (!base64Data) {
+      return { error: 'Invalid file data' }
+    }
+    
     const buffer = Buffer.from(base64Data, 'base64')
 
     // Create unique file path
     const fileExt = fileData.fileName.split('.').pop()
     const fileName = `${user.id}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`
+
+    // Check if bucket exists, if not return error with helpful message
+    const { data: buckets } = await supabase.storage.listBuckets()
+    const bucketExists = buckets?.some(b => b.name === 'study-resources')
+    
+    if (!bucketExists) {
+      return { 
+        error: 'Storage not configured. Please use URL option instead or contact administrator to set up storage bucket.' 
+      }
+    }
 
     const { error } = await supabase.storage
       .from('study-resources')
@@ -274,7 +288,7 @@ export async function uploadFile(fileData: {
 
     if (error) {
       console.error('Error uploading file:', error)
-      return { error: error.message }
+      return { error: `Upload failed: ${error.message}. Try using URL option instead.` }
     }
 
     // Get public URL
@@ -289,7 +303,7 @@ export async function uploadFile(fileData: {
     }
   } catch (error) {
     console.error('Error processing file:', error)
-    return { error: 'Failed to process file' }
+    return { error: 'Failed to process file. Please try using URL option instead.' }
   }
 }
 

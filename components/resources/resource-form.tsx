@@ -46,35 +46,48 @@ export function ResourceForm({ resource, topics = [] }: ResourceFormProps) {
     let file_path = undefined
     let file_size = undefined
 
-    // Upload file if present
-    if (file && (formData.type === 'pdf' || formData.type === 'image' || formData.type === 'video')) {
-      setIsUploading(true)
-      
-      // Convert file to base64 for server action
-      const reader = new FileReader()
-      const fileData = await new Promise<string>((resolve, reject) => {
-        reader.onload = () => resolve(reader.result as string)
-        reader.onerror = reject
-        reader.readAsDataURL(file)
-      })
+    // For PDF and Image types, if no file is selected, require URL instead
+    if (formData.type === 'pdf' || formData.type === 'image') {
+      if (file) {
+        // Upload file if present
+        setIsUploading(true)
+        
+        try {
+          // Convert file to base64 for server action
+          const reader = new FileReader()
+          const fileData = await new Promise<string>((resolve, reject) => {
+            reader.onload = () => resolve(reader.result as string)
+            reader.onerror = reject
+            reader.readAsDataURL(file)
+          })
 
-      const uploadResult = await uploadFile({
-        fileName: file.name,
-        fileType: file.type,
-        fileData,
-        fileSize: file.size
-      })
-      
-      setIsUploading(false)
+          const uploadResult = await uploadFile({
+            fileName: file.name,
+            fileType: file.type,
+            fileData,
+            fileSize: file.size
+          })
+          
+          setIsUploading(false)
 
-      if (uploadResult.error) {
-        setError(uploadResult.error)
-        setIsSubmitting(false)
-        return
+          if (uploadResult.error) {
+            setError(`Upload failed: ${uploadResult.error}. You can use a URL instead.`)
+            setIsSubmitting(false)
+            return
+          }
+
+          file_path = uploadResult.file_path
+          file_size = uploadResult.file_size
+        } catch (err) {
+          setIsUploading(false)
+          setError('File upload failed. Please try using a URL instead.')
+          setIsSubmitting(false)
+          return
+        }
+      } else if (formData.url) {
+        // Use URL if provided instead of file
+        file_path = formData.url
       }
-
-      file_path = uploadResult.file_path
-      file_size = uploadResult.file_size
     }
 
     const result = resource
@@ -162,32 +175,50 @@ export function ResourceForm({ resource, topics = [] }: ResourceFormProps) {
             </select>
           </div>
 
-          {/* File Upload for PDF/Image */}
+          {/* File Upload or URL for PDF/Image */}
           {(formData.type === 'pdf' || formData.type === 'image') && !resource && (
-            <div className="space-y-2">
-              <Label htmlFor="file">Upload File *</Label>
-              <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-lg p-6 text-center hover:border-primary transition-colors">
-                <input
-                  id="file"
-                  type="file"
-                  accept={formData.type === 'pdf' ? '.pdf' : 'image/*'}
-                  onChange={(e) => setFile(e.target.files?.[0] || null)}
-                  className="hidden"
-                  required={!resource}
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="file">Upload File (Optional)</Label>
+                <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-lg p-6 text-center hover:border-primary transition-colors">
+                  <input
+                    id="file"
+                    type="file"
+                    accept={formData.type === 'pdf' ? '.pdf' : 'image/*'}
+                    onChange={(e) => setFile(e.target.files?.[0] || null)}
+                    className="hidden"
+                  />
+                  <label htmlFor="file" className="cursor-pointer">
+                    <Upload className="h-12 w-12 mx-auto mb-2 text-muted-foreground" />
+                    {file ? (
+                      <p className="text-sm font-medium">{file.name}</p>
+                    ) : (
+                      <>
+                        <p className="text-sm font-medium">Click to upload</p>
+                        <p className="text-xs text-muted-foreground">
+                          {formData.type === 'pdf' ? 'PDF files only' : 'PNG, JPG, GIF up to 10MB'}
+                        </p>
+                      </>
+                    )}
+                  </label>
+                </div>
+              </div>
+              
+              <div className="text-center text-sm text-muted-foreground">OR</div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="url">File URL</Label>
+                <Input
+                  id="url"
+                  type="url"
+                  placeholder="https://example.com/file.pdf"
+                  value={formData.url}
+                  onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                  className="h-12"
                 />
-                <label htmlFor="file" className="cursor-pointer">
-                  <Upload className="h-12 w-12 mx-auto mb-2 text-muted-foreground" />
-                  {file ? (
-                    <p className="text-sm font-medium">{file.name}</p>
-                  ) : (
-                    <>
-                      <p className="text-sm font-medium">Click to upload</p>
-                      <p className="text-xs text-muted-foreground">
-                        {formData.type === 'pdf' ? 'PDF files only' : 'PNG, JPG, GIF up to 10MB'}
-                      </p>
-                    </>
-                  )}
-                </label>
+                <p className="text-xs text-muted-foreground">
+                  Provide a direct link to the file if you don't want to upload
+                </p>
               </div>
             </div>
           )}
