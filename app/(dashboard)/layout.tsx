@@ -12,16 +12,29 @@ export default async function DashboardLayout({ children }: { children: ReactNod
     redirect('/login')
   }
 
-  // Get user profile
-  const { data: profile } = await supabase
+  // Get user profile with error handling
+  const { data: profile, error } = await supabase
     .from('profiles')
     .select('full_name')
     .eq('id', user.id)
     .single()
 
+  // If profile doesn't exist, create it
+  if (error || !profile) {
+    await supabase
+      .from('profiles')
+      .insert({
+        id: user.id,
+        email: user.email!,
+        full_name: user.user_metadata?.full_name || ''
+      })
+      .select()
+      .single()
+  }
+
   const userData = {
     email: user.email!,
-    full_name: (profile as any)?.full_name || undefined
+    full_name: profile?.full_name || user.user_metadata?.full_name || undefined
   }
 
   return (
