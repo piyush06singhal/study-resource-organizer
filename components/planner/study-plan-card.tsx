@@ -136,13 +136,13 @@ export function StudyPlanCard({ plan, delay = 0 }: StudyPlanCardProps) {
               
               <div className="flex flex-wrap items-center gap-2 mt-2 text-xs text-muted-foreground">
                 {plan.start_time && plan.end_time && (
-                  <span className="flex items-center gap-1 bg-white dark:bg-slate-800 px-2 py-1 rounded">
+                  <span className="flex items-center gap-1 bg-white px-2 py-1 rounded">
                     <Clock className="h-3 w-3 flex-shrink-0" />
-                    <span className="whitespace-nowrap">{formatTime(plan.start_time)} - {formatTime(plan.end_time)}</span>
+                    <span className="whitespace-nowrap text-xs">{formatTime(plan.start_time)} - {formatTime(plan.end_time)}</span>
                   </span>
                 )}
                 {plan.estimated_minutes && (
-                  <span className="bg-white dark:bg-slate-800 px-2 py-1 rounded whitespace-nowrap">
+                  <span className="bg-white px-2 py-1 rounded whitespace-nowrap text-xs">
                     {plan.estimated_minutes} min
                   </span>
                 )}
@@ -166,10 +166,10 @@ export function StudyPlanCard({ plan, delay = 0 }: StudyPlanCardProps) {
                   initial={{ opacity: 0, scale: 0.95, y: -10 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                  className="absolute right-0 mt-2 w-40 bg-white dark:bg-slate-900 rounded-lg shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden z-10"
+                  className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-xl border-2 border-gray-200 overflow-hidden z-10"
                 >
                   <Link href={`/planner/${plan.id}/edit`}>
-                    <button className="w-full px-3 py-2 text-left text-sm hover:bg-accent flex items-center gap-2">
+                    <button className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2 text-gray-700">
                       <Edit className="h-3 w-3" />
                       Edit
                     </button>
@@ -177,7 +177,7 @@ export function StudyPlanCard({ plan, delay = 0 }: StudyPlanCardProps) {
                   <button
                     onClick={handleDelete}
                     disabled={isDeleting}
-                    className="w-full px-3 py-2 text-left text-sm hover:bg-red-50 dark:hover:bg-red-950 text-red-600 flex items-center gap-2"
+                    className="w-full px-3 py-2 text-left text-sm hover:bg-red-50 text-red-600 flex items-center gap-2"
                   >
                     <Trash2 className="h-3 w-3" />
                     {isDeleting ? 'Deleting...' : 'Delete'}
