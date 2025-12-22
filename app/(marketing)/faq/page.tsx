@@ -117,9 +117,9 @@ export default function FAQPage() {
   })).filter(category => category.faqs.length > 0)
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
+    <div className="bg-white min-h-screen">
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20">
+      <section className="container mx-auto px-4 py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -156,7 +156,7 @@ export default function FAQPage() {
       </section>
 
       {/* FAQ Categories */}
-      <section className="container mx-auto px-4 pb-20">
+      <section className="container mx-auto px-4 pb-20 bg-white">
         <div className="max-w-4xl mx-auto space-y-12">
           {filteredCategories.map((category, categoryIndex) => (
             <motion.div
@@ -221,7 +221,7 @@ export default function FAQPage() {
       </section>
 
       {/* Contact CTA */}
-      <section className="container mx-auto px-4 pb-20">
+      <section className="container mx-auto px-4 pb-20 bg-white">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

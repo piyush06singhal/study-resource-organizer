@@ -40,7 +40,7 @@ export default function ContactPage() {
 
   if (success) {
     return (
-      <div className="min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
+      <div className="min-h-[80vh] flex items-center justify-center bg-white">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -64,9 +64,9 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
+    <div className="bg-white min-h-screen">
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20">
+      <section className="container mx-auto px-4 py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -92,7 +92,7 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Form & Info */}
-      <section className="container mx-auto px-4 pb-20">
+      <section className="container mx-auto px-4 pb-20 bg-white">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-3 gap-8">
           {/* Contact Form */}
           <div className="lg:col-span-2">
@@ -223,7 +223,7 @@ export default function ContactPage() {
       </section>
 
       {/* FAQ Teaser */}
-      <section className="container mx-auto px-4 pb-20">
+      <section className="container mx-auto px-4 pb-20 bg-white">
         <Card className="p-12 text-center bg-gradient-to-br from-primary/5 to-blue-500/5 border-2">
           <h2 className="text-2xl font-bold mb-4">Looking for Quick Answers?</h2>
           <p className="text-muted-foreground mb-6">

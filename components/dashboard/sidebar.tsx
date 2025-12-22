@@ -34,10 +34,10 @@ export function Sidebar() {
     <motion.aside
       initial={false}
       animate={{ width: isCollapsed ? 80 : 280 }}
-      className="fixed left-0 top-0 h-screen bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 z-40 flex flex-col"
+      className="fixed left-0 top-0 h-screen bg-white border-r border-gray-200 z-40 flex flex-col shadow-sm"
     >
       {/* Logo */}
-      <div className="h-16 flex items-center justify-between px-4 border-b border-slate-200 dark:border-slate-800">
+      <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
         <AnimatePresence mode="wait">
           {!isCollapsed && (
             <motion.div
@@ -46,10 +46,10 @@ export function Sidebar() {
               exit={{ opacity: 0 }}
               className="flex items-center gap-2"
             >
-              <div className="p-2 bg-primary rounded-lg">
-                <BookOpen className="h-5 w-5 text-primary-foreground" />
+              <div className="p-2 bg-blue-600 rounded-lg">
+                <BookOpen className="h-5 w-5 text-white" />
               </div>
-              <span className="text-lg font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+              <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 StudyFlow
               </span>
             </motion.div>
@@ -60,12 +60,12 @@ export function Sidebar() {
           variant="ghost"
           size="icon"
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="ml-auto"
+          className="ml-auto hover:bg-gray-100"
         >
           {isCollapsed ? (
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-5 w-5 text-gray-600" />
           ) : (
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-5 w-5 text-gray-600" />
           )}
         </Button>
       </div>
@@ -82,13 +82,13 @@ export function Sidebar() {
                 className={cn(
                   'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group relative',
                   isActive
-                    ? 'bg-primary text-primary-foreground shadow-md'
-                    : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : 'text-gray-600 hover:bg-blue-50 hover:text-blue-600'
                 )}
               >
                 <item.icon className={cn(
                   'h-5 w-5 flex-shrink-0',
-                  isActive && 'text-primary-foreground'
+                  isActive && 'text-white'
                 )} />
                 
                 <AnimatePresence mode="wait">
@@ -107,7 +107,7 @@ export function Sidebar() {
                 {isActive && (
                   <motion.div
                     layoutId="activeTab"
-                    className="absolute inset-0 bg-primary rounded-lg -z-10"
+                    className="absolute inset-0 bg-blue-600 rounded-lg -z-10"
                     transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                   />
                 )}
@@ -118,13 +118,13 @@ export function Sidebar() {
       </nav>
 
       {/* Logout */}
-      <div className="p-4 border-t border-slate-200 dark:border-slate-800">
+      <div className="p-4 border-t border-gray-200">
         <form action={signOut}>
           <Button
             type="submit"
             variant="ghost"
             className={cn(
-              'w-full justify-start gap-3',
+              'w-full justify-start gap-3 text-gray-600 hover:bg-red-50 hover:text-red-600',
               isCollapsed && 'justify-center'
             )}
           >

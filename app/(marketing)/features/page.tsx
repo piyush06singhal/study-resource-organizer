@@ -82,39 +82,39 @@ export default function FeaturesPage() {
   ]
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
+    <div className="bg-white min-h-screen">
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20">
+      <section className="container mx-auto px-4 py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="max-w-3xl mx-auto text-center space-y-6"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20">
-            <Sparkles className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium text-primary">Powerful Features</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 rounded-full border border-blue-200">
+            <Sparkles className="h-4 w-4 text-blue-600" />
+            <span className="text-sm font-medium text-blue-600">Powerful Features</span>
           </div>
           
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-gray-900">
             Everything You Need to
             <br />
-            <span className="bg-gradient-to-r from-primary via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 bg-clip-text text-transparent">
               Excel Academically
             </span>
           </h1>
           
-          <p className="text-xl text-muted-foreground">
+          <p className="text-xl text-gray-600">
             StudyFlow combines powerful organization tools, smart planning features, and insightful analytics to help you achieve your academic goals.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-            <Button asChild size="lg" className="text-lg h-14 px-8">
+            <Button asChild size="lg" className="text-lg h-14 px-8 bg-blue-600 hover:bg-blue-700 text-white">
               <Link href="/signup">
                 Start Free Trial
                 <Sparkles className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="text-lg h-14 px-8">
+            <Button asChild size="lg" variant="outline" className="text-lg h-14 px-8 border-2 border-blue-600 text-blue-600 hover:bg-blue-50">
               <Link href="/contact">
                 Contact Sales
               </Link>
@@ -125,7 +125,7 @@ export default function FeaturesPage() {
 
       {/* Features Grid */}
       {features.map((category, categoryIndex) => (
-        <section key={categoryIndex} className="container mx-auto px-4 py-16">
+        <section key={categoryIndex} className="container mx-auto px-4 py-16 bg-white">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -138,7 +138,7 @@ export default function FeaturesPage() {
               <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${category.color} mb-4`}>
                 <category.icon className="h-8 w-8 text-white" />
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold">{category.category}</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">{category.category}</h2>
             </div>
 
             {/* Feature Cards */}
@@ -151,12 +151,12 @@ export default function FeaturesPage() {
                   transition={{ duration: 0.5, delay: featureIndex * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <Card className="p-6 h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 hover:border-primary/50">
+                  <Card className="p-6 h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 hover:border-blue-500 bg-white">
                     <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${category.color} mb-4`}>
                       <feature.icon className="h-6 w-6 text-white" />
                     </div>
-                    <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                    <p className="text-sm text-muted-foreground">{feature.description}</p>
+                    <h3 className="text-lg font-semibold mb-2 text-gray-900">{feature.title}</h3>
+                    <p className="text-sm text-gray-600">{feature.description}</p>
                   </Card>
                 </motion.div>
               ))}
@@ -166,14 +166,14 @@ export default function FeaturesPage() {
       ))}
 
       {/* CTA Section */}
-      <section className="container mx-auto px-4 py-20">
+      <section className="container mx-auto px-4 py-20 bg-white">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="max-w-4xl mx-auto"
         >
-          <Card className="p-12 text-center bg-gradient-to-br from-primary to-blue-600 text-white border-0 shadow-2xl">
+          <Card className="p-12 text-center bg-gradient-to-br from-blue-600 to-indigo-600 text-white border-0 shadow-2xl">
             <div className="space-y-6">
               <h2 className="text-3xl md:text-4xl font-bold">
                 Ready to Transform Your Studies?
@@ -182,7 +182,7 @@ export default function FeaturesPage() {
                 Join thousands of students who are already using StudyFlow to organize their academic life and achieve better results.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                <Button asChild size="lg" variant="secondary" className="text-lg h-14 px-8">
+                <Button asChild size="lg" className="text-lg h-14 px-8 bg-white text-blue-600 hover:bg-gray-100">
                   <Link href="/signup">
                     Get Started Free
                     <Zap className="ml-2 h-5 w-5" />
