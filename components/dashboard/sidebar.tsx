@@ -8,7 +8,7 @@ import {
   BookOpen, LayoutDashboard, FolderOpen, FileText, 
   Calendar, Target, RotateCcw, BarChart3, Settings,
   ChevronLeft, ChevronRight, LogOut, Clock, CreditCard,
-  Search, Download
+  Search, Download, Brain, StickyNote
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -23,7 +23,9 @@ export function Sidebar() {
     { icon: FolderOpen, label: 'Subjects', href: '/subjects' },
     { icon: BookOpen, label: 'Topics', href: '/topics' },
     { icon: FileText, label: 'Resources', href: '/resources' },
+    { icon: StickyNote, label: 'Notes', href: '/notes' },
     { icon: Calendar, label: 'Planner', href: '/planner' },
+    { icon: Brain, label: 'AI Planner', href: '/ai-planner' },
     { icon: Target, label: 'Deadlines', href: '/deadlines' },
     { icon: RotateCcw, label: 'Revisions', href: '/revisions' },
     { icon: Clock, label: 'Sessions', href: '/sessions' },
