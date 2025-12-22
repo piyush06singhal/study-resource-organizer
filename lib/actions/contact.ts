@@ -9,18 +9,10 @@ export async function submitContactForm(formData: {
   message: string
 }) {
   try {
-    // Get environment variables
-    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
-    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
-    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-
-    if (!serviceId || !templateId || !publicKey) {
-      console.error('EmailJS configuration missing')
-      return { 
-        success: false, 
-        message: 'Email service is not configured. Please contact support.' 
-      }
-    }
+    // EmailJS configuration - these are public keys, safe to use on client side
+    const serviceId = 'service_1xdy7vg'
+    const templateId = 'template_4p4oor6'
+    const publicKey = 'DX7ndiXrd375jiXYG'
 
     // Send email using EmailJS
     const templateParams = {
@@ -30,12 +22,16 @@ export async function submitContactForm(formData: {
       message: formData.message,
     }
 
-    await emailjs.send(
+    console.log('Sending email with params:', templateParams)
+
+    const response = await emailjs.send(
       serviceId,
       templateId,
       templateParams,
       publicKey
     )
+
+    console.log('Email sent successfully:', response)
 
     return { 
       success: true, 

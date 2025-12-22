@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Mail, MessageSquare, Send, CheckCircle2, MapPin, Phone } from 'lucide-react'
-import { submitContactForm } from '@/lib/actions/contact'
+import emailjs from '@emailjs/browser'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -21,18 +21,38 @@ export default function ContactPage() {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
 
+  // Initialize EmailJS
+  useEffect(() => {
+    emailjs.init('DX7ndiXrd375jiXYG')
+  }, [])
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setIsLoading(true)
     setError('')
 
-    const result = await submitContactForm(formData)
-    
-    if (result.success) {
+    try {
+      const templateParams = {
+        name: formData.name,
+        email: formData.email,
+        title: formData.subject,
+        message: formData.message,
+      }
+
+      console.log('Sending email with params:', templateParams)
+
+      const response = await emailjs.send(
+        'service_1xdy7vg',
+        'template_4p4oor6',
+        templateParams
+      )
+
+      console.log('Email sent successfully:', response)
       setSuccess(true)
       setFormData({ name: '', email: '', subject: '', message: '' })
-    } else {
-      setError(result.message || 'Failed to send message')
+    } catch (err) {
+      console.error('Error sending email:', err)
+      setError('Failed to send message. Please try again or contact us directly at piyush.singhal.2004@gmail.com')
     }
     
     setIsLoading(false)
