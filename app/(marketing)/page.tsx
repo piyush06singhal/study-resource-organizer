@@ -27,7 +27,7 @@ export default function HomePage() {
   }, [])
 
   const ctaLink = isAuthenticated ? '/dashboard' : '/signup'
-  const ctaText = isAuthenticated ? 'Go to Dashboard' : 'Get Started Free'
+  const ctaText = 'Get Started'
   const features = [
     {
       icon: BookOpen,
@@ -228,19 +228,11 @@ export default function HomePage() {
               <p className="text-lg text-white/90 max-w-2xl mx-auto">
                 Join StudyFlow today and experience a better way to organize your academic life
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button asChild size="lg" variant="secondary" className="text-lg h-14 px-8" disabled={isLoading}>
-                  <Link href={ctaLink}>
-                    {isAuthenticated ? 'Go to Dashboard' : 'Start Free Now'}
-                    <Zap className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="text-lg h-14 px-8 bg-white/10 border-white/20 text-white hover:bg-white/20">
-                  <Link href="/contact">
-                    Contact Us
-                  </Link>
-                </Button>
-              </div>
+              <Button asChild size="lg" variant="outline" className="text-lg h-14 px-8 bg-white/10 border-white/20 text-white hover:bg-white/20">
+                <Link href="/contact">
+                  Contact Us
+                </Link>
+              </Button>
             </div>
           </Card>
         </motion.div>

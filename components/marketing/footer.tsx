@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { BookOpen, Github, Twitter, Linkedin } from 'lucide-react'
+import { BookOpen, Github, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react'
 
 export function Footer() {
   const footerLinks = {
@@ -101,18 +101,26 @@ export function Footer() {
 
           {/* Legal Links */}
           <div>
-            <h3 className="font-semibold mb-4 text-white">Legal</h3>
-            <ul className="space-y-2">
-              {footerLinks.legal.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-blue-100 hover:text-white transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+            <h3 className="font-semibold mb-4 text-white">Contact</h3>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-2">
+                <Mail className="h-4 w-4 mt-0.5 text-blue-300" />
+                <a href="mailto:piyush.singhal.2004@gmail.com" className="text-sm text-blue-100 hover:text-white transition-colors">
+                  piyush.singhal.2004@gmail.com
+                </a>
+              </li>
+              <li className="flex items-start gap-2">
+                <Phone className="h-4 w-4 mt-0.5 text-blue-300" />
+                <a href="tel:+919694984312" className="text-sm text-blue-100 hover:text-white transition-colors">
+                  +91 9694984312
+                </a>
+              </li>
+              <li className="flex items-start gap-2">
+                <MapPin className="h-4 w-4 mt-0.5 text-blue-300" />
+                <span className="text-sm text-blue-100">
+                  Rajasthan, India
+                </span>
+              </li>
             </ul>
           </div>
         </div>

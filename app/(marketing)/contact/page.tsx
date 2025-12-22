@@ -180,21 +180,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold mb-1">Email Us</h3>
-                  <p className="text-sm text-muted-foreground">support@studyflow.com</p>
+                  <p className="text-sm text-muted-foreground">piyush.singhal.2004@gmail.com</p>
                   <p className="text-xs text-muted-foreground mt-1">We'll respond within 24 hours</p>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-6">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-primary/10 rounded-lg">
-                  <MessageSquare className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">Live Chat</h3>
-                  <p className="text-sm text-muted-foreground">Available Mon-Fri</p>
-                  <p className="text-xs text-muted-foreground mt-1">9 AM - 5 PM EST</p>
                 </div>
               </div>
             </Card>
@@ -206,8 +193,20 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold mb-1">Call Us</h3>
-                  <p className="text-sm text-muted-foreground">+1 (555) 123-4567</p>
-                  <p className="text-xs text-muted-foreground mt-1">Mon-Fri, 9 AM - 5 PM EST</p>
+                  <p className="text-sm text-muted-foreground">+91 9694984312</p>
+                  <p className="text-xs text-muted-foreground mt-1">Mon-Fri, 9 AM - 5 PM IST</p>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-primary/10 rounded-lg">
+                  <MapPin className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">Location</h3>
+                  <p className="text-sm text-muted-foreground">Rajasthan, India</p>
                 </div>
               </div>
             </Card>
