@@ -45,6 +45,7 @@ export function ResourceForm({ resource, topics = [] }: ResourceFormProps) {
 
     let file_path = undefined
     let file_size = undefined
+    let resourceUrl: string | undefined = formData.url
 
     // For PDF and Image types, if no file is selected, require URL instead
     if (formData.type === 'pdf' || formData.type === 'image') {
@@ -85,14 +86,21 @@ export function ResourceForm({ resource, topics = [] }: ResourceFormProps) {
           return
         }
       } else if (formData.url) {
-        // Use URL if provided instead of file
+        // Use URL as file_path for PDF/Image types
         file_path = formData.url
+        // Clear the url field so it doesn't conflict
+        resourceUrl = undefined
       }
     }
 
     const result = resource
       ? await updateResource(resource.id, formData)
-      : await createResource({ ...formData, file_path, file_size })
+      : await createResource({ 
+          ...formData, 
+          url: resourceUrl, // Use the potentially cleared URL
+          file_path, 
+          file_size 
+        })
 
     if (result.error) {
       setError(result.error)
