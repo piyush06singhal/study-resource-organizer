@@ -4,9 +4,15 @@ import { getTopics } from '@/lib/actions/topics'
 import { StudyPlanForm } from '@/components/planner/study-plan-form'
 import { notFound } from 'next/navigation'
 
-export default async function EditPlanPage({ params }: { params: { id: string } }) {
+export default async function EditPlanPage({ 
+  params 
+}: { 
+  params: Promise<{ id: string }> 
+}) {
+  const { id } = await params
+  
   const [plan, subjects, topics] = await Promise.all([
-    getStudyPlanById(params.id),
+    getStudyPlanById(id),
     getSubjects(),
     getTopics()
   ])
