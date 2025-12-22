@@ -21,20 +21,20 @@ export function Footer() {
   }
 
   return (
-    <footer className="bg-gray-50 border-t border-gray-200">
+    <footer className="bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="p-2 bg-blue-600 rounded-lg group-hover:scale-110 transition-transform duration-300">
-                <BookOpen className="h-6 w-6 text-white" />
+              <div className="p-2 bg-white rounded-lg group-hover:scale-110 transition-transform duration-300">
+                <BookOpen className="h-6 w-6 text-blue-600" />
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <span className="text-xl font-bold text-white">
                 StudyFlow
               </span>
             </Link>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-blue-100">
               Organize your studies, achieve your goals. The modern way to manage your academic journey.
             </p>
             <div className="flex gap-4">
@@ -42,7 +42,7 @@ export function Footer() {
                 href="https://github.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-600 hover:text-gray-900"
+                className="p-2 rounded-lg hover:bg-white/10 transition-colors text-blue-100 hover:text-white"
               >
                 <Github className="h-5 w-5" />
               </a>
@@ -50,7 +50,7 @@ export function Footer() {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-600 hover:text-gray-900"
+                className="p-2 rounded-lg hover:bg-white/10 transition-colors text-blue-100 hover:text-white"
               >
                 <Twitter className="h-5 w-5" />
               </a>
@@ -58,7 +58,7 @@ export function Footer() {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-600 hover:text-gray-900"
+                className="p-2 rounded-lg hover:bg-white/10 transition-colors text-blue-100 hover:text-white"
               >
                 <Linkedin className="h-5 w-5" />
               </a>
@@ -67,13 +67,13 @@ export function Footer() {
 
           {/* Product Links */}
           <div>
-            <h3 className="font-semibold mb-4 text-gray-900">Product</h3>
+            <h3 className="font-semibold mb-4 text-white">Product</h3>
             <ul className="space-y-2">
               {footerLinks.product.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                    className="text-sm text-blue-100 hover:text-white transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -84,13 +84,13 @@ export function Footer() {
 
           {/* Company Links */}
           <div>
-            <h3 className="font-semibold mb-4 text-gray-900">Company</h3>
+            <h3 className="font-semibold mb-4 text-white">Company</h3>
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                    className="text-sm text-blue-100 hover:text-white transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -101,13 +101,13 @@ export function Footer() {
 
           {/* Legal Links */}
           <div>
-            <h3 className="font-semibold mb-4 text-gray-900">Legal</h3>
+            <h3 className="font-semibold mb-4 text-white">Legal</h3>
             <ul className="space-y-2">
               {footerLinks.legal.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                    className="text-sm text-blue-100 hover:text-white transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -118,8 +118,8 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-gray-200">
-          <p className="text-center text-sm text-gray-600">
+        <div className="mt-12 pt-8 border-t border-white/10">
+          <p className="text-center text-sm text-blue-100">
             © {new Date().getFullYear()} StudyFlow. All rights reserved. Built with ❤️ for students worldwide.
           </p>
         </div>
