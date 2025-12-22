@@ -18,6 +18,7 @@ export async function signUp(formData: {
       data: {
         full_name: formData.fullName,
       },
+      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
     },
   })
 

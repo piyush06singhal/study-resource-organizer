@@ -12,7 +12,7 @@ import { SubjectProgress } from '@/components/dashboard/subject-progress'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { 
   BookOpen, Target, TrendingUp, Clock, 
-  CheckCircle2, Flame, Calendar
+  CheckCircle2, Flame, Calendar, FileText
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
