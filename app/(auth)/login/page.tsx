@@ -24,7 +24,7 @@ export default function LoginPage() {
       </div>
 
       {/* Login Card */}
-      <Card className="border-2 border-blue-100 dark:border-blue-900/50 shadow-2xl backdrop-blur-xl bg-white/90 dark:bg-slate-900/90 hover:shadow-blue-500/20 transition-all duration-300">
+      <Card className="border-2 border-blue-100 shadow-2xl bg-white">
         <CardHeader className="space-y-2 pb-6">
           <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
             Welcome Back
@@ -38,10 +38,10 @@ export default function LoginPage() {
           
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-gray-300 dark:border-gray-700" />
+              <span className="w-full border-t border-gray-300" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white dark:bg-slate-900 px-3 py-1 text-muted-foreground font-medium rounded-full">
+              <span className="bg-white px-3 py-1 text-muted-foreground font-medium rounded-full">
                 Or continue with
               </span>
             </div>
@@ -65,17 +65,17 @@ export default function LoginPage() {
 
       {/* Features */}
       <div className="grid grid-cols-3 gap-3 text-center">
-        <div className="p-3 rounded-xl bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm border border-blue-100 dark:border-blue-900/50">
+        <div className="p-3 rounded-xl bg-white border border-blue-100 shadow-sm">
           <Brain className="h-5 w-5 mx-auto mb-1 text-blue-600" />
-          <p className="text-xs font-medium text-gray-700 dark:text-gray-300">AI Study Plans</p>
+          <p className="text-xs font-medium text-gray-700">AI Study Plans</p>
         </div>
-        <div className="p-3 rounded-xl bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm border border-purple-100 dark:border-purple-900/50">
+        <div className="p-3 rounded-xl bg-white border border-purple-100 shadow-sm">
           <TrendingUp className="h-5 w-5 mx-auto mb-1 text-purple-600" />
-          <p className="text-xs font-medium text-gray-700 dark:text-gray-300">Analytics</p>
+          <p className="text-xs font-medium text-gray-700">Analytics</p>
         </div>
-        <div className="p-3 rounded-xl bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm border border-indigo-100 dark:border-indigo-900/50">
+        <div className="p-3 rounded-xl bg-white border border-indigo-100 shadow-sm">
           <Sparkles className="h-5 w-5 mx-auto mb-1 text-indigo-600" />
-          <p className="text-xs font-medium text-gray-700 dark:text-gray-300">Smart Notes</p>
+          <p className="text-xs font-medium text-gray-700">Smart Notes</p>
         </div>
       </div>
 

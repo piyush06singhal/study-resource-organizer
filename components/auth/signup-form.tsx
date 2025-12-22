@@ -44,8 +44,8 @@ export function SignupForm() {
         animate={{ opacity: 1, scale: 1 }}
         className="text-center space-y-4"
       >
-        <div className="mx-auto w-16 h-16 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
-          <CheckCircle2 className="h-8 w-8 text-green-600 dark:text-green-400" />
+        <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+          <CheckCircle2 className="h-8 w-8 text-green-600" />
         </div>
         <div className="space-y-2">
           <h3 className="text-2xl font-bold">Check your email!</h3>
@@ -75,9 +75,9 @@ export function SignupForm() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800"
+          className="p-3 rounded-lg bg-red-50 border border-red-200"
         >
-          <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+          <p className="text-sm text-red-600">{error}</p>
         </motion.div>
       )}
 

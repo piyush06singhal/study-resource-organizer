@@ -24,7 +24,7 @@ export default function SignupPage() {
       </div>
 
       {/* Signup Card */}
-      <Card className="border-2 border-purple-100 dark:border-purple-900/50 shadow-2xl backdrop-blur-xl bg-white/90 dark:bg-slate-900/90 hover:shadow-purple-500/20 transition-all duration-300">
+      <Card className="border-2 border-purple-100 shadow-2xl bg-white">
         <CardHeader className="space-y-2 pb-6">
           <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
             Create Account
@@ -38,10 +38,10 @@ export default function SignupPage() {
           
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-gray-300 dark:border-gray-700" />
+              <span className="w-full border-t border-gray-300" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white dark:bg-slate-900 px-3 py-1 text-muted-foreground font-medium rounded-full">
+              <span className="bg-white px-3 py-1 text-muted-foreground font-medium rounded-full">
                 Or continue with
               </span>
             </div>
@@ -65,25 +65,25 @@ export default function SignupPage() {
 
       {/* Features Grid */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="p-4 rounded-xl bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/50 dark:to-cyan-950/50 border border-blue-200 dark:border-blue-800/50">
+        <div className="p-4 rounded-xl bg-white border border-blue-200 shadow-sm">
           <Brain className="h-6 w-6 mb-2 text-blue-600" />
-          <h3 className="font-semibold text-sm text-gray-900 dark:text-gray-100 mb-1">AI Study Plans</h3>
-          <p className="text-xs text-gray-600 dark:text-gray-400">Smart scheduling based on your goals</p>
+          <h3 className="font-semibold text-sm text-gray-900 mb-1">AI Study Plans</h3>
+          <p className="text-xs text-gray-600">Smart scheduling based on your goals</p>
         </div>
-        <div className="p-4 rounded-xl bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/50 dark:to-pink-950/50 border border-purple-200 dark:border-purple-800/50">
+        <div className="p-4 rounded-xl bg-white border border-purple-200 shadow-sm">
           <Zap className="h-6 w-6 mb-2 text-purple-600" />
-          <h3 className="font-semibold text-sm text-gray-900 dark:text-gray-100 mb-1">Smart Analytics</h3>
-          <p className="text-xs text-gray-600 dark:text-gray-400">Track progress and insights</p>
+          <h3 className="font-semibold text-sm text-gray-900 mb-1">Smart Analytics</h3>
+          <p className="text-xs text-gray-600">Track progress and insights</p>
         </div>
-        <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-950/50 dark:to-blue-950/50 border border-indigo-200 dark:border-indigo-800/50">
+        <div className="p-4 rounded-xl bg-white border border-indigo-200 shadow-sm">
           <Sparkles className="h-6 w-6 mb-2 text-indigo-600" />
-          <h3 className="font-semibold text-sm text-gray-900 dark:text-gray-100 mb-1">Rich Notes</h3>
-          <p className="text-xs text-gray-600 dark:text-gray-400">Markdown, LaTeX & code support</p>
+          <h3 className="font-semibold text-sm text-gray-900 mb-1">Rich Notes</h3>
+          <p className="text-xs text-gray-600">Markdown, LaTeX & code support</p>
         </div>
-        <div className="p-4 rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/50 dark:to-emerald-950/50 border border-green-200 dark:border-green-800/50">
+        <div className="p-4 rounded-xl bg-white border border-green-200 shadow-sm">
           <Target className="h-6 w-6 mb-2 text-green-600" />
-          <h3 className="font-semibold text-sm text-gray-900 dark:text-gray-100 mb-1">Goal Tracking</h3>
-          <p className="text-xs text-gray-600 dark:text-gray-400">Never miss a deadline</p>
+          <h3 className="font-semibold text-sm text-gray-900 mb-1">Goal Tracking</h3>
+          <p className="text-xs text-gray-600">Never miss a deadline</p>
         </div>
       </div>
 

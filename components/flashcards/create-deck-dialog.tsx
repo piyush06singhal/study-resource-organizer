@@ -32,35 +32,43 @@ export function CreateDeckDialog({ open, onOpenChange }: { open: boolean; onOpen
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle>Create New Deck</DialogTitle>
+          <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Create New Deck
+          </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Label htmlFor="name">Deck Name</Label>
+          <div className="space-y-2">
+            <Label htmlFor="name" className="text-sm font-medium text-gray-700">
+              Deck Name
+            </Label>
             <Input
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g., Biology Chapter 5"
               required
+              className="border-2 focus:border-blue-500"
             />
           </div>
-          <div>
-            <Label htmlFor="description">Description (Optional)</Label>
+          <div className="space-y-2">
+            <Label htmlFor="description" className="text-sm font-medium text-gray-700">
+              Description (Optional)
+            </Label>
             <Input
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Brief description"
+              className="border-2 focus:border-blue-500"
             />
           </div>
-          <div className="flex justify-end gap-2">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+          <div className="flex justify-end gap-2 pt-4">
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="border-2">
               Cancel
             </Button>
-            <Button type="submit" disabled={loading}>
+            <Button type="submit" disabled={loading} className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
               {loading ? 'Creating...' : 'Create Deck'}
             </Button>
           </div>

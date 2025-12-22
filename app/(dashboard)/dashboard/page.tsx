@@ -44,51 +44,51 @@ async function DashboardStats() {
   
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <Card className="p-6 border-2 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/50 dark:to-cyan-950/50 border-blue-200 dark:border-blue-800/50 group cursor-pointer">
+      <Card className="p-6 border-2 hover:shadow-xl transition-all duration-300 bg-white border-blue-200 group cursor-pointer">
         <div className="flex items-center gap-4">
           <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg group-hover:scale-110 transition-transform">
             <BookOpen className="h-6 w-6 text-white" />
           </div>
           <div>
-            <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Subjects</p>
+            <p className="text-sm font-medium text-gray-600">Total Subjects</p>
             <p className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">{stats.subjectsCount}</p>
           </div>
         </div>
       </Card>
       
-      <Card className="p-6 border-2 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/50 dark:to-emerald-950/50 border-green-200 dark:border-green-800/50 group cursor-pointer">
+      <Card className="p-6 border-2 hover:shadow-xl transition-all duration-300 bg-white border-green-200 group cursor-pointer">
         <div className="flex items-center gap-4">
           <div className="p-3 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 shadow-lg group-hover:scale-110 transition-transform">
             <CheckCircle2 className="h-6 w-6 text-white" />
           </div>
           <div>
-            <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Topics Progress</p>
+            <p className="text-sm font-medium text-gray-600">Topics Progress</p>
             <p className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">{stats.completedTopics}/{stats.totalTopics}</p>
             <p className="text-xs text-gray-500">{stats.completionRate}% complete</p>
           </div>
         </div>
       </Card>
       
-      <Card className="p-6 border-2 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-950/50 dark:to-red-950/50 border-orange-200 dark:border-orange-800/50 group cursor-pointer">
+      <Card className="p-6 border-2 hover:shadow-xl transition-all duration-300 bg-white border-orange-200 group cursor-pointer">
         <div className="flex items-center gap-4">
           <div className="p-3 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 shadow-lg group-hover:scale-110 transition-transform">
             <Target className="h-6 w-6 text-white" />
           </div>
           <div>
-            <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Deadlines</p>
+            <p className="text-sm font-medium text-gray-600">Deadlines</p>
             <p className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">{stats.upcomingDeadlines}</p>
             <p className="text-xs text-gray-500">Upcoming</p>
           </div>
         </div>
       </Card>
       
-      <Card className="p-6 border-2 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/50 dark:to-pink-950/50 border-purple-200 dark:border-purple-800/50 group cursor-pointer">
+      <Card className="p-6 border-2 hover:shadow-xl transition-all duration-300 bg-white border-purple-200 group cursor-pointer">
         <div className="flex items-center gap-4">
           <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 shadow-lg group-hover:scale-110 transition-transform">
             <Clock className="h-6 w-6 text-white" />
           </div>
           <div>
-            <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Study Time</p>
+            <p className="text-sm font-medium text-gray-600">Study Time</p>
             <p className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">{Math.floor(stats.totalStudyTime / 60)}h {stats.totalStudyTime % 60}m</p>
             <p className="text-xs text-gray-500">This week</p>
           </div>
@@ -136,56 +136,56 @@ export default async function DashboardPage() {
       {/* Quick Actions Grid */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Link href="/ai-planner">
-          <Card className="p-6 border-2 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/50 dark:to-purple-950/50 border-indigo-200 dark:border-indigo-800/50 cursor-pointer group">
+          <Card className="p-6 border-2 hover:shadow-xl transition-all duration-300 bg-white border-indigo-200 cursor-pointer group">
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-4 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 shadow-lg group-hover:scale-110 transition-transform">
                 <Brain className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h3 className="font-bold text-lg text-gray-900 dark:text-gray-100">AI Planner</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Smart study plans</p>
+                <h3 className="font-bold text-lg text-gray-900">AI Planner</h3>
+                <p className="text-sm text-gray-600">Smart study plans</p>
               </div>
             </div>
           </Card>
         </Link>
 
         <Link href="/notes">
-          <Card className="p-6 border-2 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/50 dark:to-cyan-950/50 border-blue-200 dark:border-blue-800/50 cursor-pointer group">
+          <Card className="p-6 border-2 hover:shadow-xl transition-all duration-300 bg-white border-blue-200 cursor-pointer group">
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg group-hover:scale-110 transition-transform">
                 <FileText className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h3 className="font-bold text-lg text-gray-900 dark:text-gray-100">Notes</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Rich markdown editor</p>
+                <h3 className="font-bold text-lg text-gray-900">Notes</h3>
+                <p className="text-sm text-gray-600">Rich markdown editor</p>
               </div>
             </div>
           </Card>
         </Link>
 
         <Link href="/flashcards">
-          <Card className="p-6 border-2 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/50 dark:to-emerald-950/50 border-green-200 dark:border-green-800/50 cursor-pointer group">
+          <Card className="p-6 border-2 hover:shadow-xl transition-all duration-300 bg-white border-green-200 cursor-pointer group">
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-4 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 shadow-lg group-hover:scale-110 transition-transform">
                 <Zap className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h3 className="font-bold text-lg text-gray-900 dark:text-gray-100">Flashcards</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Spaced repetition</p>
+                <h3 className="font-bold text-lg text-gray-900">Flashcards</h3>
+                <p className="text-sm text-gray-600">Spaced repetition</p>
               </div>
             </div>
           </Card>
         </Link>
 
         <Link href="/analytics">
-          <Card className="p-6 border-2 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-950/50 dark:to-red-950/50 border-orange-200 dark:border-orange-800/50 cursor-pointer group">
+          <Card className="p-6 border-2 hover:shadow-xl transition-all duration-300 bg-white border-orange-200 cursor-pointer group">
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-4 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 shadow-lg group-hover:scale-110 transition-transform">
                 <TrendingUp className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h3 className="font-bold text-lg text-gray-900 dark:text-gray-100">Analytics</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Track progress</p>
+                <h3 className="font-bold text-lg text-gray-900">Analytics</h3>
+                <p className="text-sm text-gray-600">Track progress</p>
               </div>
             </div>
           </Card>
@@ -193,7 +193,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Quick Start Card */}
-      <Card className="p-8 border-2 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950/50 dark:via-indigo-950/50 dark:to-purple-950/50 border-blue-200 dark:border-blue-800/50 shadow-xl">
+      <Card className="p-8 border-2 bg-white border-blue-200 shadow-xl">
         <div className="flex items-start gap-6">
           <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 shadow-lg">
             <Award className="h-12 w-12 text-white" />
@@ -202,7 +202,7 @@ export default async function DashboardPage() {
             <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               Get Started with StudyFlow
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
+            <p className="text-gray-600 mb-6">
               Start organizing your studies by creating your first subject and unlock the power of AI-driven learning
             </p>
             <div className="flex gap-4">
@@ -213,7 +213,7 @@ export default async function DashboardPage() {
                 </Button>
               </Link>
               <Link href="/resources">
-                <Button size="lg" variant="outline" className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/50">
+                <Button size="lg" variant="outline" className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50">
                   <FileText className="h-5 w-5 mr-2" />
                   Add Resources
                 </Button>

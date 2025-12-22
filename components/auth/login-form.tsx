@@ -45,9 +45,9 @@ export function LoginForm() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800"
+          className="p-3 rounded-lg bg-red-50 border border-red-200"
         >
-          <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+          <p className="text-sm text-red-600">{error}</p>
         </motion.div>
       )}
 
