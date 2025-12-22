@@ -127,12 +127,12 @@ export function NoteEditor({ note, subjects, isNew }: { note: any; subjects: any
           <div className="grid gap-4 md:grid-cols-2">
             <div>
               <Label htmlFor="subject">Subject (Optional)</Label>
-              <Select value={subjectId} onValueChange={setSubjectId}>
+              <Select value={subjectId || 'none'} onValueChange={(v) => setSubjectId(v === 'none' ? '' : v)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select subject" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">None</SelectItem>
+                  <SelectItem value="none">None</SelectItem>
                   {subjects.map(subject => (
                     <SelectItem key={subject.id} value={subject.id}>
                       <div className="flex items-center gap-2">
