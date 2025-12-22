@@ -131,7 +131,7 @@ export function NotificationBell() {
             </div>
           ) : (
             <AnimatePresence>
-              {notifications.map((notification) => (
+              {notifications.slice(0, 5).map((notification) => (
                 <motion.div
                   key={notification.id}
                   initial={{ opacity: 0, y: -10 }}
@@ -193,6 +193,22 @@ export function NotificationBell() {
             </AnimatePresence>
           )}
         </div>
+
+        {/* View All Link */}
+        {notifications.length > 0 && (
+          <div className="p-3 border-t bg-gray-50">
+            <Button
+              variant="ghost"
+              className="w-full text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+              onClick={() => {
+                router.push('/notifications')
+                setIsOpen(false)
+              }}
+            >
+              View All Notifications
+            </Button>
+          </div>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )
