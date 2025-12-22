@@ -59,7 +59,13 @@ async function NotesContent({ searchParams }: { searchParams: any }) {
   }
 }
 
-export default function NotesPage({ searchParams }: { searchParams: any }) {
+export default async function NotesPage({ 
+  searchParams 
+}: { 
+  searchParams: Promise<any> 
+}) {
+  const params = await searchParams
+  
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -85,7 +91,7 @@ export default function NotesPage({ searchParams }: { searchParams: any }) {
           </div>
         </Card>
       }>
-        <NotesContent searchParams={searchParams} />
+        <NotesContent searchParams={params} />
       </Suspense>
     </div>
   )
