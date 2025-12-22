@@ -13,7 +13,7 @@ export default async function NewPlanPage({
   ])
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="w-full max-w-4xl mx-auto px-4 py-6">
       <StudyPlanForm 
         subjects={subjects} 
         topics={topics}

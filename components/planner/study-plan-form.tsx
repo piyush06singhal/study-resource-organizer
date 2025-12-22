@@ -81,11 +81,12 @@ export function StudyPlanForm({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
+      className="w-full"
     >
-      <Card className="p-8 max-w-2xl mx-auto">
+      <Card className="p-6 md:p-8 w-full bg-white">
         <div className="mb-6">
           <h2 className="text-2xl font-bold flex items-center gap-2">
-            <Calendar className="h-6 w-6 text-primary" />
+            <Calendar className="h-6 w-6 text-blue-600" />
             {plan ? 'Edit Study Plan' : 'Create Study Plan'}
           </h2>
           <p className="text-muted-foreground mt-1">
@@ -94,8 +95,8 @@ export function StudyPlanForm({
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-            <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-sm text-red-600">{error}</p>
           </div>
         )}
 
@@ -108,18 +109,18 @@ export function StudyPlanForm({
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               required
-              className="h-12"
+              className="h-12 bg-white"
             />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="subject">Subject</Label>
               <select
                 id="subject"
                 value={formData.subject_id}
                 onChange={(e) => setFormData({ ...formData, subject_id: e.target.value, topic_id: '' })}
-                className="flex h-12 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex h-12 w-full rounded-md border border-input bg-white px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <option value="">No subject</option>
                 {subjects.map((subject) => (
@@ -137,7 +138,7 @@ export function StudyPlanForm({
                 value={formData.topic_id}
                 onChange={(e) => setFormData({ ...formData, topic_id: e.target.value })}
                 disabled={!formData.subject_id}
-                className="flex h-12 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50"
+                className="flex h-12 w-full rounded-md border border-input bg-white px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50"
               >
                 <option value="">No topic</option>
                 {filteredTopics.map((topic) => (
@@ -157,11 +158,11 @@ export function StudyPlanForm({
               value={formData.planned_date}
               onChange={(e) => setFormData({ ...formData, planned_date: e.target.value })}
               required
-              className="h-12"
+              className="h-12 bg-white"
             />
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-4">
             <div className="space-y-2">
               <Label htmlFor="start_time">Start Time</Label>
               <Input
@@ -169,7 +170,7 @@ export function StudyPlanForm({
                 type="time"
                 value={formData.start_time}
                 onChange={(e) => setFormData({ ...formData, start_time: e.target.value })}
-                className="h-12"
+                className="h-12 bg-white"
               />
             </div>
 
@@ -180,7 +181,7 @@ export function StudyPlanForm({
                 type="time"
                 value={formData.end_time}
                 onChange={(e) => setFormData({ ...formData, end_time: e.target.value })}
-                className="h-12"
+                className="h-12 bg-white"
               />
             </div>
 
@@ -192,7 +193,7 @@ export function StudyPlanForm({
                 min="1"
                 value={formData.estimated_minutes}
                 onChange={(e) => setFormData({ ...formData, estimated_minutes: parseInt(e.target.value) })}
-                className="h-12"
+                className="h-12 bg-white"
               />
             </div>
           </div>
@@ -203,7 +204,7 @@ export function StudyPlanForm({
               id="status"
               value={formData.status}
               onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-              className="flex h-12 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex h-12 w-full rounded-md border border-input bg-white px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <option value="planned">Planned</option>
               <option value="in_progress">In Progress</option>
@@ -220,12 +221,12 @@ export function StudyPlanForm({
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={4}
-              className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring resize-none"
+              className="flex w-full rounded-md border border-input bg-white px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring resize-none"
             />
           </div>
 
-          <div className="flex gap-4 pt-4">
-            <Button type="submit" disabled={isSubmitting} className="flex-1 h-12">
+          <div className="flex flex-col sm:flex-row gap-3 pt-4">
+            <Button type="submit" disabled={isSubmitting} className="flex-1 h-12 bg-blue-600 hover:bg-blue-700 text-white">
               {isSubmitting ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin mr-2" />
@@ -239,7 +240,7 @@ export function StudyPlanForm({
               type="button"
               variant="outline"
               onClick={() => router.back()}
-              className="h-12"
+              className="flex-1 h-12"
             >
               Cancel
             </Button>

@@ -71,7 +71,7 @@ export default function NewRevisionPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div className="w-full max-w-2xl mx-auto px-4 py-6 space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
         <Link href="/revisions">
@@ -91,7 +91,7 @@ export default function NewRevisionPage() {
       </div>
 
       {/* Form */}
-      <Card className="p-6 bg-white">
+      <Card className="p-6 bg-white w-full">
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Topic Selection */}
           <div className="space-y-2">
@@ -204,7 +204,7 @@ export default function NewRevisionPage() {
           </div>
 
           {/* Actions */}
-          <div className="flex gap-3 pt-4">
+          <div className="flex flex-col sm:flex-row gap-3 pt-4">
             <Button
               type="submit"
               disabled={loading}

@@ -117,19 +117,23 @@ export async function createStudyPlan(formData: {
     return { error: 'Not authenticated' }
   }
 
+  // Convert empty strings to null for UUID fields
+  const subject_id = formData.subject_id && formData.subject_id !== '' ? formData.subject_id : null
+  const topic_id = formData.topic_id && formData.topic_id !== '' ? formData.topic_id : null
+
   const { data, error } = await supabase
     .from('study_plans')
-    // @ts-expect-error - Supabase type inference issue
+    // @ts-ignore - Supabase type inference issue
     .insert({
       user_id: user.id,
       title: formData.title,
-      description: formData.description,
+      description: formData.description || null,
       planned_date: formData.planned_date,
-      start_time: formData.start_time,
-      end_time: formData.end_time,
-      estimated_minutes: formData.estimated_minutes,
-      subject_id: formData.subject_id,
-      topic_id: formData.topic_id,
+      start_time: formData.start_time || null,
+      end_time: formData.end_time || null,
+      estimated_minutes: formData.estimated_minutes || null,
+      subject_id,
+      topic_id,
       status: formData.status || 'planned'
     })
     .select()
@@ -163,18 +167,22 @@ export async function updateStudyPlan(id: string, formData: {
     return { error: 'Not authenticated' }
   }
 
+  // Convert empty strings to null for UUID fields
+  const subject_id = formData.subject_id && formData.subject_id !== '' ? formData.subject_id : null
+  const topic_id = formData.topic_id && formData.topic_id !== '' ? formData.topic_id : null
+
   const { data, error } = await supabase
     .from('study_plans')
-    // @ts-expect-error - Supabase type inference issue
+    // @ts-ignore - Supabase type inference issue
     .update({
       title: formData.title,
-      description: formData.description,
+      description: formData.description || null,
       planned_date: formData.planned_date,
-      start_time: formData.start_time,
-      end_time: formData.end_time,
-      estimated_minutes: formData.estimated_minutes,
-      subject_id: formData.subject_id,
-      topic_id: formData.topic_id,
+      start_time: formData.start_time || null,
+      end_time: formData.end_time || null,
+      estimated_minutes: formData.estimated_minutes || null,
+      subject_id,
+      topic_id,
       status: formData.status
     })
     .eq('id', id)
