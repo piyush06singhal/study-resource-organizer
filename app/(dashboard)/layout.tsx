@@ -35,7 +35,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
 
   const userData = {
     email: user.email!,
-    full_name: profile?.full_name || user.user_metadata?.full_name || undefined
+    full_name: (profile as { full_name: string | null } | null)?.full_name || user.user_metadata?.full_name || undefined
   }
 
   return (
