@@ -7,7 +7,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { 
   BookOpen, LayoutDashboard, FolderOpen, FileText, 
   Calendar, Target, RotateCcw, BarChart3, Settings,
-  ChevronLeft, ChevronRight, LogOut, Clock
+  ChevronLeft, ChevronRight, LogOut, Clock, CreditCard,
+  Search, Download
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -26,7 +27,10 @@ export function Sidebar() {
     { icon: Target, label: 'Deadlines', href: '/deadlines' },
     { icon: RotateCcw, label: 'Revisions', href: '/revisions' },
     { icon: Clock, label: 'Sessions', href: '/sessions' },
+    { icon: CreditCard, label: 'Flashcards', href: '/flashcards' },
+    { icon: Search, label: 'Search', href: '/search' },
     { icon: BarChart3, label: 'Analytics', href: '/analytics' },
+    { icon: Download, label: 'Export/Import', href: '/export' },
     { icon: Settings, label: 'Settings', href: '/settings' },
   ]
 

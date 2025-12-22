@@ -1,313 +1,283 @@
-# Setup Instructions - StudyFlow
+# 🚀 Complete Setup Instructions
 
-Quick start guide to get your Study Resource Organizer & Planner running locally.
+## Prerequisites
 
-## What Has Been Created
+Before you begin, ensure you have:
+- Node.js 18 or higher installed
+- npm or yarn package manager
+- A Supabase account (free tier works)
+- Git installed
 
-✅ **Complete Project Structure**
-- Next.js 14 with App Router and TypeScript
-- Tailwind CSS configured
-- Project folders organized
+## Step 1: Clone and Install
 
-✅ **Database Schema**
-- Complete PostgreSQL schema in `supabase/schema.sql`
-- 11 tables with relationships
-- Row Level Security (RLS) policies
-- Indexes for performance
-- Triggers and functions
-
-✅ **Type Definitions**
-- TypeScript types for all database tables
-- Type-safe Supabase clients
-
-✅ **Supabase Integration**
-- Browser client (`lib/supabase/client.ts`)
-- Server client (`lib/supabase/server.ts`)
-- Middleware helper (`lib/supabase/middleware.ts`)
-- Route protection middleware (`middleware.ts`)
-
-✅ **Utility Functions**
-- Helper functions in `lib/utils.ts`
-- Date formatting
-- Progress calculations
-- Status and priority colors
-
-✅ **Configuration Files**
-- Environment variables template
-- Theme provider setup
-- Package.json with all dependencies
-
-✅ **Documentation**
-- Comprehensive README.md
-- Detailed DEPLOYMENT_GUIDE.md
-- Complete PROJECT_STRUCTURE.md
-
-## Next Steps to Complete the Application
-
-### Step 1: Install Dependencies
-
-\`\`\`bash
+```bash
+# Clone the repository
+git clone <your-repo-url>
 cd study-planner
+
+# Install dependencies
 npm install
-\`\`\`
+```
 
-This will install all required packages:
-- @supabase/supabase-js & @supabase/ssr
-- framer-motion
-- lucide-react
-- date-fns
-- recharts
-- react-day-picker
-- zod & react-hook-form
-- next-themes
-- clsx & tailwind-merge
+## Step 2: Supabase Setup
 
-### Step 2: Set Up Supabase
+### Create a Supabase Project
 
-1. Create account at [supabase.com](https://supabase.com)
-2. Create new project
-3. Run the SQL schema from `supabase/schema.sql` in SQL Editor
-4. Get your project URL and anon key from Project Settings > API
+1. Go to [supabase.com](https://supabase.com)
+2. Sign in or create an account
+3. Click "New Project"
+4. Fill in project details:
+   - Name: Study Planner
+   - Database Password: (choose a strong password)
+   - Region: (choose closest to you)
+5. Wait for project to be created (~2 minutes)
 
-### Step 3: Configure Environment
+### Get Your Credentials
 
-Create `.env.local` file:
+1. In your Supabase project dashboard
+2. Go to Settings → API
+3. Copy:
+   - Project URL
+   - `anon` `public` key
 
-\`\`\`env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url_here
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
-\`\`\`
+## Step 3: Environment Variables
 
-### Step 4: Build the UI Components
+```bash
+# Copy the example file
+cp .env.local.example .env.local
+```
 
-You need to add shadcn/ui components. Run these commands:
+Edit `.env.local` and add your credentials:
 
-\`\`\`bash
-npx shadcn@latest init
-\`\`\`
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+```
 
-When prompted:
-- Style: Default
-- Base color: Slate
-- CSS variables: Yes
+## Step 4: Database Migrations
 
-Then add the required components:
+### Option A: Using Supabase Dashboard (Recommended)
 
-\`\`\`bash
-npx shadcn@latest add button
-npx shadcn@latest add card
-npx shadcn@latest add input
-npx shadcn@latest add label
-npx shadcn@latest add form
-npx shadcn@latest add dialog
-npx shadcn@latest add dropdown-menu
-npx shadcn@latest add select
-npx shadcn@latest add textarea
-npx shadcn@latest add badge
-npx shadcn@latest add progress
-npx shadcn@latest add calendar
-npx shadcn@latest add tabs
-npx shadcn@latest add toast
-npx shadcn@latest add avatar
-npx shadcn@latest add separator
-npx shadcn@latest add skeleton
-\`\`\`
+1. Go to your Supabase Dashboard
+2. Click on "SQL Editor" in the left sidebar
+3. Click "New Query"
+4. Run each migration file in order:
 
-### Step 5: Create the Application Pages
+**Migration 1: Core Tables**
+- Copy contents of `supabase/migrations/001_initial_schema.sql`
+- Paste and click "Run"
 
-Now you need to build the actual pages and components. Here's the priority order:
+**Migration 2: Analytics Tables**
+- Copy contents of `supabase/migrations/002_analytics.sql`
+- Paste and click "Run"
 
-#### Phase 1: Authentication (Critical)
-1. Create `app/(auth)/login/page.tsx` - Login page
-2. Create `app/(auth)/signup/page.tsx` - Signup page
-3. Create `app/(auth)/layout.tsx` - Auth layout
-4. Create `components/auth/login-form.tsx` - Login form component
-5. Create `components/auth/signup-form.tsx` - Signup form component
-6. Create `lib/actions/auth.ts` - Auth server actions
+**Migration 3: Flashcards Tables**
+- Copy contents of `supabase/migrations/003_flashcards.sql`
+- Paste and click "Run"
 
-#### Phase 2: Marketing Pages (Important)
-1. Create `app/(marketing)/page.tsx` - Homepage
-2. Create `app/(marketing)/layout.tsx` - Marketing layout
-3. Create `components/marketing/navbar.tsx` - Navigation
-4. Create `components/marketing/hero.tsx` - Hero section
-5. Create `components/marketing/footer.tsx` - Footer
+**Migration 4: AI & Notes Tables**
+- Copy contents of `supabase/migrations/004_ai_and_notes.sql`
+- Paste and click "Run"
 
-#### Phase 3: Dashboard (Core)
-1. Create `app/(dashboard)/layout.tsx` - Dashboard layout
-2. Create `app/(dashboard)/dashboard/page.tsx` - Main dashboard
-3. Create `components/dashboard/sidebar.tsx` - Sidebar navigation
-4. Create `components/dashboard/header.tsx` - Top header
+### Option B: Using Supabase CLI
 
-#### Phase 4: Subject Management
-1. Create `app/(dashboard)/subjects/page.tsx` - Subjects list
-2. Create `components/subjects/subject-card.tsx` - Subject card
-3. Create `components/subjects/subject-form.tsx` - Create/edit form
-4. Create `lib/actions/subjects.ts` - Subject CRUD actions
+```bash
+# Install Supabase CLI
+npm install -g supabase
 
-#### Phase 5: Topics
-1. Create `app/(dashboard)/topics/page.tsx` - Topics list
-2. Create `components/topics/topic-card.tsx` - Topic card
-3. Create `components/topics/topic-form.tsx` - Create/edit form
-4. Create `lib/actions/topics.ts` - Topic CRUD actions
+# Login to Supabase
+supabase login
 
-#### Phase 6: Resources
-1. Create `app/(dashboard)/resources/page.tsx` - Resources library
-2. Create `components/resources/resource-card.tsx` - Resource card
-3. Create `components/resources/resource-form.tsx` - Upload form
-4. Create `lib/actions/resources.ts` - Resource CRUD actions
+# Link your project
+supabase link --project-ref your-project-ref
 
-#### Phase 7: Study Planner
-1. Create `app/(dashboard)/planner/page.tsx` - Study planner
-2. Create `components/planner/study-plan-form.tsx` - Plan form
-3. Create `components/planner/calendar-view.tsx` - Calendar
-4. Create `lib/actions/study-plans.ts` - Plan CRUD actions
+# Push migrations
+supabase db push
+```
 
-#### Phase 8: Deadlines
-1. Create `app/(dashboard)/deadlines/page.tsx` - Deadlines list
-2. Create `components/deadlines/deadline-card.tsx` - Deadline card
-3. Create `components/deadlines/deadline-form.tsx` - Create form
-4. Create `lib/actions/deadlines.ts` - Deadline CRUD actions
+## Step 5: Verify Database Setup
 
-#### Phase 9: Revisions
-1. Create `app/(dashboard)/revisions/page.tsx` - Revision tracker
-2. Create `components/revisions/revision-card.tsx` - Revision card
-3. Create `lib/actions/revisions.ts` - Revision CRUD actions
+1. Go to Supabase Dashboard → Table Editor
+2. Verify these tables exist:
+   - profiles
+   - subjects
+   - topics
+   - study_plans
+   - study_sessions
+   - deadlines
+   - flashcard_decks
+   - flashcards
+   - notes
+   - ai_study_plans
+   - topic_difficulty
+   - study_recommendations
 
-#### Phase 10: Analytics
-1. Create `app/(dashboard)/analytics/page.tsx` - Analytics dashboard
-2. Create `components/analytics/time-chart.tsx` - Time charts
-3. Create `components/analytics/progress-chart.tsx` - Progress charts
+## Step 6: Start Development Server
 
-### Step 6: Run Development Server
-
-\`\`\`bash
+```bash
 npm run dev
-\`\`\`
+```
 
-Visit [http://localhost:3000](http://localhost:3000)
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Step 7: Test the Application
+## Step 7: Create Your First Account
 
-1. Sign up for a new account
-2. Verify email (if enabled)
-3. Log in
-4. Test each feature:
-   - Create a subject
-   - Add topics
-   - Upload resources
-   - Create study plans
-   - Add deadlines
-   - Track progress
+1. Click "Sign Up"
+2. Enter your email and password
+3. Check your email for verification link
+4. Click the verification link
+5. You're ready to go!
 
-### Step 8: Deploy to Production
+## 🎯 Quick Feature Test
 
-Follow the complete guide in `DEPLOYMENT_GUIDE.md`
+### Test Basic Features
+1. Create a subject (e.g., "Mathematics")
+2. Add a topic (e.g., "Calculus")
+3. Create a study plan
+4. Log a study session
 
-## Quick Reference
+### Test Notes Feature
+1. Navigate to `/notes`
+2. Click "New Note"
+3. Try markdown formatting:
+   ```markdown
+   # My Note
+   **Bold text**
+   $$ E = mc^2 $$
+   ```
+4. Click "Save"
 
-### File Structure
-\`\`\`
-study-planner/
-├── app/                    # Pages and routes
-├── components/             # React components
-├── lib/                    # Utilities and actions
-├── supabase/               # Database schema
-├── public/                 # Static files
-└── middleware.ts           # Auth middleware
-\`\`\`
+### Test AI Features
+1. Navigate to `/ai-planner`
+2. Add some deadlines first
+3. Click "Generate AI Plan"
+4. View recommendations
 
-### Key Files
-- `supabase/schema.sql` - Database schema
-- `lib/supabase/client.ts` - Browser Supabase client
-- `lib/supabase/server.ts` - Server Supabase client
-- `middleware.ts` - Route protection
-- `lib/utils.ts` - Helper functions
+### Test Analytics
+1. Navigate to `/analytics`
+2. View your study patterns
+3. Check productivity trends
 
-### Environment Variables
-\`\`\`
-NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGc...
-\`\`\`
+## 🔧 Troubleshooting
 
-### Common Commands
-\`\`\`bash
-npm install              # Install dependencies
-npm run dev              # Start development server
-npm run build            # Build for production
-npm run start            # Start production server
-npm run lint             # Run ESLint
-\`\`\`
+### Issue: "Module not found" errors
 
-## Troubleshooting
-
-### "Module not found" errors
-\`\`\`bash
+**Solution:**
+```bash
 rm -rf node_modules package-lock.json
 npm install
-\`\`\`
+```
 
-### TypeScript errors
-\`\`\`bash
-npm run type-check
-\`\`\`
+### Issue: Database connection errors
 
-### Supabase connection issues
-1. Check `.env.local` file exists
-2. Verify environment variables are correct
-3. Restart development server
+**Solution:**
+1. Check `.env.local` has correct credentials
+2. Verify Supabase project is active
+3. Check if you're using the correct URL and key
 
-### Build errors
-1. Run `npm run build` locally first
-2. Fix any TypeScript errors
-3. Check all imports are correct
+### Issue: Migrations fail
 
-## Getting Help
+**Solution:**
+1. Check if tables already exist
+2. Drop existing tables if needed
+3. Run migrations in correct order
+4. Check Supabase logs for specific errors
 
-- **Documentation**: Read README.md and DEPLOYMENT_GUIDE.md
-- **Supabase Docs**: https://supabase.com/docs
-- **Next.js Docs**: https://nextjs.org/docs
-- **Tailwind Docs**: https://tailwindcss.com/docs
+### Issue: Authentication not working
 
-## What's Included vs What You Need to Build
+**Solution:**
+1. Check Supabase Auth settings
+2. Verify email confirmation is enabled
+3. Check redirect URLs in Supabase settings
 
-### ✅ Included (Ready to Use)
-- Project structure
-- Database schema with RLS
-- TypeScript types
-- Supabase clients
-- Middleware for auth
-- Utility functions
-- Configuration files
-- Complete documentation
+### Issue: Markdown/LaTeX not rendering
 
-### 🔨 To Build (Implementation Needed)
-- UI components (use shadcn/ui)
-- Page components
-- Form components
-- Server actions for CRUD
-- Custom hooks
-- Validation schemas
+**Solution:**
+```bash
+npm install react-markdown remark-gfm remark-math rehype-katex katex
+```
 
-## Estimated Time to Complete
+## 📦 Production Deployment
 
-- **Phase 1 (Auth)**: 2-3 hours
-- **Phase 2 (Marketing)**: 2-3 hours
-- **Phase 3 (Dashboard)**: 2-3 hours
-- **Phase 4-10 (Features)**: 10-15 hours
-- **Testing & Polish**: 3-5 hours
+### Deploy to Vercel
 
-**Total**: 20-30 hours for a complete, production-ready application
+1. Push your code to GitHub
+2. Go to [vercel.com](https://vercel.com)
+3. Click "Import Project"
+4. Select your repository
+5. Add environment variables:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+6. Click "Deploy"
 
-## Tips for Success
+### Deploy to Netlify
 
-1. **Start with authentication** - Everything depends on it
-2. **Test as you build** - Don't wait until the end
-3. **Use shadcn/ui** - Pre-built, accessible components
-4. **Follow the structure** - It's designed for scalability
-5. **Read the docs** - All guides are comprehensive
-6. **Deploy early** - Test in production environment
-7. **Iterate** - Start with MVP, add features gradually
+1. Push your code to GitHub
+2. Go to [netlify.com](https://netlify.com)
+3. Click "Add new site"
+4. Select your repository
+5. Build settings:
+   - Build command: `npm run build`
+   - Publish directory: `.next`
+6. Add environment variables
+7. Click "Deploy"
+
+## 🔐 Security Checklist
+
+- [ ] Change default Supabase password
+- [ ] Enable RLS on all tables
+- [ ] Set up proper authentication
+- [ ] Configure CORS settings
+- [ ] Enable email verification
+- [ ] Set up rate limiting
+- [ ] Review security policies
+
+## 📊 Performance Optimization
+
+### Enable Caching
+```typescript
+// next.config.ts
+export default {
+  experimental: {
+    optimizeCss: true,
+  },
+}
+```
+
+### Database Indexes
+All necessary indexes are created by migrations, but verify:
+- User ID indexes on all user-scoped tables
+- Foreign key indexes
+- Full-text search indexes on notes
+
+## 🎓 Next Steps
+
+1. **Customize**: Update colors, branding, and content
+2. **Add Data**: Create subjects, topics, and study plans
+3. **Explore Features**: Try all the AI-powered features
+4. **Invite Users**: Share with friends or classmates
+5. **Monitor**: Check analytics and performance
+
+## 📚 Additional Resources
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Supabase Documentation](https://supabase.com/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs)
+
+## 🆘 Getting Help
+
+If you encounter issues:
+1. Check this setup guide
+2. Review error messages carefully
+3. Check browser console for errors
+4. Review Supabase logs
+5. Open an issue on GitHub
+
+## ✅ Setup Complete!
+
+You're all set! Start using your AI-powered study planner and boost your productivity! 🚀
 
 ---
 
-🚀 **You're all set!** Follow these steps and you'll have a production-ready study planner application.
+**Happy Studying!** 📚✨

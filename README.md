@@ -1,289 +1,186 @@
-# StudyFlow - Study Resource Organizer & Planner
+# 📚 Study Planner - AI-Powered Learning Platform
 
-A production-ready, full-stack study management application built with Next.js 14, TypeScript, Tailwind CSS, and Supabase.
+A comprehensive study management platform with AI-powered features, advanced note-taking, analytics, and smart scheduling.
 
-## Features
+## ✨ Features
 
-### Phase 1 - Foundation (MVP)
-- ✅ User authentication (Email/Password + Google OAuth)
-- ✅ User profiles and settings
-- ✅ Subject and topic organization
-- ✅ Study resource management (PDFs, images, links, notes)
-- ✅ Resource tagging and filtering
+### 🤖 AI-Powered Features
+- **AI Study Plan Generator** - Automatically creates optimized study schedules based on deadlines
+- **Smart Revision Scheduling** - Spaced repetition algorithm (SM-2) for optimal learning
+- **Topic Difficulty Prediction** - AI analyzes your performance and predicts difficulty
+- **Personalized Recommendations** - Real-time study suggestions and break reminders
 
-### Phase 2 - Planning & Deadlines
-- ✅ Daily and weekly study planner
-- ✅ Deadline and exam tracker
-- ✅ Calendar views
-- ✅ Priority management
+### 📝 Advanced Note-Taking
+- **Rich Markdown Editor** - Full GitHub Flavored Markdown support
+- **LaTeX Math Support** - Write equations like `$$ E = mc^2 $$`
+- **Code Syntax Highlighting** - 100+ programming languages
+- **Live Preview** - See formatted output in real-time
+- **Organization** - Tags, subjects, topics, favorites, and full-text search
 
-### Phase 3 - Progress & Revision
-- ✅ Topic progress tracking
-- ✅ Revision planner with spaced repetition
-- ✅ Study session time logging
-- ✅ Study streak tracking
+### 📊 Analytics & Insights
+- **Study Time Heatmap** - Visualize your study patterns
+- **Productivity Trends** - Track your progress over time
+- **Subject Distribution** - See time spent on each subject
+- **Best Study Times** - Discover when you're most productive
+- **Completion Rates** - Monitor your task completion
 
-### Phase 4 - Advanced Features
-- ✅ Analytics dashboard
-- ✅ Notifications system
-- ✅ Dark/Light mode
-- ✅ Responsive design
+### 📅 Study Management
+- **Subjects & Topics** - Organize your courses and topics
+- **Study Plans** - Schedule and track study sessions
+- **Deadlines** - Never miss an assignment or exam
+- **Flashcards** - Create and study with spaced repetition
+- **Resources** - Store and organize study materials
 
-## Tech Stack
-
-- **Frontend**: Next.js 14 (App Router), TypeScript, Tailwind CSS
-- **UI Components**: shadcn/ui, Framer Motion
-- **Backend**: Next.js API Routes + Server Actions
-- **Database**: Supabase (PostgreSQL)
-- **Authentication**: Supabase Auth
-- **Deployment**: Vercel
-
-## Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+- Supabase account
 
-- Node.js 18+ installed
-- A Supabase account
-- Git
+### Installation
 
-### 1. Clone the Repository
-
-\`\`\`bash
+1. **Clone the repository**
+```bash
 git clone <your-repo-url>
 cd study-planner
-\`\`\`
+```
 
-### 2. Install Dependencies
-
-\`\`\`bash
+2. **Install dependencies**
+```bash
 npm install
-\`\`\`
+```
 
-### 3. Set Up Supabase
+3. **Set up environment variables**
+```bash
+cp .env.local.example .env.local
+```
 
-1. Create a new project at [supabase.com](https://supabase.com)
-2. Go to SQL Editor and run the schema from `supabase/schema.sql`
-3. Enable Email authentication in Authentication > Providers
-4. (Optional) Enable Google OAuth:
-   - Go to Authentication > Providers > Google
-   - Add your Google Client ID and Secret
-   - Add authorized redirect URL: `https://your-project.supabase.co/auth/v1/callback`
-
-### 4. Configure Environment Variables
-
-Create a `.env.local` file in the root directory:
-
-\`\`\`env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+Edit `.env.local` with your Supabase credentials:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-\`\`\`
+```
 
-Get these values from your Supabase project settings:
-- Go to Project Settings > API
-- Copy the Project URL and anon/public key
+4. **Run database migrations**
+- Go to your Supabase Dashboard → SQL Editor
+- Run all migration files from `supabase/migrations/` in order
 
-### 5. Run the Development Server
-
-\`\`\`bash
+5. **Start development server**
+```bash
 npm run dev
-\`\`\`
+```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+6. **Open your browser**
+```
+http://localhost:3000
+```
 
-## Project Structure
+## 📖 Usage
 
-\`\`\`
+### Getting Started
+1. Sign up for an account
+2. Create your first subject
+3. Add topics to your subjects
+4. Start creating study plans and notes
+
+### Using AI Features
+1. Navigate to `/ai-planner`
+2. Add your deadlines
+3. Set available study hours
+4. Generate AI study plan
+5. Follow personalized recommendations
+
+### Creating Notes
+1. Go to `/notes`
+2. Click "New Note"
+3. Use the rich editor with:
+   - Markdown formatting
+   - LaTeX equations: `$$ equation $$`
+   - Code blocks with syntax highlighting
+   - Tables, lists, and more
+
+### Viewing Analytics
+1. Navigate to `/analytics`
+2. View your study patterns
+3. Identify best study times
+4. Track productivity trends
+
+## 🛠️ Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **UI Components:** Radix UI
+- **Database:** Supabase (PostgreSQL)
+- **Authentication:** Supabase Auth
+- **Markdown:** react-markdown, remark-gfm
+- **Math:** KaTeX
+- **Code Highlighting:** react-syntax-highlighter
+
+## 📁 Project Structure
+
+```
 study-planner/
-├── app/                      # Next.js App Router
-│   ├── (auth)/              # Auth pages (login, signup)
-│   ├── (marketing)/         # Public pages (home, features, about)
-│   ├── (dashboard)/         # Protected app pages
-│   ├── api/                 # API routes
-│   ├── layout.tsx           # Root layout
-│   └── globals.css          # Global styles
-├── components/              # React components
-│   ├── ui/                  # shadcn/ui components
-│   ├── auth/                # Authentication components
-│   ├── dashboard/           # Dashboard components
-│   ├── subjects/            # Subject management
-│   ├── resources/           # Resource management
-│   ├── planner/             # Study planner
-│   └── providers/           # Context providers
-├── lib/                     # Utility functions
-│   ├── supabase/            # Supabase clients
-│   ├── types/               # TypeScript types
-│   ├── actions/             # Server actions
-│   └── utils.ts             # Helper functions
-├── supabase/                # Database schema
-│   └── schema.sql           # PostgreSQL schema with RLS
-├── public/                  # Static assets
-└── middleware.ts            # Route protection
-\`\`\`
+├── app/                    # Next.js app directory
+│   ├── (auth)/            # Authentication pages
+│   ├── (dashboard)/       # Main app pages
+│   └── (marketing)/       # Landing pages
+├── components/            # React components
+│   ├── ai/               # AI feature components
+│   ├── analytics/        # Analytics components
+│   ├── flashcards/       # Flashcard components
+│   ├── notes/            # Note-taking components
+│   └── ui/               # Reusable UI components
+├── lib/                   # Utilities and actions
+│   ├── actions/          # Server actions
+│   ├── supabase/         # Supabase client
+│   └── types/            # TypeScript types
+└── supabase/             # Database migrations
+```
 
-## Database Schema
+## 🔒 Security
 
-The application uses the following main tables:
+- Row Level Security (RLS) enabled on all tables
+- User-scoped queries
+- Server-side validation
+- Secure authentication with Supabase
 
-- **profiles**: User profiles and preferences
-- **semesters**: Academic semesters/terms
-- **subjects**: Courses/subjects
-- **topics**: Topics within subjects
-- **resources**: Study materials (PDFs, links, notes)
-- **resource_topics**: Many-to-many relationship
-- **study_plans**: Daily/weekly study schedules
-- **deadlines**: Assignments, exams, projects
-- **study_sessions**: Time tracking
-- **revisions**: Revision history
-- **notifications**: User notifications
+## 📊 Database Schema
 
-All tables have Row Level Security (RLS) enabled to ensure users can only access their own data.
+Main tables:
+- `profiles` - User profiles
+- `subjects` - Course subjects
+- `topics` - Subject topics
+- `study_plans` - Study schedules
+- `study_sessions` - Study tracking
+- `deadlines` - Assignments and exams
+- `flashcard_decks` - Flashcard collections
+- `flashcards` - Individual flashcards
+- `notes` - User notes
+- `ai_study_plans` - AI-generated plans
+- `topic_difficulty` - Difficulty tracking
+- `study_recommendations` - AI recommendations
 
-## Deployment to Vercel
+## 🤝 Contributing
 
-### 1. Push to GitHub
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-\`\`\`bash
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin <your-github-repo-url>
-git push -u origin main
-\`\`\`
+## 📄 License
 
-### 2. Deploy on Vercel
+This project is licensed under the MIT License.
 
-1. Go to [vercel.com](https://vercel.com)
-2. Click "New Project"
-3. Import your GitHub repository
-4. Configure environment variables:
-   - Add `NEXT_PUBLIC_SUPABASE_URL`
-   - Add `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-5. Click "Deploy"
+## 🙏 Acknowledgments
 
-### 3. Update Supabase Settings
+- Next.js team for the amazing framework
+- Supabase for the backend infrastructure
+- Radix UI for accessible components
+- All open-source contributors
 
-After deployment, add your Vercel domain to Supabase:
-1. Go to Authentication > URL Configuration
-2. Add your Vercel URL to Site URL
-3. Add `https://your-app.vercel.app/**` to Redirect URLs
+## 📞 Support
 
-## Features Guide
-
-### User Authentication
-- Sign up with email/password
-- Login with Google OAuth
-- Email verification
-- Password reset
-- Session management
-
-### Subject Organization
-- Create semesters
-- Add subjects with color coding
-- Organize topics hierarchically
-- Track completion status
-
-### Resource Management
-- Upload PDFs and images
-- Save external links
-- Create text notes
-- Tag and categorize resources
-- Link resources to topics
-- Search and filter
-
-### Study Planning
-- Create daily study plans
-- Schedule study sessions
-- Set time estimates
-- Track completion
-- Calendar view
-
-### Deadline Tracking
-- Add assignments and exams
-- Set priority levels
-- Countdown timers
-- Status tracking
-- Reminder notifications
-
-### Progress Tracking
-- Topic status (Not Started, In Progress, Completed)
-- Subject-level progress
-- Semester overview
-- Visual progress indicators
-
-### Revision System
-- Mark topics for revision
-- Track revision count
-- Schedule next revision
-- Confidence level tracking
-- Spaced repetition support
-
-### Study Sessions
-- Start/stop timer
-- Track time per subject
-- Session notes
-- Daily/weekly summaries
-- Study streak tracking
-
-### Analytics
-- Time spent per subject
-- Completion trends
-- Study consistency
-- Deadline adherence
-- Visual charts and graphs
-
-## Common Issues & Solutions
-
-### Issue: "Invalid API key"
-**Solution**: Check that your `.env.local` file has the correct Supabase URL and anon key.
-
-### Issue: "User not authenticated"
-**Solution**: Ensure you've run the database schema and RLS policies are enabled.
-
-### Issue: "Cannot read properties of undefined"
-**Solution**: Make sure all environment variables are set and the Supabase client is properly initialized.
-
-### Issue: Google OAuth not working
-**Solution**: 
-1. Verify Google OAuth is enabled in Supabase
-2. Check redirect URLs are correctly configured
-3. Ensure Google Client ID is valid
-
-## Development Tips
-
-- Use `npm run dev` for development with hot reload
-- Run `npm run build` to test production build locally
-- Check browser console for client-side errors
-- Check Vercel logs for server-side errors
-- Use Supabase Dashboard to inspect database
-
-## Contributing
-
-This is a production-ready application. Feel free to fork and customize for your needs.
-
-## License
-
-MIT License - feel free to use this project for personal or commercial purposes.
-
-## Support
-
-For issues or questions:
-1. Check the documentation above
-2. Review Supabase docs: https://supabase.com/docs
-3. Review Next.js docs: https://nextjs.org/docs
-
-## Roadmap
-
-Future enhancements:
-- Mobile app (React Native)
-- Collaborative study groups
-- AI-powered study recommendations
-- Export/import functionality
-- Integration with calendar apps
-- Pomodoro timer
-- Flashcards system
-- Note-taking with markdown
-- File version control
+For issues and questions, please open an issue on GitHub.
 
 ---
 
-Built with ❤️ for students worldwide
+Built with ❤️ for students everywhere
