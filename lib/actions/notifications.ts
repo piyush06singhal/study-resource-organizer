@@ -17,7 +17,6 @@ export async function getNotifications() {
     .select('*')
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
-    .limit(50)
 
   if (error) {
     console.error('Error fetching notifications:', error)
@@ -39,7 +38,7 @@ export async function getUnreadCount() {
     .from('notifications')
     .select('*', { count: 'exact', head: true })
     .eq('user_id', user.id)
-    .eq('read', false)
+    .eq('is_read', false)
 
   if (error) {
     console.error('Error fetching unread count:', error)
@@ -54,22 +53,21 @@ export async function markAsRead(notificationId: string) {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    redirect('/login')
+    return { error: 'Not authenticated' }
   }
 
   const { error } = await supabase
     .from('notifications')
-    // @ts-expect-error - Supabase type inference issue
-    .update({ read: true })
+    .update({ is_read: true })
     .eq('id', notificationId)
     .eq('user_id', user.id)
 
   if (error) {
     console.error('Error marking notification as read:', error)
-    return { success: false, error: error.message }
+    return { error: error.message }
   }
 
-  revalidatePath('/dashboard')
+  revalidatePath('/notifications')
   return { success: true }
 }
 
@@ -78,22 +76,21 @@ export async function markAllAsRead() {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    redirect('/login')
+    return { error: 'Not authenticated' }
   }
 
   const { error } = await supabase
     .from('notifications')
-    // @ts-expect-error - Supabase type inference issue
-    .update({ read: true })
+    .update({ is_read: true })
     .eq('user_id', user.id)
-    .eq('read', false)
+    .eq('is_read', false)
 
   if (error) {
     console.error('Error marking all as read:', error)
-    return { success: false, error: error.message }
+    return { error: error.message }
   }
 
-  revalidatePath('/dashboard')
+  revalidatePath('/notifications')
   return { success: true }
 }
 
@@ -102,7 +99,7 @@ export async function deleteNotification(notificationId: string) {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    redirect('/login')
+    return { error: 'Not authenticated' }
   }
 
   const { error } = await supabase
@@ -113,42 +110,43 @@ export async function deleteNotification(notificationId: string) {
 
   if (error) {
     console.error('Error deleting notification:', error)
-    return { success: false, error: error.message }
+    return { error: error.message }
   }
 
-  revalidatePath('/dashboard')
+  revalidatePath('/notifications')
   return { success: true }
 }
 
 export async function createNotification(data: {
-  type: string
   title: string
   message: string
-  link?: string
+  type: 'deadline' | 'revision' | 'achievement' | 'reminder' | 'system'
+  related_id?: string
+  related_type?: 'deadline' | 'revision' | 'topic' | 'subject' | 'session'
 }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    redirect('/login')
+    return { error: 'Not authenticated' }
   }
 
   const { error } = await supabase
     .from('notifications')
-    // @ts-expect-error - Supabase type inference issue
     .insert({
       user_id: user.id,
-      type: data.type,
       title: data.title,
       message: data.message,
-      link: data.link
+      type: data.type,
+      related_id: data.related_id,
+      related_type: data.related_type
     })
 
   if (error) {
     console.error('Error creating notification:', error)
-    return { success: false, error: error.message }
+    return { error: error.message }
   }
 
-  revalidatePath('/dashboard')
+  revalidatePath('/notifications')
   return { success: true }
 }
