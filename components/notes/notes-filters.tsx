@@ -37,12 +37,12 @@ export function NotesFilters({ tags, subjects, currentFilters }: {
         </div>
       </div>
 
-      <Select value={currentFilters.subject || ''} onValueChange={(v) => updateFilter('subject', v)}>
+      <Select value={currentFilters.subject || 'all'} onValueChange={(v) => updateFilter('subject', v === 'all' ? '' : v)}>
         <SelectTrigger className="w-[200px]">
           <SelectValue placeholder="All Subjects" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="">All Subjects</SelectItem>
+          <SelectItem value="all">All Subjects</SelectItem>
           {subjects.map(subject => (
             <SelectItem key={subject.id} value={subject.id}>
               {subject.name}
@@ -51,12 +51,12 @@ export function NotesFilters({ tags, subjects, currentFilters }: {
         </SelectContent>
       </Select>
 
-      <Select value={currentFilters.tag || ''} onValueChange={(v) => updateFilter('tag', v)}>
+      <Select value={currentFilters.tag || 'all'} onValueChange={(v) => updateFilter('tag', v === 'all' ? '' : v)}>
         <SelectTrigger className="w-[200px]">
           <SelectValue placeholder="All Tags" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="">All Tags</SelectItem>
+          <SelectItem value="all">All Tags</SelectItem>
           {tags.map(tag => (
             <SelectItem key={tag} value={tag}>
               {tag}
