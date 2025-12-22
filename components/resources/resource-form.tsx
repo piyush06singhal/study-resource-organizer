@@ -47,9 +47,24 @@ export function ResourceForm({ resource, topics = [] }: ResourceFormProps) {
     let file_size = undefined
 
     // Upload file if present
-    if (file && (formData.type === 'pdf' || formData.type === 'image')) {
+    if (file && (formData.type === 'pdf' || formData.type === 'image' || formData.type === 'video')) {
       setIsUploading(true)
-      const uploadResult = await uploadFile(file)
+      
+      // Convert file to base64 for server action
+      const reader = new FileReader()
+      const fileData = await new Promise<string>((resolve, reject) => {
+        reader.onload = () => resolve(reader.result as string)
+        reader.onerror = reject
+        reader.readAsDataURL(file)
+      })
+
+      const uploadResult = await uploadFile({
+        fileName: file.name,
+        fileType: file.type,
+        fileData,
+        fileSize: file.size
+      })
+      
       setIsUploading(false)
 
       if (uploadResult.error) {

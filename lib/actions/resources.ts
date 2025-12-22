@@ -242,7 +242,12 @@ export async function deleteResource(id: string) {
   return { success: true }
 }
 
-export async function uploadFile(file: File) {
+export async function uploadFile(fileData: {
+  fileName: string
+  fileType: string
+  fileData: string
+  fileSize: number
+}) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -250,32 +255,41 @@ export async function uploadFile(file: File) {
     return { error: 'Not authenticated' }
   }
 
-  // Create unique file path
-  const fileExt = file.name.split('.').pop()
-  const fileName = `${user.id}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`
+  try {
+    // Convert base64 to buffer
+    const base64Data = fileData.fileData.split(',')[1]
+    const buffer = Buffer.from(base64Data, 'base64')
 
-  const { error } = await supabase.storage
-    .from('study-resources')
-    .upload(fileName, file, {
-      cacheControl: '3600',
-      upsert: false
-    })
+    // Create unique file path
+    const fileExt = fileData.fileName.split('.').pop()
+    const fileName = `${user.id}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`
 
-  if (error) {
-    console.error('Error uploading file:', error)
-    return { error: error.message }
-  }
+    const { error } = await supabase.storage
+      .from('study-resources')
+      .upload(fileName, buffer, {
+        contentType: fileData.fileType,
+        cacheControl: '3600',
+        upsert: false
+      })
 
-  // Get public URL
-  const { data: { publicUrl } } = supabase.storage
-    .from('study-resources')
-    .getPublicUrl(fileName)
+    if (error) {
+      console.error('Error uploading file:', error)
+      return { error: error.message }
+    }
 
-  return { 
-    success: true, 
-    file_path: fileName,
-    public_url: publicUrl,
-    file_size: file.size
+    // Get public URL
+    const { data: { publicUrl } } = supabase.storage
+      .from('study-resources')
+      .getPublicUrl(fileName)
+
+    return { 
+      success: true, 
+      file_path: publicUrl,
+      file_size: fileData.fileSize
+    }
+  } catch (error) {
+    console.error('Error processing file:', error)
+    return { error: 'Failed to process file' }
   }
 }
 
