@@ -20,6 +20,9 @@ export default async function ProfilePage() {
   const totalStudyTime = sessions.reduce((acc: number, s: any) => acc + (s.duration_minutes || 0), 0)
   const completedDeadlines = deadlines.filter((d: any) => d.status === 'completed').length
 
+  // Type assertion for profile
+  const typedProfile = profile as any
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -46,9 +49,9 @@ export default async function ProfilePage() {
         <div className="flex flex-col md:flex-row gap-8">
           {/* Avatar */}
           <div className="flex-shrink-0">
-            {profile?.avatar_url ? (
+            {typedProfile?.avatar_url ? (
               <Image
-                src={profile.avatar_url}
+                src={typedProfile.avatar_url}
                 alt="Profile"
                 width={160}
                 height={160}
@@ -65,30 +68,30 @@ export default async function ProfilePage() {
           <div className="flex-1 space-y-4">
             <div>
               <h2 className="text-3xl font-bold text-gray-900">
-                {profile?.full_name || 'Student'}
+                {typedProfile?.full_name || 'Student'}
               </h2>
               <div className="flex items-center gap-2 mt-2 text-gray-600">
                 <Mail className="h-4 w-4" />
-                <span>{profile?.email}</span>
+                <span>{typedProfile?.email}</span>
               </div>
               <div className="flex items-center gap-2 mt-1 text-gray-600">
                 <Calendar className="h-4 w-4" />
-                <span>Joined {profile?.created_at ? format(new Date(profile.created_at), 'MMMM yyyy') : 'Recently'}</span>
+                <span>Joined {typedProfile?.created_at ? format(new Date(typedProfile.created_at), 'MMMM yyyy') : 'Recently'}</span>
               </div>
             </div>
 
-            {profile?.bio && (
+            {typedProfile?.bio && (
               <div className="p-4 bg-gray-50 rounded-lg">
-                <p className="text-gray-700">{profile.bio}</p>
+                <p className="text-gray-700">{typedProfile.bio}</p>
               </div>
             )}
 
-            {profile?.study_goal && (
+            {typedProfile?.study_goal && (
               <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
                 <Target className="h-5 w-5 text-blue-600 mt-0.5" />
                 <div>
                   <p className="font-semibold text-blue-900">Study Goal</p>
-                  <p className="text-blue-700">{profile.study_goal}</p>
+                  <p className="text-blue-700">{typedProfile.study_goal}</p>
                 </div>
               </div>
             )}
