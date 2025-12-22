@@ -1,49 +1,31 @@
-# 📚 Study Planner - AI-Powered Learning Platform
+# 📚 StudyFlow - Smart Study Management Platform
 
-A comprehensive study management platform with AI-powered features, advanced note-taking, analytics, and smart scheduling.
+A comprehensive study management platform built with Next.js, TypeScript, and Supabase. Organize your studies, track progress, and study smarter with automated scheduling and analytics.
 
-## ✨ Features
+## ✨ Key Features
 
-### 🤖 AI-Powered Features
-- **AI Study Plan Generator** - Automatically creates optimized study schedules based on deadlines
-- **Smart Revision Scheduling** - Spaced repetition algorithm (SM-2) for optimal learning
-- **Topic Difficulty Prediction** - AI analyzes your performance and predicts difficulty
-- **Personalized Recommendations** - Real-time study suggestions and break reminders
-
-### 📝 Advanced Note-Taking
-- **Rich Markdown Editor** - Full GitHub Flavored Markdown support
-- **LaTeX Math Support** - Write equations like `$$ E = mc^2 $$`
-- **Code Syntax Highlighting** - 100+ programming languages
-- **Live Preview** - See formatted output in real-time
-- **Organization** - Tags, subjects, topics, favorites, and full-text search
-
-### 📊 Analytics & Insights
-- **Study Time Heatmap** - Visualize your study patterns
-- **Productivity Trends** - Track your progress over time
-- **Subject Distribution** - See time spent on each subject
-- **Best Study Times** - Discover when you're most productive
-- **Completion Rates** - Monitor your task completion
-
-### 📅 Study Management
-- **Subjects & Topics** - Organize your courses and topics
-- **Study Plans** - Schedule and track study sessions
-- **Deadlines** - Never miss an assignment or exam
-- **Flashcards** - Create and study with spaced repetition
-- **Resources** - Store and organize study materials
+- **📝 Rich Notes** - Markdown editor with LaTeX math and code syntax highlighting
+- **📚 Subject & Topic Management** - Organize courses and track completion
+- **📅 Study Planner** - Schedule and track study sessions
+- **🧠 Smart Planner** - Auto-generate study schedules based on deadlines
+- **🎴 Flashcards** - Spaced repetition learning system
+- **⏰ Deadline Tracking** - Never miss assignments or exams
+- **📊 Analytics** - Study time heatmaps and productivity insights
+- **🔍 Advanced Search** - Find anything across all your materials
+- **💾 Export/Import** - Backup data in CSV, JSON, or full backup format
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
-- npm or yarn
-- Supabase account
+- Node.js 18+
+- Supabase account (free tier available)
 
 ### Installation
 
 1. **Clone the repository**
 ```bash
-git clone <your-repo-url>
-cd study-planner
+git clone https://github.com/piyush06singhal/study-resource-organizer.git
+cd study-resource-organizer/study-planner
 ```
 
 2. **Install dependencies**
@@ -51,91 +33,49 @@ cd study-planner
 npm install
 ```
 
-3. **Set up environment variables**
+3. **Setup environment variables**
 ```bash
 cp .env.local.example .env.local
 ```
 
-Edit `.env.local` with your Supabase credentials:
+Edit `.env.local` with your credentials:
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
-4. **Run database migrations**
+4. **Setup database**
 - Go to your Supabase Dashboard → SQL Editor
-- Run all migration files from `supabase/migrations/` in order
+- Run migration files from `supabase/migrations/` in order
 
 5. **Start development server**
 ```bash
 npm run dev
 ```
 
-6. **Open your browser**
-```
-http://localhost:3000
-```
-
-## 📖 Usage
-
-### Getting Started
-1. Sign up for an account
-2. Create your first subject
-3. Add topics to your subjects
-4. Start creating study plans and notes
-
-### Using AI Features
-1. Navigate to `/ai-planner`
-2. Add your deadlines
-3. Set available study hours
-4. Generate AI study plan
-5. Follow personalized recommendations
-
-### Creating Notes
-1. Go to `/notes`
-2. Click "New Note"
-3. Use the rich editor with:
-   - Markdown formatting
-   - LaTeX equations: `$$ equation $$`
-   - Code blocks with syntax highlighting
-   - Tables, lists, and more
-
-### Viewing Analytics
-1. Navigate to `/analytics`
-2. View your study patterns
-3. Identify best study times
-4. Track productivity trends
+Open [http://localhost:3000](http://localhost:3000)
 
 ## 🛠️ Tech Stack
 
-- **Framework:** Next.js 16 (App Router)
+- **Framework:** Next.js 15 (App Router)
 - **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **UI Components:** Radix UI
 - **Database:** Supabase (PostgreSQL)
 - **Authentication:** Supabase Auth
-- **Markdown:** react-markdown, remark-gfm
-- **Math:** KaTeX
-- **Code Highlighting:** react-syntax-highlighter
+- **Styling:** Tailwind CSS
+- **UI Components:** Radix UI + shadcn/ui
+- **Animations:** Framer Motion
 
 ## 📁 Project Structure
 
 ```
 study-planner/
 ├── app/                    # Next.js app directory
-│   ├── (auth)/            # Authentication pages
+│   ├── (auth)/            # Login/Signup pages
 │   ├── (dashboard)/       # Main app pages
-│   └── (marketing)/       # Landing pages
+│   └── (marketing)/       # Landing page
 ├── components/            # React components
-│   ├── ai/               # AI feature components
-│   ├── analytics/        # Analytics components
-│   ├── flashcards/       # Flashcard components
-│   ├── notes/            # Note-taking components
-│   └── ui/               # Reusable UI components
-├── lib/                   # Utilities and actions
-│   ├── actions/          # Server actions
-│   ├── supabase/         # Supabase client
-│   └── types/            # TypeScript types
+├── lib/                   # Utilities and server actions
 └── supabase/             # Database migrations
 ```
 
@@ -143,24 +83,13 @@ study-planner/
 
 - Row Level Security (RLS) enabled on all tables
 - User-scoped queries
-- Server-side validation
 - Secure authentication with Supabase
+- No external AI APIs (privacy-friendly)
 
-## 📊 Database Schema
+## 📖 Documentation
 
-Main tables:
-- `profiles` - User profiles
-- `subjects` - Course subjects
-- `topics` - Subject topics
-- `study_plans` - Study schedules
-- `study_sessions` - Study tracking
-- `deadlines` - Assignments and exams
-- `flashcard_decks` - Flashcard collections
-- `flashcards` - Individual flashcards
-- `notes` - User notes
-- `ai_study_plans` - AI-generated plans
-- `topic_difficulty` - Difficulty tracking
-- `study_recommendations` - AI recommendations
+- [Setup Instructions](SETUP_INSTRUCTIONS.md) - Detailed setup guide
+- [App Explanation](APP_EXPLANATION.md) - Feature documentation
 
 ## 🤝 Contributing
 
@@ -172,15 +101,8 @@ This project is licensed under the MIT License.
 
 ## 🙏 Acknowledgments
 
-- Next.js team for the amazing framework
-- Supabase for the backend infrastructure
-- Radix UI for accessible components
-- All open-source contributors
-
-## 📞 Support
-
-For issues and questions, please open an issue on GitHub.
+Built with ❤️ for students everywhere using modern web technologies.
 
 ---
 
-Built with ❤️ for students everywhere
+**Note:** The "Smart Planner" uses algorithms (not AI APIs) to calculate optimal study schedules based on your deadlines and available time. No API keys or external AI services required.

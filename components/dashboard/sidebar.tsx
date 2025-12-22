@@ -25,7 +25,7 @@ export function Sidebar() {
     { icon: FileText, label: 'Resources', href: '/resources' },
     { icon: StickyNote, label: 'Notes', href: '/notes' },
     { icon: Calendar, label: 'Planner', href: '/planner' },
-    { icon: Brain, label: 'AI Planner', href: '/ai-planner' },
+    { icon: Brain, label: 'Smart Planner', href: '/ai-planner' },
     { icon: Target, label: 'Deadlines', href: '/deadlines' },
     { icon: RotateCcw, label: 'Revisions', href: '/revisions' },
     { icon: Clock, label: 'Sessions', href: '/sessions' },
