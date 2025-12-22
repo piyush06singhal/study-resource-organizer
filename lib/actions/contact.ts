@@ -1,4 +1,6 @@
-'use server'
+'use client'
+
+import emailjs from '@emailjs/browser'
 
 export async function submitContactForm(formData: {
   name: string
@@ -6,15 +8,44 @@ export async function submitContactForm(formData: {
   subject: string
   message: string
 }) {
-  // In a real application, you would:
-  // 1. Validate the data
-  // 2. Send an email using a service like SendGrid, Resend, or AWS SES
-  // 3. Store the message in a database
-  // 4. Send a confirmation email to the user
+  try {
+    // Get environment variables
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
 
-  // For now, we'll simulate a successful submission
-  await new Promise(resolve => setTimeout(resolve, 1000))
+    if (!serviceId || !templateId || !publicKey) {
+      console.error('EmailJS configuration missing')
+      return { 
+        success: false, 
+        message: 'Email service is not configured. Please contact support.' 
+      }
+    }
 
-  // Simulate success
-  return { success: true, message: 'Thank you for your message! We\'ll get back to you soon.' }
+    // Send email using EmailJS
+    const templateParams = {
+      name: formData.name,
+      email: formData.email,
+      title: formData.subject,
+      message: formData.message,
+    }
+
+    await emailjs.send(
+      serviceId,
+      templateId,
+      templateParams,
+      publicKey
+    )
+
+    return { 
+      success: true, 
+      message: 'Thank you for your message! We\'ll get back to you soon.' 
+    }
+  } catch (error) {
+    console.error('Error sending email:', error)
+    return { 
+      success: false, 
+      message: 'Failed to send message. Please try again or contact us directly at piyush.singhal.2004@gmail.com' 
+    }
+  }
 }
