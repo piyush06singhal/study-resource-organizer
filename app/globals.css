@@ -59,7 +59,8 @@
   }
   
   body {
-    @apply bg-background text-foreground;
+    background-color: hsl(0 0% 100%);
+    color: hsl(222 47% 11%);
     font-feature-settings: "rlig" 1, "calt" 1;
   }
   
