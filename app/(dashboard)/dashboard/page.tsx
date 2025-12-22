@@ -39,10 +39,10 @@ export default async function DashboardPage() {
             </p>
           </div>
           <div className="flex gap-2">
-            <Link href="/subjects/new">
+            <Link href="/subjects">
               <Button>
                 <BookOpen className="h-4 w-4 mr-2" />
-                New Subject
+                View Subjects
               </Button>
             </Link>
             <Link href="/planner">
@@ -56,111 +56,75 @@ export default async function DashboardPage() {
 
         {/* Stats Grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <StatsCard
-            title="Total Subjects"
-            value={stats.subjectsCount}
-            icon={BookOpen}
-            description="Active subjects"
-            color="from-blue-500 to-cyan-500"
-            delay={0}
-          />
-          <StatsCard
-            title="Topics Progress"
-            value={`${stats.completedTopics}/${stats.totalTopics}`}
-            icon={CheckCircle2}
-            description={`${stats.completionRate}% completed`}
-            color="from-green-500 to-emerald-500"
-            delay={0.1}
-          />
-          <StatsCard
-            title="Upcoming Deadlines"
-            value={stats.upcomingDeadlines}
-            icon={Target}
-            description="Pending tasks"
-            color="from-orange-500 to-red-500"
-            delay={0.2}
-          />
-          <StatsCard
-            title="Study Time (Week)"
-            value={`${Math.floor(stats.totalStudyTime / 60)}h ${stats.totalStudyTime % 60}m`}
-            icon={Clock}
-            description="Total this week"
-            color="from-purple-500 to-pink-500"
-            delay={0.3}
-          />
-        </div>
-
-        {/* Study Streak Card */}
-        <Card className="border-2 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Flame className="h-5 w-5 text-orange-500" />
-              Study Streak
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="text-center p-6 bg-white dark:bg-slate-900 rounded-lg">
-                <div className="text-5xl font-bold text-orange-500 mb-2">
-                  {streak.currentStreak}
-                </div>
-                <p className="text-sm text-muted-foreground">Current Streak (days)</p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {streak.currentStreak > 0 ? 'Keep it up!' : 'Start studying today!'}
-                </p>
+          <Card className="p-6">
+            <div className="flex items-center gap-4">
+              <div className="p-3 rounded-lg bg-blue-100 dark:bg-blue-900">
+                <BookOpen className="h-6 w-6 text-blue-600 dark:text-blue-400" />
               </div>
-              <div className="text-center p-6 bg-white dark:bg-slate-900 rounded-lg">
-                <div className="text-5xl font-bold text-blue-500 mb-2">
-                  {streak.longestStreak}
-                </div>
-                <p className="text-sm text-muted-foreground">Longest Streak (days)</p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {streak.longestStreak > 0 ? 'Personal best!' : 'No streak yet'}
-                </p>
+              <div>
+                <p className="text-sm text-muted-foreground">Total Subjects</p>
+                <p className="text-2xl font-bold">{stats.subjectsCount}</p>
               </div>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Main Content Grid */}
-        <div className="grid gap-6 lg:grid-cols-2">
-          {/* Recent Activity */}
-          <RecentActivity activity={activity} />
-
-          {/* Upcoming Deadlines */}
-          <UpcomingDeadlines deadlines={deadlines} />
+          </Card>
+          
+          <Card className="p-6">
+            <div className="flex items-center gap-4">
+              <div className="p-3 rounded-lg bg-green-100 dark:bg-green-900">
+                <CheckCircle2 className="h-6 w-6 text-green-600 dark:text-green-400" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Topics Progress</p>
+                <p className="text-2xl font-bold">{stats.completedTopics}/{stats.totalTopics}</p>
+              </div>
+            </div>
+          </Card>
+          
+          <Card className="p-6">
+            <div className="flex items-center gap-4">
+              <div className="p-3 rounded-lg bg-orange-100 dark:bg-orange-900">
+                <Target className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Deadlines</p>
+                <p className="text-2xl font-bold">{stats.upcomingDeadlines}</p>
+              </div>
+            </div>
+          </Card>
+          
+          <Card className="p-6">
+            <div className="flex items-center gap-4">
+              <div className="p-3 rounded-lg bg-purple-100 dark:bg-purple-900">
+                <Clock className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Study Time</p>
+                <p className="text-2xl font-bold">{Math.floor(stats.totalStudyTime / 60)}h {stats.totalStudyTime % 60}m</p>
+              </div>
+            </div>
+          </Card>
         </div>
 
-        {/* Subject Progress */}
-        <SubjectProgress subjects={subjectProgress} />
-
-        {/* Quick Actions */}
-        <Card className="border-2">
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/resources/new">
-                <Button variant="outline" className="w-full h-20 flex-col gap-2">
-                  <BookOpen className="h-6 w-6" />
-                  <span>Add Resource</span>
-                </Button>
-              </Link>
-              <Link href="/deadlines/new">
-                <Button variant="outline" className="w-full h-20 flex-col gap-2">
-                  <Target className="h-6 w-6" />
-                  <span>Add Deadline</span>
-                </Button>
-              </Link>
-              <Link href="/analytics">
-                <Button variant="outline" className="w-full h-20 flex-col gap-2">
-                  <TrendingUp className="h-6 w-6" />
-                  <span>View Analytics</span>
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
+        {/* Quick Start Card */}
+        <Card className="p-8">
+          <h2 className="text-2xl font-bold mb-4">Get Started</h2>
+          <p className="text-muted-foreground mb-6">
+            Start organizing your studies by creating your first subject
+          </p>
+          <div className="flex gap-4">
+            <Link href="/subjects">
+              <Button size="lg">
+                <BookOpen className="h-5 w-5 mr-2" />
+                Create Subject
+              </Button>
+            </Link>
+            <Link href="/resources">
+              <Button size="lg" variant="outline">
+                <FileText className="h-5 w-5 mr-2" />
+                Add Resources
+              </Button>
+            </Link>
+          </div>
         </Card>
       </div>
     )
@@ -168,13 +132,22 @@ export default async function DashboardPage() {
     console.error('Dashboard error:', error)
     return (
       <div className="p-8">
-        <h1 className="text-2xl font-bold text-red-500">Error loading dashboard</h1>
-        <p className="text-muted-foreground mt-2">
-          There was an error loading your dashboard. Please try refreshing the page.
-        </p>
-        <pre className="mt-4 p-4 bg-slate-100 dark:bg-slate-800 rounded text-sm overflow-auto">
-          {error instanceof Error ? error.message : 'Unknown error'}
-        </pre>
+        <Card className="p-8">
+          <h1 className="text-2xl font-bold text-red-500 mb-4">Error loading dashboard</h1>
+          <p className="text-muted-foreground mb-4">
+            There was an error loading your dashboard. This might be a temporary issue.
+          </p>
+          <div className="flex gap-4">
+            <Button onClick={() => window.location.reload()}>
+              Refresh Page
+            </Button>
+            <Link href="/subjects">
+              <Button variant="outline">
+                Go to Subjects
+              </Button>
+            </Link>
+          </div>
+        </Card>
       </div>
     )
   }
