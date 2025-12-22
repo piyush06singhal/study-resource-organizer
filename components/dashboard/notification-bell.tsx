@@ -103,15 +103,15 @@ export function NotificationBell() {
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-96 p-0">
-        <div className="flex items-center justify-between p-4 border-b">
-          <h3 className="font-semibold">Notifications</h3>
+      <DropdownMenuContent align="end" className="w-96 p-0 bg-white dark:bg-slate-900 border-2 shadow-2xl">
+        <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/50 dark:to-indigo-950/50">
+          <h3 className="font-semibold text-lg">Notifications</h3>
           {unreadCount > 0 && (
             <Button
               variant="ghost"
               size="sm"
               onClick={handleMarkAllAsRead}
-              className="text-xs"
+              className="text-xs hover:bg-white/50"
             >
               <Check className="h-3 w-3 mr-1" />
               Mark all read
@@ -127,7 +127,8 @@ export function NotificationBell() {
           ) : notifications.length === 0 ? (
             <div className="p-8 text-center text-muted-foreground">
               <Bell className="h-12 w-12 mx-auto mb-2 opacity-50" />
-              <p className="text-sm">No notifications yet</p>
+              <p className="text-sm font-medium">No notifications yet</p>
+              <p className="text-xs mt-1">You'll see updates here</p>
             </div>
           ) : (
             <AnimatePresence>
@@ -138,7 +139,7 @@ export function NotificationBell() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, x: -100 }}
                   className={`p-4 border-b hover:bg-accent cursor-pointer transition-colors ${
-                    !notification.read ? 'bg-blue-50 dark:bg-blue-950/20' : ''
+                    !notification.read ? 'bg-blue-50 dark:bg-blue-950/30 border-l-4 border-l-blue-500' : ''
                   }`}
                   onClick={() => handleNotificationClick(notification)}
                 >
@@ -196,16 +197,16 @@ export function NotificationBell() {
 
         {/* View All Link */}
         {notifications.length > 0 && (
-          <div className="p-3 border-t bg-gray-50">
+          <div className="p-3 border-t bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/50 dark:to-indigo-950/50">
             <Button
               variant="ghost"
-              className="w-full text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+              className="w-full text-blue-600 hover:text-blue-700 hover:bg-blue-100 dark:hover:bg-blue-900/50 font-semibold"
               onClick={() => {
                 router.push('/notifications')
                 setIsOpen(false)
               }}
             >
-              View All Notifications
+              View All Notifications →
             </Button>
           </div>
         )}
