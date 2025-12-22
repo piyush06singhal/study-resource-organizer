@@ -105,10 +105,10 @@ export async function createSubject(formData: {
     .insert({
       user_id: user.id,
       name: formData.name,
-      code: formData.code,
+      code: formData.code || null,
       color: formData.color,
-      description: formData.description,
-      semester_id: formData.semester_id
+      description: formData.description || null,
+      semester_id: formData.semester_id && formData.semester_id.trim() !== '' ? formData.semester_id : null
     })
     .select()
     .single()
@@ -142,10 +142,10 @@ export async function updateSubject(id: string, formData: {
     // @ts-expect-error - Supabase type inference issue
     .update({
       name: formData.name,
-      code: formData.code,
+      code: formData.code || null,
       color: formData.color,
-      description: formData.description,
-      semester_id: formData.semester_id
+      description: formData.description || null,
+      semester_id: formData.semester_id && formData.semester_id.trim() !== '' ? formData.semester_id : null
     })
     .eq('id', id)
     .eq('user_id', user.id)
