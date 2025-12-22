@@ -21,6 +21,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
 
   // If profile doesn't exist, create it
   if (error || !profile) {
+    // @ts-expect-error - Supabase type inference issue
     await supabase
       .from('profiles')
       .insert({
