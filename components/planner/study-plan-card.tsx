@@ -134,15 +134,17 @@ export function StudyPlanCard({ plan, delay = 0 }: StudyPlanCardProps) {
                 </p>
               )}
               
-              <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
+              <div className="flex flex-wrap items-center gap-2 mt-2 text-xs text-muted-foreground">
                 {plan.start_time && plan.end_time && (
-                  <span className="flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    {formatTime(plan.start_time)} - {formatTime(plan.end_time)}
+                  <span className="flex items-center gap-1 bg-white dark:bg-slate-800 px-2 py-1 rounded">
+                    <Clock className="h-3 w-3 flex-shrink-0" />
+                    <span className="whitespace-nowrap">{formatTime(plan.start_time)} - {formatTime(plan.end_time)}</span>
                   </span>
                 )}
                 {plan.estimated_minutes && (
-                  <span>{plan.estimated_minutes} min</span>
+                  <span className="bg-white dark:bg-slate-800 px-2 py-1 rounded whitespace-nowrap">
+                    {plan.estimated_minutes} min
+                  </span>
                 )}
               </div>
             </div>

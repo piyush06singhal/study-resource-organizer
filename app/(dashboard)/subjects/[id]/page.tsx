@@ -8,8 +8,13 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { TopicCard } from '@/components/topics/topic-card'
 
-export default async function SubjectDetailPage({ params }: { params: { id: string } }) {
-  const subject = await getSubjectById(params.id)
+export default async function SubjectDetailPage({ 
+  params 
+}: { 
+  params: Promise<{ id: string }> 
+}) {
+  const { id } = await params
+  const subject = await getSubjectById(id)
 
   if (!subject) {
     notFound()
@@ -18,7 +23,7 @@ export default async function SubjectDetailPage({ params }: { params: { id: stri
   // Type assertion for subject
   const typedSubject = subject as any
 
-  const topics = await getTopics(params.id)
+  const topics = await getTopics(id)
 
   const completedTopics = topics.filter((t: any) => t.status === 'completed').length
   const inProgressTopics = topics.filter((t: any) => t.status === 'in_progress').length

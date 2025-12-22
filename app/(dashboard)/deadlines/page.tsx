@@ -1,18 +1,20 @@
 import { getDeadlines, getDeadlineStats } from '@/lib/actions/deadlines'
 import { DeadlineCard } from '@/components/deadlines/deadline-card'
 import { Button } from '@/components/ui/button'
-import { Plus, Target } from 'lucide-react'
+import { Card } from '@/components/ui/card'
+import { Plus, Target, Clock, CheckCircle2, AlertCircle, List } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function DeadlinesPage({
   searchParams
 }: {
-  searchParams: { status?: string; type?: string; priority?: string }
+  searchParams: Promise<{ status?: string; type?: string; priority?: string }>
 }) {
+  const params = await searchParams
   const filters = {
-    status: searchParams.status,
-    type: searchParams.type,
-    priority: searchParams.priority
+    status: params.status,
+    type: params.type,
+    priority: params.priority
   }
 
   const [deadlines, stats] = await Promise.all([
@@ -25,10 +27,11 @@ export default async function DeadlinesPage({
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-            <Target className="h-8 w-8 text-primary" />
+            <Target className="h-8 w-8 text-blue-600" />
             Deadlines
           </h1>
           <p className="text-muted-foreground mt-1">
@@ -36,32 +39,65 @@ export default async function DeadlinesPage({
           </p>
         </div>
         <Link href="/deadlines/new">
-          <Button size="lg">
+          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
             <Plus className="h-5 w-5 mr-2" />
             Add Deadline
           </Button>
         </Link>
       </div>
 
+      {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-4">
-        <div className="p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border-2">
-          <p className="text-sm font-medium text-muted-foreground">Total</p>
-          <p className="text-3xl font-bold">{stats.total}</p>
-        </div>
-        <div className="p-4 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg border-2 border-yellow-200 dark:border-yellow-800">
-          <p className="text-sm font-medium text-yellow-600 dark:text-yellow-400">Pending</p>
-          <p className="text-3xl font-bold">{stats.pending}</p>
-        </div>
-        <div className="p-4 bg-green-50 dark:bg-green-950/20 rounded-lg border-2 border-green-200 dark:border-green-800">
-          <p className="text-sm font-medium text-green-600 dark:text-green-400">Completed</p>
-          <p className="text-3xl font-bold">{stats.completed}</p>
-        </div>
-        <div className="p-4 bg-red-50 dark:bg-red-950/20 rounded-lg border-2 border-red-200 dark:border-red-800">
-          <p className="text-sm font-medium text-red-600 dark:text-red-400">Overdue</p>
-          <p className="text-3xl font-bold">{stats.overdue}</p>
-        </div>
+        <Card className="p-6 border-2 hover:shadow-lg transition-shadow bg-white">
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-gray-100">
+              <List className="h-6 w-6 text-gray-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-600">Total</p>
+              <p className="text-3xl font-bold text-gray-900">{stats.total}</p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-6 border-2 hover:shadow-lg transition-shadow bg-white">
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-yellow-100">
+              <Clock className="h-6 w-6 text-yellow-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-600">Pending</p>
+              <p className="text-3xl font-bold text-gray-900">{stats.pending}</p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-6 border-2 hover:shadow-lg transition-shadow bg-white">
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-green-100">
+              <CheckCircle2 className="h-6 w-6 text-green-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-600">Completed</p>
+              <p className="text-3xl font-bold text-gray-900">{stats.completed}</p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-6 border-2 hover:shadow-lg transition-shadow bg-white">
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-red-100">
+              <AlertCircle className="h-6 w-6 text-red-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-600">Overdue</p>
+              <p className="text-3xl font-bold text-gray-900">{stats.overdue}</p>
+            </div>
+          </div>
+        </Card>
       </div>
 
+      {/* Deadlines Grid */}
       {deadlines.length > 0 ? (
         <div className="grid gap-4 md:grid-cols-2">
           {deadlines.map((deadline: any, index: number) => (
@@ -69,21 +105,21 @@ export default async function DeadlinesPage({
           ))}
         </div>
       ) : (
-        <div className="text-center py-16">
-          <div className="inline-flex p-6 bg-primary/10 rounded-full mb-4">
-            <Target className="h-12 w-12 text-primary" />
+        <Card className="p-16 text-center bg-white">
+          <div className="inline-flex p-6 bg-blue-50 rounded-full mb-4">
+            <Target className="h-12 w-12 text-blue-600" />
           </div>
-          <h3 className="text-xl font-semibold mb-2">No deadlines yet</h3>
-          <p className="text-muted-foreground mb-6">
+          <h3 className="text-xl font-semibold mb-2 text-gray-900">No deadlines yet</h3>
+          <p className="text-gray-600 mb-6">
             Add your first deadline to start tracking
           </p>
           <Link href="/deadlines/new">
-            <Button size="lg">
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
               <Plus className="h-5 w-5 mr-2" />
               Add Your First Deadline
             </Button>
           </Link>
-        </div>
+        </Card>
       )}
     </div>
   )

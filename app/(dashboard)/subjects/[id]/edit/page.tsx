@@ -2,9 +2,14 @@ import { getSubjectById, getSemesters } from '@/lib/actions/subjects'
 import { SubjectForm } from '@/components/subjects/subject-form'
 import { notFound } from 'next/navigation'
 
-export default async function EditSubjectPage({ params }: { params: { id: string } }) {
+export default async function EditSubjectPage({ 
+  params 
+}: { 
+  params: Promise<{ id: string }> 
+}) {
+  const { id } = await params
   const [subject, semesters] = await Promise.all([
-    getSubjectById(params.id),
+    getSubjectById(id),
     getSemesters()
   ])
 

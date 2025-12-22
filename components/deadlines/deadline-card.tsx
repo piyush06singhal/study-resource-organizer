@@ -193,10 +193,10 @@ export function DeadlineCard({ deadline, delay = 0 }: DeadlineCardProps) {
                   initial={{ opacity: 0, scale: 0.95, y: -10 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                  className="absolute right-0 mt-2 w-40 bg-white dark:bg-slate-900 rounded-lg shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden z-10"
+                  className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-xl border-2 border-gray-200 overflow-hidden z-10"
                 >
                   <Link href={`/deadlines/${deadline.id}/edit`}>
-                    <button className="w-full px-3 py-2 text-left text-sm hover:bg-accent flex items-center gap-2">
+                    <button className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2 text-gray-700">
                       <Edit className="h-3 w-3" />
                       Edit
                     </button>
@@ -204,7 +204,7 @@ export function DeadlineCard({ deadline, delay = 0 }: DeadlineCardProps) {
                   <button
                     onClick={handleDelete}
                     disabled={isDeleting}
-                    className="w-full px-3 py-2 text-left text-sm hover:bg-red-50 dark:hover:bg-red-950 text-red-600 flex items-center gap-2"
+                    className="w-full px-3 py-2 text-left text-sm hover:bg-red-50 text-red-600 flex items-center gap-2"
                   >
                     <Trash2 className="h-3 w-3" />
                     {isDeleting ? 'Deleting...' : 'Delete'}
