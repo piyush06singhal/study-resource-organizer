@@ -131,24 +131,24 @@ export function ResourceCard({ resource, delay = 0 }: ResourceCardProps) {
                   initial={{ opacity: 0, scale: 0.95, y: -10 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                  className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 rounded-lg shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden z-10"
+                  className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border-2 border-gray-200 overflow-hidden z-10"
                 >
                   <Link href={`/resources/${resource.id}`}>
-                    <button className="w-full px-4 py-2 text-left text-sm hover:bg-accent flex items-center gap-2">
+                    <button className="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2 text-gray-700">
                       <Eye className="h-4 w-4" />
                       View Details
                     </button>
                   </Link>
                   {resource.url && (
                     <a href={resource.url} target="_blank" rel="noopener noreferrer">
-                      <button className="w-full px-4 py-2 text-left text-sm hover:bg-accent flex items-center gap-2">
+                      <button className="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2 text-gray-700">
                         <ExternalLink className="h-4 w-4" />
                         Open Link
                       </button>
                     </a>
                   )}
                   <Link href={`/resources/${resource.id}/edit`}>
-                    <button className="w-full px-4 py-2 text-left text-sm hover:bg-accent flex items-center gap-2">
+                    <button className="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2 text-gray-700">
                       <Edit className="h-4 w-4" />
                       Edit
                     </button>
@@ -156,7 +156,7 @@ export function ResourceCard({ resource, delay = 0 }: ResourceCardProps) {
                   <button
                     onClick={handleDelete}
                     disabled={isDeleting}
-                    className="w-full px-4 py-2 text-left text-sm hover:bg-red-50 dark:hover:bg-red-950 text-red-600 flex items-center gap-2"
+                    className="w-full px-4 py-2 text-left text-sm hover:bg-red-50 text-red-600 flex items-center gap-2"
                   >
                     <Trash2 className="h-4 w-4" />
                     {isDeleting ? 'Deleting...' : 'Delete'}

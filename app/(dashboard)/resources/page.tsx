@@ -2,18 +2,20 @@ import { getResources, getAllTags } from '@/lib/actions/resources'
 import { ResourceCard } from '@/components/resources/resource-card'
 import { ResourceFilters } from '@/components/resources/resource-filters'
 import { Button } from '@/components/ui/button'
-import { Plus, FileText } from 'lucide-react'
+import { Card } from '@/components/ui/card'
+import { Plus, FileText, File, Image, Link as LinkIcon, Video, List } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function ResourcesPage({
   searchParams
 }: {
-  searchParams: { type?: string; search?: string; tags?: string }
+  searchParams: Promise<{ type?: string; search?: string; tags?: string }>
 }) {
+  const params = await searchParams
   const filters = {
-    type: searchParams.type,
-    search: searchParams.search,
-    tags: searchParams.tags ? searchParams.tags.split(',') : undefined
+    type: params.type,
+    search: params.search,
+    tags: params.tags ? params.tags.split(',') : undefined
   }
 
   const [resources, allTags] = await Promise.all([
@@ -36,7 +38,7 @@ export default async function ResourcesPage({
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-            <FileText className="h-8 w-8 text-primary" />
+            <FileText className="h-8 w-8 text-blue-600" />
             Resources
           </h1>
           <p className="text-muted-foreground mt-1">
@@ -44,7 +46,7 @@ export default async function ResourcesPage({
           </p>
         </div>
         <Link href="/resources/new">
-          <Button size="lg">
+          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
             <Plus className="h-5 w-5 mr-2" />
             Add Resource
           </Button>
@@ -53,30 +55,77 @@ export default async function ResourcesPage({
 
       {/* Stats */}
       <div className="grid gap-4 md:grid-cols-6">
-        <div className="p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border-2">
-          <p className="text-sm font-medium text-muted-foreground">All</p>
-          <p className="text-2xl font-bold">{typeCount.all}</p>
-        </div>
-        <div className="p-4 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg border-2 border-yellow-200 dark:border-yellow-800">
-          <p className="text-sm font-medium text-yellow-600 dark:text-yellow-400">📝 Notes</p>
-          <p className="text-2xl font-bold">{typeCount.note}</p>
-        </div>
-        <div className="p-4 bg-red-50 dark:bg-red-950/20 rounded-lg border-2 border-red-200 dark:border-red-800">
-          <p className="text-sm font-medium text-red-600 dark:text-red-400">📄 PDFs</p>
-          <p className="text-2xl font-bold">{typeCount.pdf}</p>
-        </div>
-        <div className="p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border-2 border-blue-200 dark:border-blue-800">
-          <p className="text-sm font-medium text-blue-600 dark:text-blue-400">🖼️ Images</p>
-          <p className="text-2xl font-bold">{typeCount.image}</p>
-        </div>
-        <div className="p-4 bg-green-50 dark:bg-green-950/20 rounded-lg border-2 border-green-200 dark:border-green-800">
-          <p className="text-sm font-medium text-green-600 dark:text-green-400">🔗 Links</p>
-          <p className="text-2xl font-bold">{typeCount.link}</p>
-        </div>
-        <div className="p-4 bg-purple-50 dark:bg-purple-950/20 rounded-lg border-2 border-purple-200 dark:border-purple-800">
-          <p className="text-sm font-medium text-purple-600 dark:text-purple-400">🎥 Videos</p>
-          <p className="text-2xl font-bold">{typeCount.video}</p>
-        </div>
+        <Card className="p-6 border-2 hover:shadow-lg transition-shadow bg-white">
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-gray-100">
+              <List className="h-6 w-6 text-gray-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-600">All</p>
+              <p className="text-2xl font-bold text-gray-900">{typeCount.all}</p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-6 border-2 hover:shadow-lg transition-shadow bg-white">
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-yellow-100">
+              <FileText className="h-6 w-6 text-yellow-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-600">Notes</p>
+              <p className="text-2xl font-bold text-gray-900">{typeCount.note}</p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-6 border-2 hover:shadow-lg transition-shadow bg-white">
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-red-100">
+              <File className="h-6 w-6 text-red-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-600">PDFs</p>
+              <p className="text-2xl font-bold text-gray-900">{typeCount.pdf}</p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-6 border-2 hover:shadow-lg transition-shadow bg-white">
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-blue-100">
+              <Image className="h-6 w-6 text-blue-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-600">Images</p>
+              <p className="text-2xl font-bold text-gray-900">{typeCount.image}</p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-6 border-2 hover:shadow-lg transition-shadow bg-white">
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-green-100">
+              <LinkIcon className="h-6 w-6 text-green-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-600">Links</p>
+              <p className="text-2xl font-bold text-gray-900">{typeCount.link}</p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-6 border-2 hover:shadow-lg transition-shadow bg-white">
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-purple-100">
+              <Video className="h-6 w-6 text-purple-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-600">Videos</p>
+              <p className="text-2xl font-bold text-gray-900">{typeCount.video}</p>
+            </div>
+          </div>
+        </Card>
       </div>
 
       {/* Filters */}
@@ -90,27 +139,27 @@ export default async function ResourcesPage({
           ))}
         </div>
       ) : (
-        <div className="text-center py-16">
-          <div className="inline-flex p-6 bg-primary/10 rounded-full mb-4">
-            <FileText className="h-12 w-12 text-primary" />
+        <Card className="p-16 text-center bg-white">
+          <div className="inline-flex p-6 bg-blue-50 rounded-full mb-4">
+            <FileText className="h-12 w-12 text-blue-600" />
           </div>
-          <h3 className="text-xl font-semibold mb-2">
+          <h3 className="text-xl font-semibold mb-2 text-gray-900">
             {filters.search || filters.type !== 'all' || filters.tags
               ? 'No resources found'
               : 'No resources yet'}
           </h3>
-          <p className="text-muted-foreground mb-6">
+          <p className="text-gray-600 mb-6">
             {filters.search || filters.type !== 'all' || filters.tags
               ? 'Try adjusting your filters'
               : 'Add your first resource to start building your library'}
           </p>
           <Link href="/resources/new">
-            <Button size="lg">
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
               <Plus className="h-5 w-5 mr-2" />
               Add Your First Resource
             </Button>
           </Link>
-        </div>
+        </Card>
       )}
     </div>
   )
