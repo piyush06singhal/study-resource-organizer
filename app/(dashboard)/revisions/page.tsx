@@ -1,4 +1,4 @@
-import { getRevisions, getTopicsNeedingRevision, getRevisionStats } from '@/lib/actions/revisions'
+import { getRevisions, getTopicsNeedingRevision } from '@/lib/actions/revisions'
 import { getTopics } from '@/lib/actions/topics'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
