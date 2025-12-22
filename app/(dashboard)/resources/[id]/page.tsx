@@ -3,7 +3,7 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { 
   FileText, Image, Link as LinkIcon, StickyNote, Video,
-  ArrowLeft, Edit, Trash2, Download, ExternalLink, Calendar
+  ArrowLeft, Edit, Download, ExternalLink, Calendar
 } from 'lucide-react'
 import Link from 'next/link'
 import { format } from 'date-fns'
@@ -15,14 +15,17 @@ export default async function ResourceDetailPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const resource = await getResourceById(id)
+  const resourceData = await getResourceById(id)
 
-  if (!resource) {
+  if (!resourceData) {
     notFound()
   }
 
+  // Type assertion to help TypeScript
+  const resource = resourceData as any
+
   const getTypeIcon = () => {
-    switch (resource.type as string) {
+    switch (resource.type) {
       case 'pdf':
         return <FileText className="h-8 w-8 text-red-600" />
       case 'image':
@@ -55,10 +58,10 @@ export default async function ResourceDetailPage({
             </Button>
           </Link>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">{resource.title as string}</h1>
+            <h1 className="text-3xl font-bold tracking-tight">{resource.title}</h1>
             <p className="text-muted-foreground mt-1">
-              {(resource.type as string).toUpperCase()}
-              {resource.file_size && ` • ${formatFileSize(resource.file_size as number)}`}
+              {resource.type.toUpperCase()}
+              {resource.file_size && ` • ${formatFileSize(resource.file_size)}`}
             </p>
           </div>
         </div>
@@ -79,14 +82,14 @@ export default async function ResourceDetailPage({
             {getTypeIcon()}
           </div>
           <div className="flex-1">
-            <h2 className="text-xl font-semibold mb-2">{resource.title as string}</h2>
+            <h2 className="text-xl font-semibold mb-2">{resource.title}</h2>
             <div className="flex items-center gap-4 text-sm text-gray-600">
               <span className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
-                {format(new Date(resource.created_at as string), 'MMM dd, yyyy')}
+                {format(new Date(resource.created_at), 'MMM dd, yyyy')}
               </span>
               {resource.updated_at && resource.updated_at !== resource.created_at && (
-                <span>Updated {format(new Date(resource.updated_at as string), 'MMM dd, yyyy')}</span>
+                <span>Updated {format(new Date(resource.updated_at), 'MMM dd, yyyy')}</span>
               )}
             </div>
           </div>
@@ -97,12 +100,12 @@ export default async function ResourceDetailPage({
           <div className="mb-6">
             <h3 className="font-semibold mb-2">URL</h3>
             <a
-              href={resource.url as string}
+              href={resource.url}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline flex items-center gap-2"
             >
-              {resource.url as string}
+              {resource.url}
               <ExternalLink className="h-4 w-4" />
             </a>
           </div>
@@ -113,8 +116,8 @@ export default async function ResourceDetailPage({
           <div className="mb-6">
             <h3 className="font-semibold mb-2">Preview</h3>
             <img
-              src={resource.file_path as string}
-              alt={resource.title as string}
+              src={resource.file_path}
+              alt={resource.title}
               className="max-w-full h-auto rounded-lg border"
             />
           </div>
@@ -127,7 +130,7 @@ export default async function ResourceDetailPage({
               {resource.type === 'note' ? 'Content' : 'Description'}
             </h3>
             <div className="prose max-w-none">
-              <p className="whitespace-pre-wrap text-gray-700">{resource.content as string}</p>
+              <p className="whitespace-pre-wrap text-gray-700">{resource.content}</p>
             </div>
           </div>
         )}
@@ -137,7 +140,7 @@ export default async function ResourceDetailPage({
           <div className="mb-6">
             <h3 className="font-semibold mb-2">Tags</h3>
             <div className="flex flex-wrap gap-2">
-              {(resource.tags as string[]).map((tag: string, index: number) => (
+              {resource.tags.map((tag: string, index: number) => (
                 <span
                   key={index}
                   className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm"
@@ -154,7 +157,7 @@ export default async function ResourceDetailPage({
           <div className="mb-6">
             <h3 className="font-semibold mb-2">Linked Topics</h3>
             <div className="grid gap-2">
-              {(resource.resource_topics as any[]).map((rt: any) => (
+              {resource.resource_topics.map((rt: any) => (
                 <Link
                   key={rt.topics.id}
                   href={`/topics/${rt.topics.id}`}
@@ -181,7 +184,7 @@ export default async function ResourceDetailPage({
         {/* Download button for files */}
         {resource.file_path && (resource.type === 'pdf' || resource.type === 'image') && (
           <div className="pt-4 border-t">
-            <a href={resource.file_path as string} download target="_blank" rel="noopener noreferrer">
+            <a href={resource.file_path} download target="_blank" rel="noopener noreferrer">
               <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                 <Download className="h-4 w-4 mr-2" />
                 Download File
