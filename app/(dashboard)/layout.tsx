@@ -40,7 +40,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen bg-gray-50">
       <Sidebar />
       <div className="pl-[280px] transition-all duration-300">
         <Header user={userData} />
