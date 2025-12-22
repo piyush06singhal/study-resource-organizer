@@ -77,7 +77,7 @@ export default function HomePage() {
   ]
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
+    <div className="bg-white min-h-screen">
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 md:py-32">
         <div className="max-w-4xl mx-auto text-center space-y-8">
@@ -87,20 +87,20 @@ export default function HomePage() {
             transition={{ duration: 0.5 }}
             className="space-y-4"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20">
-              <Sparkles className="h-4 w-4 text-primary" />
-              <span className="text-sm font-medium text-primary">Your Academic Success Partner</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full border border-blue-200">
+              <Sparkles className="h-4 w-4 text-blue-600" />
+              <span className="text-sm font-medium text-blue-600">Your Academic Success Partner</span>
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-gray-900">
               Organize Your Studies,
               <br />
-              <span className="bg-gradient-to-r from-primary via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 bg-clip-text text-transparent">
                 Achieve Your Goals
               </span>
             </h1>
             
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto">
               The all-in-one platform for students to manage resources, plan studies, track deadlines, and monitor progress.
             </p>
           </motion.div>
@@ -111,13 +111,13 @@ export default function HomePage() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <Button asChild size="lg" className="text-lg h-14 px-8 group" disabled={isLoading}>
+            <Button asChild size="lg" className="text-lg h-14 px-8 group bg-blue-600 hover:bg-blue-700 text-white" disabled={isLoading}>
               <Link href={ctaLink}>
                 {ctaText}
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="text-lg h-14 px-8">
+            <Button asChild size="lg" variant="outline" className="text-lg h-14 px-8 border-2 border-blue-600 text-blue-600 hover:bg-blue-50">
               <Link href="/features">
                 Explore Features
               </Link>
