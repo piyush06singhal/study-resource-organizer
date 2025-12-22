@@ -12,11 +12,14 @@ export default async function StudyPlanDetailPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const plan = await getStudyPlanById(id)
+  const planData = await getStudyPlanById(id)
 
-  if (!plan) {
+  if (!planData) {
     notFound()
   }
+
+  // Type assertion to help TypeScript
+  const plan = planData as any
 
   const formatTime = (time?: string) => {
     if (!time) return ''
@@ -70,7 +73,7 @@ export default async function StudyPlanDetailPage({
         {/* Status */}
         <div className="mb-6">
           <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getStatusColor()}`}>
-            {plan.status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+            {plan.status.replace('_', ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())}
           </span>
         </div>
 
