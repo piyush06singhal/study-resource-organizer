@@ -96,17 +96,20 @@ export async function createDeadline(formData: {
     return { error: 'Not authenticated' }
   }
 
+  // Convert empty string to null for UUID field
+  const subject_id = formData.subject_id && formData.subject_id !== '' ? formData.subject_id : null
+
   const { data, error } = await supabase
     .from('deadlines')
-    // @ts-expect-error - Supabase type inference issue
+    // @ts-ignore - Supabase type inference issue
     .insert({
       user_id: user.id,
       title: formData.title,
-      description: formData.description,
+      description: formData.description || null,
       type: formData.type,
       due_date: formData.due_date,
       priority: formData.priority || 'medium',
-      subject_id: formData.subject_id,
+      subject_id,
       status: 'pending'
     })
     .select()
@@ -138,17 +141,20 @@ export async function updateDeadline(id: string, formData: {
     return { error: 'Not authenticated' }
   }
 
+  // Convert empty string to null for UUID field
+  const subject_id = formData.subject_id && formData.subject_id !== '' ? formData.subject_id : null
+
   const { data, error } = await supabase
     .from('deadlines')
-    // @ts-expect-error - Supabase type inference issue
+    // @ts-ignore - Supabase type inference issue
     .update({
       title: formData.title,
-      description: formData.description,
+      description: formData.description || null,
       type: formData.type,
       due_date: formData.due_date,
       priority: formData.priority,
       status: formData.status,
-      subject_id: formData.subject_id
+      subject_id
     })
     .eq('id', id)
     .eq('user_id', user.id)
