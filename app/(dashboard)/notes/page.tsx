@@ -3,7 +3,7 @@ import { getSubjects } from '@/lib/actions/subjects'
 import { NotesGrid } from '@/components/notes/notes-grid'
 import { CreateNoteButton } from '@/components/notes/create-note-button'
 import { NotesFilters } from '@/components/notes/notes-filters'
-import { BookOpen, Sparkles, AlertCircle } from 'lucide-react'
+import { Sparkles, AlertCircle } from 'lucide-react'
 import { Suspense } from 'react'
 import { Card } from '@/components/ui/card'
 
