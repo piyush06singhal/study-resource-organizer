@@ -1,14 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Lock, Loader2, Eye, EyeOff, CheckCircle2 } from 'lucide-react'
+import { Lock, Loader2, Eye, EyeOff, CheckCircle2, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { updatePassword } from '@/lib/actions/auth'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase/client'
 
 export function ResetPasswordForm() {
   const [password, setPassword] = useState('')
@@ -18,7 +19,24 @@ export function ResetPasswordForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [sessionError, setSessionError] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    // Check if we have a valid session from the reset link
+    const checkSession = async () => {
+      const supabase = createClient()
+      const { data: { session }, error } = await supabase.auth.getSession()
+      
+      if (error || !session) {
+        setSessionError(true)
+        setError('Your password reset link is invalid or has expired. Please request a new one.')
+      }
+    }
+    
+    checkSession()
+  }, [searchParams])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -73,6 +91,36 @@ export function ResetPasswordForm() {
             Redirecting to login page...
           </p>
         </div>
+      </motion.div>
+    )
+  }
+
+  if (sessionError) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="text-center space-y-4"
+      >
+        <div className="mx-auto w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+          <AlertCircle className="h-8 w-8 text-red-600 dark:text-red-400" />
+        </div>
+        <div className="space-y-2">
+          <h3 className="text-2xl font-bold">Link Expired</h3>
+          <p className="text-muted-foreground">
+            Your password reset link is invalid or has expired.
+          </p>
+        </div>
+        <Button asChild className="w-full">
+          <Link href="/forgot-password">
+            Request New Reset Link
+          </Link>
+        </Button>
+        <Button asChild variant="ghost" className="w-full">
+          <Link href="/login">
+            Back to Login
+          </Link>
+        </Button>
       </motion.div>
     )
   }
