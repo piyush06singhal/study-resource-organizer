@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { ResetPasswordForm } from '@/components/auth/reset-password-form'
 import { BookOpen } from 'lucide-react'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
 export default function ResetPasswordPage() {
   return (
@@ -31,7 +32,9 @@ export default function ResetPasswordPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ResetPasswordForm />
+            <Suspense fallback={<div className="text-center py-8">Loading...</div>}>
+              <ResetPasswordForm />
+            </Suspense>
           </CardContent>
         </Card>
       </div>

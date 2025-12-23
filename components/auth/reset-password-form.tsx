@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { updatePassword } from '@/lib/actions/auth'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 
@@ -21,7 +21,6 @@ export function ResetPasswordForm() {
   const [success, setSuccess] = useState(false)
   const [sessionError, setSessionError] = useState(false)
   const router = useRouter()
-  const searchParams = useSearchParams()
 
   useEffect(() => {
     // Check if we have a valid session from the reset link
@@ -36,7 +35,7 @@ export function ResetPasswordForm() {
     }
     
     checkSession()
-  }, [searchParams])
+  }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
