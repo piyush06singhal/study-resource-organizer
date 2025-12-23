@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 
 export default function TermsPage() {
   return (
-    <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950 min-h-screen">
+    <div className="bg-white min-h-screen">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           {/* Back Button */}

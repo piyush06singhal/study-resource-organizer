@@ -23,7 +23,7 @@ export default function ForgotPasswordPage() {
       </div>
 
       {/* Forgot Password Card */}
-      <Card className="border-2 shadow-xl backdrop-blur-sm bg-white/80 dark:bg-slate-900/80">
+      <Card className="border-2 shadow-xl bg-white">
         <CardHeader className="space-y-1 pb-4">
           <CardTitle className="text-2xl font-bold text-center">Forgot Password?</CardTitle>
           <CardDescription className="text-center">
