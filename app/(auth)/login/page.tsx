@@ -3,6 +3,7 @@ import { LoginForm } from '@/components/auth/login-form'
 import { GoogleAuthButton } from '@/components/auth/google-auth-button'
 import { BookOpen, Sparkles, TrendingUp, Brain } from 'lucide-react'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
 export default function LoginPage() {
   return (
@@ -34,7 +35,9 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <LoginForm />
+          <Suspense fallback={<div className="text-center py-4">Loading...</div>}>
+            <LoginForm />
+          </Suspense>
           
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
