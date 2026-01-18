@@ -1,80 +1,94 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { 
-  BookOpen, ArrowRight, CheckCircle2, 
-  Calendar, Target, TrendingUp, 
-  FileText, Clock, BarChart3,
-  Sparkles, Zap, Shield
-} from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { getUser } from '@/lib/actions/auth'
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import {
+  BookOpen,
+  ArrowRight,
+  CheckCircle2,
+  Calendar,
+  Target,
+  TrendingUp,
+  FileText,
+  Clock,
+  BarChart3,
+  Sparkles,
+  Zap,
+  Shield,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { getUser } from "@/lib/actions/auth";
 
 export default function HomePage() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function checkAuth() {
-      const user = await getUser()
-      setIsAuthenticated(!!user)
-      setIsLoading(false)
+      const user = await getUser();
+      setIsAuthenticated(!!user);
+      setIsLoading(false);
     }
-    checkAuth()
-  }, [])
+    checkAuth();
+  }, []);
 
-  const ctaLink = isAuthenticated ? '/dashboard' : '/signup'
-  const ctaText = 'Get Started'
+  const ctaLink = isAuthenticated ? "/dashboard" : "/signup";
+  const ctaText = "Get Started";
   const features = [
     {
       icon: BookOpen,
-      title: 'Resource Organization',
-      description: 'Keep all your study materials, PDFs, notes, and links organized in one place.',
-      color: 'from-blue-500 to-cyan-500'
+      title: "Resource Organization",
+      description:
+        "Keep all your study materials, PDFs, notes, and links organized in one place.",
+      color: "from-blue-500 to-cyan-500",
     },
     {
       icon: Calendar,
-      title: 'Study Planner',
-      description: 'Create effective study schedules with our intuitive calendar and planning tools.',
-      color: 'from-purple-500 to-pink-500'
+      title: "Study Planner",
+      description:
+        "Create effective study schedules with our intuitive calendar and planning tools.",
+      color: "from-purple-500 to-pink-500",
     },
     {
       icon: Target,
-      title: 'Deadline Tracking',
-      description: 'Never miss an assignment or exam with smart deadline reminders and countdowns.',
-      color: 'from-orange-500 to-red-500'
+      title: "Deadline Tracking",
+      description:
+        "Never miss an assignment or exam with smart deadline reminders and countdowns.",
+      color: "from-orange-500 to-red-500",
     },
     {
       icon: TrendingUp,
-      title: 'Progress Monitoring',
-      description: 'Track your learning progress with visual indicators and completion statistics.',
-      color: 'from-green-500 to-emerald-500'
+      title: "Progress Monitoring",
+      description:
+        "Track your learning progress with visual indicators and completion statistics.",
+      color: "from-green-500 to-emerald-500",
     },
     {
       icon: FileText,
-      title: 'Revision System',
-      description: 'Implement spaced repetition with our intelligent revision tracking system.',
-      color: 'from-indigo-500 to-blue-500'
+      title: "Revision System",
+      description:
+        "Implement spaced repetition with our intelligent revision tracking system.",
+      color: "from-indigo-500 to-blue-500",
     },
     {
       icon: BarChart3,
-      title: 'Analytics Dashboard',
-      description: 'Gain insights into your study habits with detailed analytics and reports.',
-      color: 'from-pink-500 to-rose-500'
-    }
-  ]
+      title: "Analytics Dashboard",
+      description:
+        "Gain insights into your study habits with detailed analytics and reports.",
+      color: "from-pink-500 to-rose-500",
+    },
+  ];
 
   const benefits = [
-    'Unlimited subjects and topics',
-    'Cloud storage for resources',
-    'Mobile-friendly interface',
-    'Dark mode support',
-    'Export your data anytime',
-    'Free forever plan'
-  ]
+    "Unlimited subjects and topics",
+    "Cloud storage for resources",
+    "Mobile-friendly interface",
+    "Dark mode support",
+    "Export your data anytime",
+    "Free forever plan",
+  ];
 
   return (
     <div className="bg-white min-h-screen">
@@ -89,9 +103,11 @@ export default function HomePage() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full border border-blue-200">
               <Sparkles className="h-4 w-4 text-blue-600" />
-              <span className="text-sm font-medium text-blue-600">Your Academic Success Partner</span>
+              <span className="text-sm font-medium text-blue-600">
+                Your Academic Success Partner
+              </span>
             </div>
-            
+
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-gray-900">
               Organize Your Studies,
               <br />
@@ -99,9 +115,10 @@ export default function HomePage() {
                 Achieve Your Goals
               </span>
             </h1>
-            
+
             <p className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto">
-              The all-in-one platform for students to manage resources, plan studies, track deadlines, and monitor progress.
+              The all-in-one platform for students to manage resources, plan
+              studies, track deadlines, and monitor progress.
             </p>
           </motion.div>
 
@@ -111,33 +128,25 @@ export default function HomePage() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <Button asChild size="lg" className="text-lg h-14 px-8 group bg-blue-600 hover:bg-blue-700 text-white" disabled={isLoading}>
+            <Button
+              asChild
+              size="lg"
+              className="text-lg h-14 px-8 group bg-blue-600 hover:bg-blue-700 text-white"
+              disabled={isLoading}
+            >
               <Link href={ctaLink}>
                 {ctaText}
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="text-lg h-14 px-8 border-2 border-blue-600 text-blue-600 hover:bg-blue-50">
-              <Link href="/features">
-                Explore Features
-              </Link>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="text-lg h-14 px-8 border-2 border-blue-600 text-blue-600 hover:bg-blue-50"
+            >
+              <Link href="/features">Explore Features</Link>
             </Button>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="flex items-center justify-center gap-8 text-sm text-muted-foreground"
-          >
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5 text-green-500" />
-              <span>No credit card required</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5 text-green-500" />
-              <span>Free forever</span>
-            </div>
           </motion.div>
         </div>
       </section>
@@ -150,7 +159,8 @@ export default function HomePage() {
               Everything You Need to Excel
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Powerful features designed to help you stay organized and achieve academic success
+              Powerful features designed to help you stay organized and achieve
+              academic success
             </p>
           </div>
 
@@ -164,10 +174,14 @@ export default function HomePage() {
                 viewport={{ once: true }}
               >
                 <Card className="p-6 h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 hover:border-primary/50 group">
-                  <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${feature.color} mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                  <div
+                    className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${feature.color} mb-4 group-hover:scale-110 transition-transform duration-300`}
+                  >
                     <feature.icon className="h-6 w-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                  <h3 className="text-xl font-semibold mb-2">
+                    {feature.title}
+                  </h3>
                   <p className="text-muted-foreground">{feature.description}</p>
                 </Card>
               </motion.div>
@@ -186,7 +200,8 @@ export default function HomePage() {
                   Why Choose StudyFlow?
                 </h2>
                 <p className="text-lg text-muted-foreground">
-                  Join thousands of students who are already organizing their studies more effectively
+                  Join thousands of students who are already organizing their
+                  studies more effectively
                 </p>
               </div>
               <div className="space-y-3">
@@ -226,17 +241,21 @@ export default function HomePage() {
                 Ready to Transform Your Study Routine?
               </h2>
               <p className="text-lg text-white/90 max-w-2xl mx-auto">
-                Join StudyFlow today and experience a better way to organize your academic life
+                Join StudyFlow today and experience a better way to organize
+                your academic life
               </p>
-              <Button asChild size="lg" variant="outline" className="text-lg h-14 px-8 bg-white/10 border-white/20 text-white hover:bg-white/20">
-                <Link href="/contact">
-                  Contact Us
-                </Link>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="text-lg h-14 px-8 bg-white/10 border-white/20 text-white hover:bg-white/20"
+              >
+                <Link href="/contact">Contact Us</Link>
               </Button>
             </div>
           </Card>
         </motion.div>
       </section>
     </div>
-  )
+  );
 }

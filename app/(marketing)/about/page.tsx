@@ -35,9 +35,9 @@ export default function AboutPage() {
   ]
 
   const stats = [
-    { value: '10,000+', label: 'Active Students' },
-    { value: '50,000+', label: 'Study Sessions' },
-    { value: '100,000+', label: 'Resources Organized' },
+    { value: '500+', label: 'Active Students' },
+    { value: '50+', label: 'Study Sessions' },
+    { value: '100+', label: 'Resources Organized' },
     { value: '99.9%', label: 'Uptime' },
   ]
 

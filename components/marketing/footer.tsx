@@ -1,24 +1,32 @@
-import Link from 'next/link'
-import { BookOpen, Github, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react'
+import Link from "next/link";
+import {
+  BookOpen,
+  Github,
+  Twitter,
+  Linkedin,
+  Mail,
+  Phone,
+  MapPin,
+} from "lucide-react";
 
 export function Footer() {
   const footerLinks = {
     product: [
-      { label: 'Features', href: '/features' },
-      { label: 'Pricing', href: '/pricing' },
-      { label: 'FAQ', href: '/faq' },
+      { label: "Features", href: "/features" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "FAQ", href: "/faq" },
     ],
     company: [
-      { label: 'About', href: '/about' },
-      { label: 'Contact', href: '/contact' },
-      { label: 'Blog', href: '/blog' },
+      { label: "About", href: "/about" },
+      { label: "Contact", href: "/contact" },
+      { label: "Blog", href: "/blog" },
     ],
     legal: [
-      { label: 'Privacy', href: '/privacy' },
-      { label: 'Terms', href: '/terms' },
-      { label: 'Security', href: '/security' },
+      { label: "Privacy", href: "/privacy" },
+      { label: "Terms", href: "/terms" },
+      { label: "Security", href: "/security" },
     ],
-  }
+  };
 
   return (
     <footer className="bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white">
@@ -30,16 +38,15 @@ export function Footer() {
               <div className="p-2 bg-white rounded-lg group-hover:scale-110 transition-transform duration-300">
                 <BookOpen className="h-6 w-6 text-blue-600" />
               </div>
-              <span className="text-xl font-bold text-white">
-                StudyFlow
-              </span>
+              <span className="text-xl font-bold text-white">StudyFlow</span>
             </Link>
             <p className="text-sm text-blue-100">
-              Organize your studies, achieve your goals. The modern way to manage your academic journey.
+              Organize your studies, achieve your goals. The modern way to
+              manage your academic journey.
             </p>
             <div className="flex gap-4">
               <a
-                href="https://github.com"
+                href="https://github.com/piyush06singhal"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-lg hover:bg-white/10 transition-colors text-blue-100 hover:text-white"
@@ -47,7 +54,7 @@ export function Footer() {
                 <Github className="h-5 w-5" />
               </a>
               <a
-                href="https://twitter.com"
+                href="https://x.com/PiyushS07508112"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-lg hover:bg-white/10 transition-colors text-blue-100 hover:text-white"
@@ -55,7 +62,7 @@ export function Footer() {
                 <Twitter className="h-5 w-5" />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/piyush--singhal/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-lg hover:bg-white/10 transition-colors text-blue-100 hover:text-white"
@@ -105,21 +112,25 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-2">
                 <Mail className="h-4 w-4 mt-0.5 text-blue-300" />
-                <a href="mailto:piyush.singhal.2004@gmail.com" className="text-sm text-blue-100 hover:text-white transition-colors">
+                <a
+                  href="mailto:piyush.singhal.2004@gmail.com"
+                  className="text-sm text-blue-100 hover:text-white transition-colors"
+                >
                   piyush.singhal.2004@gmail.com
                 </a>
               </li>
               <li className="flex items-start gap-2">
                 <Phone className="h-4 w-4 mt-0.5 text-blue-300" />
-                <a href="tel:+919694984312" className="text-sm text-blue-100 hover:text-white transition-colors">
+                <a
+                  href="tel:+919694984312"
+                  className="text-sm text-blue-100 hover:text-white transition-colors"
+                >
                   +91 9694984312
                 </a>
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 mt-0.5 text-blue-300" />
-                <span className="text-sm text-blue-100">
-                  Rajasthan, India
-                </span>
+                <span className="text-sm text-blue-100">Rajasthan, India</span>
               </li>
             </ul>
           </div>
@@ -128,10 +139,11 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-white/10">
           <p className="text-center text-sm text-blue-100">
-            © {new Date().getFullYear()} StudyFlow. All rights reserved. Built with ❤️ for students worldwide.
+            © {new Date().getFullYear()} StudyFlow. All rights reserved. Built
+            with ❤️ for students worldwide.
           </p>
         </div>
       </div>
     </footer>
-  )
+  );
 }
