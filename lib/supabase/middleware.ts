@@ -27,8 +27,21 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  // Refreshing the auth token
-  const { data: { user } } = await supabase.auth.getUser()
+  // Refreshing the auth token with a timeout to prevent Vercel 504 errors on stale cookies
+  let user = null;
+  try {
+    const getUserPromise = supabase.auth.getUser();
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('Supabase getUser timed out')), 3000)
+    );
+    
+    const result = await Promise.race([getUserPromise, timeoutPromise]) as any;
+    user = result?.data?.user || null;
+  } catch (error: any) {
+    console.warn('Middleware auth error or timeout:', error);
+    // If it times out, we treat the user as unauthenticated
+    user = null;
+  }
 
   // Protected routes
   const protectedPaths = ['/dashboard', '/subjects', '/topics', '/resources', '/planner', '/deadlines', '/revisions', '/analytics', '/profile', '/settings']
