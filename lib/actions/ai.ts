@@ -14,29 +14,117 @@ export async function generateAIStudyPlan(data: {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) throw new Error('Unauthorized')
 
-  // Calculate study plan based on deadlines
-  const tasks = data.deadlines.map((deadline, index) => {
-    const daysUntil = Math.ceil(
-      (new Date(deadline.due_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
-    )
-    const hoursNeeded = Math.max(daysUntil * 0.5, 2) // Minimum 2 hours per deadline
-    
-    return {
-      deadline_id: deadline.id,
-      title: `Study for ${deadline.title}`,
-      subject_id: deadline.subject_id,
-      estimated_hours: hoursNeeded,
-      priority: daysUntil <= 7 ? 'high' : daysUntil <= 14 ? 'medium' : 'low',
-      suggested_dates: generateStudyDates(daysUntil, hoursNeeded, data.availableHoursPerDay)
+  let tasks: any[] = []
+  let description = 'Automatically generated based on your deadlines and preferences'
+
+  const apiKey = process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY
+  if (apiKey) {
+    try {
+      const prompt = `You are a Smart Study Planner AI integrated into a "Study Resource Organizer" application.
+The application includes features for managing subjects, topics, study sessions, spaced repetition revisions, deadlines, markdown notes, and flashcards.
+
+Your task is to analyze the student's goals and deadlines, and generate a customized study plan.
+
+STUDENT PROFILE & INPUTS:
+- Goals: ${JSON.stringify(data.goals)}
+- Deadlines: ${JSON.stringify(
+        data.deadlines.map(d => ({
+          id: d.id,
+          title: d.title,
+          due_date: d.due_date,
+          subject_id: d.subject_id,
+        }))
+      )}
+- Available Study Hours Per Day: ${data.availableHoursPerDay}
+- Preferred Study Times: ${JSON.stringify(data.preferredStudyTimes)}
+- Current Date: ${new Date().toISOString().split('T')[0]}
+
+Generate a highly specific, realistic, and actionable study plan. It should provide a clear strategic roadmap of how to approach their long-term goals (like UPSC, board exams, or master difficult topics) and align it with their upcoming deadlines.
+
+Return a JSON object matching this schema:
+{
+  "roadmap": "A detailed, motivating, and personalized study roadmap and strategic advice (in plain text, using paragraphs and clean bullet points for easy reading) specifically tailored to the student's goals and deadlines. Break down the plan into clear weekly or phase-based milestones.",
+  "tasks": [
+    {
+      "deadline_id": "string (optional, match the id of the deadline this task helps prepare for)",
+      "title": "string (specific, actionable task title, e.g., 'Study Ancient History for UPSC' or 'Practice past papers for Math Board Exam')",
+      "subject_id": "string (optional, match the subject_id of the deadline)",
+      "estimated_hours": number,
+      "priority": "high" | "medium" | "low",
+      "suggested_dates": ["YYYY-MM-DD"]
     }
-  })
+  ]
+}
+
+Response MUST be valid JSON only. DO NOT wrap the output in markdown code blocks like \`\`\`json.`
+
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  {
+                    text: prompt,
+                  },
+                ],
+              },
+            ],
+            generationConfig: {
+              responseMimeType: 'application/json',
+            },
+          }),
+        }
+      )
+
+      if (response.ok) {
+        const json = await response.json()
+        const text = json.candidates?.[0]?.content?.parts?.[0]?.text
+        if (text) {
+          const result = JSON.parse(text.trim())
+          if (result.roadmap) {
+            description = result.roadmap
+          }
+          if (Array.isArray(result.tasks)) {
+            tasks = result.tasks
+          }
+        }
+      }
+    } catch (e) {
+      console.error('Failed to generate study plan using Gemini:', e)
+    }
+  }
+
+  // Fallback to heuristic generation if Gemini API is not configured or failed
+  if (tasks.length === 0) {
+    tasks = data.deadlines.map((deadline) => {
+      const daysUntil = Math.ceil(
+        (new Date(deadline.due_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+      )
+      const hoursNeeded = Math.max(daysUntil * 0.5, 2) // Minimum 2 hours per deadline
+      
+      return {
+        deadline_id: deadline.id,
+        title: `Study for ${deadline.title}`,
+        subject_id: deadline.subject_id,
+        estimated_hours: hoursNeeded,
+        priority: daysUntil <= 7 ? 'high' : daysUntil <= 14 ? 'medium' : 'low',
+        suggested_dates: generateStudyDates(daysUntil, hoursNeeded, data.availableHoursPerDay)
+      }
+    })
+  }
 
   const { data: plan, error } = await supabase
     .from('ai_study_plans')
     .insert({
       user_id: user.id,
       title: 'AI Generated Study Plan',
-      description: 'Automatically generated based on your deadlines and preferences',
+      description,
       start_date: new Date().toISOString().split('T')[0],
       end_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       goals: data.goals,
