@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache'
 
 // AI Study Plan Generator
 export async function generateAIStudyPlan(data: {
-  deadlines: Array<{ id: string; title: string; due_date: string; subject_id: string }>
+  deadlines: { id: string; title: string; due_date: string; subject_id: string }[]
   availableHoursPerDay: number
   preferredStudyTimes: string[]
   goals: string[]
@@ -28,7 +28,7 @@ Your task is to analyze the student's goals and deadlines, and generate a custom
 STUDENT PROFILE & INPUTS:
 - Goals: ${JSON.stringify(data.goals)}
 - Deadlines: ${JSON.stringify(
-        data.deadlines.map(d => ({
+        data.deadlines.map((d: any) => ({
           id: d.id,
           title: d.title,
           due_date: d.due_date,
@@ -59,7 +59,7 @@ Return a JSON object matching this schema:
 Response MUST be valid JSON only. DO NOT wrap the output in markdown code blocks like \`\`\`json.`
 
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: {
@@ -283,72 +283,192 @@ export async function generateStudyRecommendations() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) throw new Error('Unauthorized')
 
-  const recommendations = []
+  let recommendations: any[] = []
 
-  // Get topics with low confidence
+  // 1. Get difficult topics
   const { data: difficultTopics } = await supabase
     .from('topic_difficulty')
     .select('*, topics(name, subjects(name, color))')
     .eq('user_id', user.id)
-    .lt('confidence_level', 60)
-    .order('confidence_level', { ascending: true })
-    .limit(3)
 
-  if (difficultTopics && (difficultTopics as any[]).length > 0) {
-    (difficultTopics as any[]).forEach((topic: any) => {
-      recommendations.push({
-        user_id: user.id,
-        recommendation_type: 'topic',
-        title: `Focus on ${topic.topics?.name}`,
-        description: `This topic needs more attention. Current confidence: ${topic.confidence_level}%`,
-        priority: 100 - topic.confidence_level,
-        metadata: { topic_id: topic.topic_id, confidence: topic.confidence_level }
-      })
-    })
-  }
-
-  // Get upcoming deadlines
+  // 2. Get upcoming deadlines
   const { data: deadlines } = await supabase
     .from('deadlines')
-    .select('*')
+    .select('*, subjects(name)')
     .eq('user_id', user.id)
     .eq('status', 'pending')
-    .gte('due_date', new Date().toISOString().split('T')[0])
-    .lte('due_date', new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0])
 
-  if (deadlines && (deadlines as any[]).length > 0) {
-    (deadlines as any[]).forEach((deadline: any) => {
-      const daysUntil = Math.ceil((new Date(deadline.due_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
-      recommendations.push({
-        user_id: user.id,
-        recommendation_type: 'revision',
-        title: `Prepare for ${deadline.title}`,
-        description: `Due in ${daysUntil} days. Start preparing now!`,
-        priority: 100 - daysUntil * 10,
-        metadata: { deadline_id: deadline.id, days_until: daysUntil }
-      })
-    })
-  }
-
-  // Check for study breaks
+  // 3. Get recent sessions (last 7 days)
   const { data: recentSessions } = await supabase
     .from('study_sessions')
-    .select('*')
+    .select('*, subjects(name), topics(name)')
     .eq('user_id', user.id)
-    .gte('start_time', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
-    .order('start_time', { ascending: false })
+    .gte('start_time', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString())
 
-  const totalStudyTime = (recentSessions as any[])?.reduce((sum, s) => sum + (s.duration_minutes || 0), 0) || 0
-  
-  if (totalStudyTime > 300) {
-    recommendations.push({
-      user_id: user.id,
-      recommendation_type: 'break',
-      title: 'Take a Break',
-      description: `You've studied for ${Math.floor(totalStudyTime / 60)} hours today. Consider taking a break!`,
-      priority: 70,
-      metadata: { study_time: totalStudyTime }
-    })
+  const apiKey = process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY
+  if (apiKey) {
+    try {
+      const prompt = `You are a Smart Study Coach AI integrated into a "Study Resource Organizer" application.
+The application helps students manage academic subjects, topics, deadlines, study logs, spaced repetition reviews, and flashcards.
+
+Your task is to analyze the student's current learning status and generate 2-4 highly realistic, personalized, and actionable study recommendations.
+
+STUDENT PROFILE & CURRENT STATUS:
+1. Difficulty & Confidence Levels:
+${JSON.stringify(
+  difficultTopics?.map((t: any) => ({
+    topic: t.topics?.name,
+    subject: t.topics?.subjects?.name,
+    confidence_level: t.confidence_level,
+    difficulty_score: t.difficulty_score,
+    time_spent_minutes: t.time_spent_minutes,
+    revision_count: t.revision_count
+  }))
+)}
+2. Pending Upcoming Deadlines:
+${JSON.stringify(
+  deadlines?.map((d: any) => ({
+    title: d.title,
+    type: d.type,
+    due_date: d.due_date,
+    priority: d.priority,
+    subject: d.subjects?.name
+  }))
+)}
+3. Recent Study Sessions (last 7 days):
+${JSON.stringify(
+  recentSessions?.map((s: any) => ({
+    subject: s.subjects?.name,
+    topic: s.topics?.name,
+    duration_minutes: s.duration_minutes,
+    notes: s.notes
+  }))
+)}
+
+Provide specific recommendations. Instead of generic advice, address their actual topics, deadlines, or study patterns.
+For example, if they have an exam due in 3 days, recommend a revision. If they spent a lot of time on a topic but confidence is low, recommend a focused session. If they have studied a lot recently, recommend a break.
+
+Return a JSON object containing a "recommendations" array where each object has:
+- "recommendation_type": "topic" | "time" | "revision" | "break"
+- "title": (string) A concise, motivating recommendation title.
+- "description": (string) Actionable advice explaining why and what they should do.
+- "priority": (number from 1 to 100) Recommendation priority.
+
+Response MUST be valid JSON only. DO NOT wrap the output in markdown code blocks like \`\`\`json.`
+
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  {
+                    text: prompt,
+                  },
+                ],
+              },
+            ],
+            generationConfig: {
+              responseMimeType: 'application/json',
+            },
+          }),
+        }
+      )
+
+      if (response.ok) {
+        const json = await response.json()
+        const text = json.candidates?.[0]?.content?.parts?.[0]?.text
+        if (text) {
+          const result = JSON.parse(text.trim())
+          if (Array.isArray(result.recommendations)) {
+            recommendations = result.recommendations.map((rec: any) => ({
+              user_id: user.id,
+              recommendation_type: rec.recommendation_type || 'topic',
+              title: rec.title,
+              description: rec.description,
+              priority: rec.priority || 50,
+              metadata: rec.metadata || {}
+            }))
+          }
+        }
+      }
+    } catch (e) {
+      console.error('Failed to generate study recommendations using Gemini:', e)
+    }
+  }
+
+  // Fallback to local heuristic recommendations if Gemini failed or is not configured
+  if (recommendations.length === 0) {
+    // Get topics with low confidence
+    const { data: diffTopics } = await supabase
+      .from('topic_difficulty')
+      .select('*, topics(name, subjects(name, color))')
+      .eq('user_id', user.id)
+      .lt('confidence_level', 60)
+      .order('confidence_level', { ascending: true })
+      .limit(3)
+
+    if (diffTopics && (diffTopics as any[]).length > 0) {
+      (diffTopics as any[]).forEach((topic: any) => {
+        recommendations.push({
+          user_id: user.id,
+          recommendation_type: 'topic',
+          title: `Focus on ${topic.topics?.name}`,
+          description: `This topic needs more attention. Current confidence: ${topic.confidence_level}%`,
+          priority: 100 - topic.confidence_level,
+          metadata: { topic_id: topic.topic_id, confidence: topic.confidence_level }
+        })
+      })
+    }
+
+    // Get upcoming deadlines
+    const { data: upcomingDeadlines } = await supabase
+      .from('deadlines')
+      .select('*')
+      .eq('user_id', user.id)
+      .eq('status', 'pending')
+      .gte('due_date', new Date().toISOString().split('T')[0])
+      .lte('due_date', new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0])
+
+    if (upcomingDeadlines && (upcomingDeadlines as any[]).length > 0) {
+      (upcomingDeadlines as any[]).forEach((deadline: any) => {
+        const daysUntil = Math.ceil((new Date(deadline.due_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+        recommendations.push({
+          user_id: user.id,
+          recommendation_type: 'revision',
+          title: `Prepare for ${deadline.title}`,
+          description: `Due in ${daysUntil} days. Start preparing now!`,
+          priority: 100 - daysUntil * 10,
+          metadata: { deadline_id: deadline.id, days_until: daysUntil }
+        })
+      })
+    }
+
+    // Check for study breaks
+    const { data: recentSess } = await supabase
+      .from('study_sessions')
+      .select('*')
+      .eq('user_id', user.id)
+      .gte('start_time', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
+      .order('start_time', { ascending: false })
+
+    const totalStudyTime = (recentSess as any[])?.reduce((sum, s) => sum + (s.duration_minutes || 0), 0) || 0
+    
+    if (totalStudyTime > 300) {
+      recommendations.push({
+        user_id: user.id,
+        recommendation_type: 'break',
+        title: 'Take a Break',
+        description: `You've studied for ${Math.floor(totalStudyTime / 60)} hours today. Consider taking a break!`,
+        priority: 70,
+        metadata: { study_time: totalStudyTime }
+      })
+    }
   }
 
   // Insert recommendations
@@ -383,6 +503,17 @@ export async function getStudyRecommendations() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) throw new Error('Unauthorized')
+
+  // If there are no active undismissed recommendations, generate them fresh
+  const { data: existing } = await supabase
+    .from('study_recommendations')
+    .select('*')
+    .eq('user_id', user.id)
+    .eq('is_dismissed', false)
+
+  if (!existing || existing.length === 0) {
+    await generateStudyRecommendations()
+  }
 
   const { data, error } = await supabase
     .from('study_recommendations')
