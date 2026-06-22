@@ -51,27 +51,7 @@ export default function FAQPage() {
         },
       ]
     },
-    {
-      name: 'Account & Billing',
-      faqs: [
-        {
-          question: 'How do I upgrade my plan?',
-          answer: 'Go to Settings > Billing and click "Upgrade Plan". Choose your plan and enter payment details. You can upgrade or downgrade anytime.'
-        },
-        {
-          question: 'Can I cancel my subscription?',
-          answer: 'Yes, you can cancel anytime from Settings > Billing. Your subscription remains active until the end of your billing period, and you can reactivate anytime.'
-        },
-        {
-          question: 'Do you offer student discounts?',
-          answer: 'Yes! Students get 50% off Pro and Team plans. Verify your student status with your .edu email address.'
-        },
-        {
-          question: 'What happens to my data if I cancel?',
-          answer: 'Your data remains accessible even after cancellation. You can export all your data anytime. We keep your data for 90 days after cancellation.'
-        },
-      ]
-    },
+
     {
       name: 'Privacy & Security',
       faqs: [

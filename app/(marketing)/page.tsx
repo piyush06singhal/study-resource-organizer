@@ -7,7 +7,6 @@ import { Card } from "@/components/ui/card";
 import {
   BookOpen,
   ArrowRight,
-  CheckCircle2,
   Calendar,
   Target,
   TrendingUp,
@@ -79,15 +78,6 @@ export default function HomePage() {
         "Gain insights into your study habits with detailed analytics and reports.",
       color: "from-pink-500 to-rose-500",
     },
-  ];
-
-  const benefits = [
-    "Unlimited subjects and topics",
-    "Cloud storage for resources",
-    "Mobile-friendly interface",
-    "Dark mode support",
-    "Export your data anytime",
-    "Free forever plan",
   ];
 
   return (
@@ -187,42 +177,6 @@ export default function HomePage() {
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Benefits Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="max-w-4xl mx-auto">
-          <Card className="p-8 md:p-12 bg-gradient-to-br from-primary/5 to-blue-500/5 border-2">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div className="space-y-4">
-                <h2 className="text-3xl md:text-4xl font-bold">
-                  Why Choose StudyFlow?
-                </h2>
-                <p className="text-lg text-muted-foreground">
-                  Join thousands of students who are already organizing their
-                  studies more effectively
-                </p>
-              </div>
-              <div className="space-y-3">
-                {benefits.map((benefit, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: i * 0.1 }}
-                    viewport={{ once: true }}
-                    className="flex items-center gap-3"
-                  >
-                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
-                      <CheckCircle2 className="h-4 w-4 text-primary" />
-                    </div>
-                    <span className="text-sm font-medium">{benefit}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </Card>
         </div>
       </section>
 
