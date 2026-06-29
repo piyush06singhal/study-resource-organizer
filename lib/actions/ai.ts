@@ -59,7 +59,7 @@ Return a JSON object matching this schema:
 Response MUST be valid JSON only. DO NOT wrap the output in markdown code blocks like \`\`\`json.`
 
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: {
@@ -357,7 +357,7 @@ Return a JSON object containing a "recommendations" array where each object has:
 Response MUST be valid JSON only. DO NOT wrap the output in markdown code blocks like \`\`\`json.`
 
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: {
